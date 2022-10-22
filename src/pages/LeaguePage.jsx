@@ -47,12 +47,14 @@ export function LeaguePage() {
                     <date>{match.date}</date>
 
                     {match.played && (
+                      <>
                       <b>
                         {"  " +
-                          match.result.local_goals +
+                          match.local_goals +
                           " - " +
-                          match.result.visitor_goals}
+                          match.visitor_goals}
                       </b>
+                      <span>result: {match.result}</span></>
                     )}
                   </p>
                 </li>
