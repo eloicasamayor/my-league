@@ -21,7 +21,16 @@ export function MatchesList() {
       <h2>loading matches...</h2>
     ) : (
       <>
-        <table><th>local team</th><th></th><th></th><th>visitor team</th><th>date</th><th>Actions</th>
+        <table><thead>
+          <tr>
+            <th>local team</th>
+            <th></th>
+            <th></th>
+            <th>visitor team</th>
+            <th>date</th>
+            <th>Actions</th>
+          </tr></thead>
+          <tbody>
           {matches.data.map((match) => (
             <tr key={match.date}>
               <td>{getTeamNameWithId(match.local_team)}</td>
@@ -36,6 +45,7 @@ export function MatchesList() {
                 })}>Edit</button></td>
             </tr>
           ))}
+        </tbody>
         </table>
         <NewMatchForm/>
         <EditMatchForm {...matchToEdit}/>
