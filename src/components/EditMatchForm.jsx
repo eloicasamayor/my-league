@@ -4,62 +4,53 @@ import { useRef } from "react";
 // Api
 import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
 
-export function EditLeagueForm({ id, name, urlname, description }) {
+export function EditMatchForm({ id, localTeam, visitorTeam }) {
   const { refetch } = useGetLeaguesQuery();
-  const [updateLeague, requestResult] = useUpdateLeagueMutation();
+  // const [updateLeague, requestResult] = useUpdateLeagueMutation();
 
   const idRef = useRef();
-  const nameRef = useRef();
+  const localGoalsRef = useRef();
   const urlRef = useRef();
-  const descriptionRef = useRef();
+  const visitorGoalsRef = useRef();
   return (
-    <>
+    <><h2>Edit Match</h2>
       <form>
         <label htmlFor={"id"}>Id:</label>
-        <input type={"text"} id={"id"} name={"id"} value={id} />
+        <input type={"text"} id={"id"} name={"id"} value={id} disabled/>
         <br />
-        <label htmlFor={"name"}>Name:</label>
+        <label htmlFor={"localGoals"}>{localTeam}</label>
         <input
-          type={"text"}
-          id={"name"}
-          name={"name"}
-          ref={nameRef}
-          placeholder={name}
+          type={"number"}
+          id={"localGoals"}
+          name={"localGoals"}
+          ref={localGoalsRef}
+          placeholder={'local goals'}
         />
         <br />
-        <label htmlFor={"description"}>description:</label>
+        <label htmlFor={"description"}>{visitorTeam}</label>
         <input
-          type={"text"}
-          id={"description"}
-          name={"description"}
-          ref={descriptionRef}
-          placeholder={description}
+          type={"number"}
+          id={"visitorGoals"}
+          name={"visitorGoals"}
+          ref={visitorGoalsRef}
+          placeholder={'visitor goals'}
         />
         <br />
-        <label htmlFor={"urlname"}>Url:</label>
-        <input
-          type={"text"}
-          id={"urlname"}
-          name={"urlname"}
-          ref={urlRef}
-          placeholder={urlname}
-        />
-        <br />
-        <button
+        {/* <button
           type={"button"}
           onClick={(e) => {
             e.preventDefault();
             updateLeague({
               id,
-              name: nameRef.current.value,
-              description: descriptionRef.current.value,
+              name: localGoalsRef.current.value,
+              description: visitorGoalsRef.current.value,
               urlname: urlRef.current.value,
             });
             refetch();
           }}
         >
           submit
-        </button>
+        </button> */}
       </form>
     </>
   );

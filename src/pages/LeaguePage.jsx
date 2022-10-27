@@ -6,6 +6,7 @@ import { useGetPlayersQuery } from "../api/players";
 // Components
 import { MatchesList } from "../components/MatchesList"
 import { NewMatchForm } from "../components/NewMatchForm";
+import {EditMatchForm} from "../components/EditMatchForm"
 import { TeamsList } from "../components/TeamsList";
 import { Classification } from "../components/Classification";
 export function LeaguePage() {
@@ -21,7 +22,7 @@ export function LeaguePage() {
       <Classification/>
       <hr></hr>
       <MatchesList/>
-      <NewMatchForm/>
+      
       <hr></hr>
       <section>
         <h2>Players</h2>

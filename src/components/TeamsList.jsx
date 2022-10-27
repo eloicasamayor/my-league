@@ -12,7 +12,7 @@ export function TeamsList(){
       <>
         <ul>
           {teams.data.map(
-            (team) => team.league === 1 && <li key={team.id}>{team.name}{' ('+team.id+')'}</li>
+            (team) => team.league === 1 && <li key={team.id}>{team.name}</li>
           )}
         </ul>
       </>
