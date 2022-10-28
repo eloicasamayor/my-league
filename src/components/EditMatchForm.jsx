@@ -3,10 +3,10 @@ import { useRef } from "react";
 
 // Api
 import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
+import { useUpdateMatchMutation } from "../api/matches";
 
-export function EditMatchForm({ id, localTeam, visitorTeam }) {
-  const { refetch } = useGetLeaguesQuery();
-  // const [updateLeague, requestResult] = useUpdateLeagueMutation();
+export function EditMatchForm({ id, localTeam, visitorTeam, localGoals, visitorGoals }) {
+  const [updateMatch, requestResult] = useUpdateMatchMutation();
 
   const idRef = useRef();
   const localGoalsRef = useRef();
@@ -16,7 +16,7 @@ export function EditMatchForm({ id, localTeam, visitorTeam }) {
     <><h2>Edit Match</h2>
       <form>
         <label htmlFor={"id"}>Id:</label>
-        <input type={"text"} id={"id"} name={"id"} value={id} disabled/>
+        <input type={"text"} id={"id"} name={"id"} defaultValue={id} ref={idRef} disabled/>
         <br />
         <label htmlFor={"localGoals"}>{localTeam}</label>
         <input
@@ -25,6 +25,7 @@ export function EditMatchForm({ id, localTeam, visitorTeam }) {
           name={"localGoals"}
           ref={localGoalsRef}
           placeholder={'local goals'}
+          defaultValue={localGoals}
         />
         <br />
         <label htmlFor={"description"}>{visitorTeam}</label>
@@ -33,24 +34,23 @@ export function EditMatchForm({ id, localTeam, visitorTeam }) {
           id={"visitorGoals"}
           name={"visitorGoals"}
           ref={visitorGoalsRef}
+          defaultValue={visitorGoals}
           placeholder={'visitor goals'}
         />
         <br />
-        {/* <button
+        <button
           type={"button"}
           onClick={(e) => {
             e.preventDefault();
-            updateLeague({
+            updateMatch({
               id,
-              name: localGoalsRef.current.value,
-              description: visitorGoalsRef.current.value,
-              urlname: urlRef.current.value,
+              local_goals: localGoalsRef.current.value,
+              visitor_goals: visitorGoalsRef.current.value,
             });
-            refetch();
           }}
         >
           submit
-        </button> */}
+        </button>
       </form>
     </>
   );

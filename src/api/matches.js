@@ -21,9 +21,16 @@ export const matches = createApi({
     }),
     updateMatch: builder.mutation({
       query: ({ ...patch }) => ({
-        url: "/matches",
+        url: "/matches?id=eq."+patch.id,
         method: "PATCH",
-        body: patch,
+        body: {local_goals: patch.local_goals, visitor_goals: patch.visitor_goals},
+      }),
+    }),
+    deleteMatch: builder.mutation({
+      query: ({ ...body }) => ({
+        url: "/matches",
+        method: "DELETE",
+        body: body,
       }),
     }),
   }),

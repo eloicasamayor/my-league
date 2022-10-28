@@ -1,19 +1,18 @@
 import { useState } from "react";
-import { useGetMatchesQuery } from "../api/matches";
+import { useGetMatchesQuery, useUpdateMatchMutation } from "../api/matches";
 import { useGetTeamsQuery } from "../api/teams";
 import { EditMatchForm } from "./EditMatchForm";
 import { NewMatchForm } from "./NewMatchForm";
 
 export function MatchesList() {
     const matches = useGetMatchesQuery();
+    const deleteMatch = useUpdateMatchMutation();
     const teams = useGetTeamsQuery();
     const [matchToEdit, setMatchToEdit] = useState({})
     function getTeamNameWithId(id) {
         if(teams.data) {return teams.data.find((team) => team.id === id).name;}
         else{ return id}
       }
-    
-      function editMatch(id){}
 
     return <section>
     <h2>Matches</h2>
@@ -41,13 +40,18 @@ export function MatchesList() {
               <td><button onClick={() => setMatchToEdit(
                 {id: match.id,
                 localTeam: getTeamNameWithId(match.local_team),
-                visitorTeam: getTeamNameWithId(match.visitor_team)
-                })}>Edit</button></td>
+                visitorTeam: getTeamNameWithId(match.visitor_team),
+                localGoals: match.local_goals,
+                visitorGoals: match.visitor_goals
+                })}>Edit</button>
+                <button onClick={() => deleteMatch(
+                  {id: match.id,
+                  })}>Delete</button></td>
             </tr>
           ))}
         </tbody>
         </table>
-        <NewMatchForm/>
+        <NewMatchForm teams={teams}/>
         <EditMatchForm {...matchToEdit}/>
       </>
     )}

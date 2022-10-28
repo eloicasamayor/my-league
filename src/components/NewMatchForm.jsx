@@ -1,7 +1,7 @@
 // Dependencies
 import { useInsertMatchMutation } from "../api/matches";
 import { useRef } from "react";
-export function NewMatchForm({refetch}) {
+export function NewMatchForm({teams}) {
     const [insertMatch, requestResult] = useInsertMatchMutation();
     const dateRef = useRef();
     const playedRef = useRef();
@@ -17,10 +17,14 @@ export function NewMatchForm({refetch}) {
       <input type={"checkbox"} id={"played"} name={"played"} ref={playedRef} />
       <br />
       <label htmlFor={"local_team"}>Local team:</label>
-      <input type={"number"} id={"local_team"} name={"local_team"} ref={localTeamRef} />
-      <br />
+     <select name="local_team" id="local_team" ref={localTeamRef} required>
+      {teams.data.map(team=><option value={team.id}>{team.name}</option>)}
+      </select>
+     <br />
       <label htmlFor={"visitor_team"}>Visitor team:</label>
-      <input type={"number"} id={"visitor_team"} name={"visitor_team"} ref={visitorTeamRef} />
+      <select id={"visitor_team"} name={"visitor_team"} ref={visitorTeamRef} required>
+      {teams.data.map(team=><option key={team.id} value={team.id}>{team.name}</option>)}
+      </select>
       <br />
       <button
         type={"button"}
@@ -28,7 +32,7 @@ export function NewMatchForm({refetch}) {
           e.preventDefault();
           insertMatch({
             date: dateRef.current.value,
-            played: playedRef.current.checked, /// true???
+            played: playedRef.current.checked,
             local_team: localTeamRef.current.value,
             visitor_team: visitorTeamRef.current.value,
           });
