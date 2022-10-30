@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { useGetMatchesQuery, useUpdateMatchMutation } from "../api/matches";
+import { useGetMatchesQuery,  useDeleteMatchMutation } from "../api/matches";
 import { useGetTeamsQuery } from "../api/teams";
 import { EditMatchForm } from "./EditMatchForm";
 import { NewMatchForm } from "./NewMatchForm";
 
 export function MatchesList() {
     const matches = useGetMatchesQuery();
-    const deleteMatch = useUpdateMatchMutation();
+    const [deleteMatch] = useDeleteMatchMutation();
     const teams = useGetTeamsQuery();
     const [matchToEdit, setMatchToEdit] = useState({})
     function getTeamNameWithId(id) {
@@ -27,20 +27,23 @@ export function MatchesList() {
             <th></th>
             <th>visitor team</th>
             <th>date</th>
+            <th>played</th>
             <th>Actions</th>
           </tr></thead>
           <tbody>
-          {matches.data.map((match) => (
-            <tr key={match.date}>
+          {matches.data.map((match, i) => (
+            <tr key={match.date + i}>
               <td>{getTeamNameWithId(match.local_team)}</td>
               <td>{match.local_goals}</td>
               <td>{match.visitor_goals}</td>
               <td>{getTeamNameWithId(match.visitor_team)}</td>
               <td>{match.date}</td>
+              <td>{match.played.toString()}</td>
               <td><button onClick={() => setMatchToEdit(
                 {id: match.id,
                 localTeam: getTeamNameWithId(match.local_team),
                 visitorTeam: getTeamNameWithId(match.visitor_team),
+                played: match.played,
                 localGoals: match.local_goals,
                 visitorGoals: match.visitor_goals
                 })}>Edit</button>

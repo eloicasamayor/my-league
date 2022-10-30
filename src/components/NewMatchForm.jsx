@@ -13,17 +13,14 @@ export function NewMatchForm({teams}) {
     <label htmlFor={"date"}>Local team:</label>
       <input type={"date"} id={"date"} name={"date"} ref={dateRef} />
       <br />
-      <label htmlFor={"played"}>Played:</label>
-      <input type={"checkbox"} id={"played"} name={"played"} ref={playedRef} />
-      <br />
       <label htmlFor={"local_team"}>Local team:</label>
      <select name="local_team" id="local_team" ref={localTeamRef} required>
-      {teams.data.map(team=><option value={team.id}>{team.name}</option>)}
+      {teams.data && teams.data.map(team=><option value={team.id}>{team.name}</option>)}
       </select>
      <br />
       <label htmlFor={"visitor_team"}>Visitor team:</label>
       <select id={"visitor_team"} name={"visitor_team"} ref={visitorTeamRef} required>
-      {teams.data.map(team=><option key={team.id} value={team.id}>{team.name}</option>)}
+      {teams.data && teams.data.map(team=><option key={team.id} value={team.id}>{team.name}</option>)}
       </select>
       <br />
       <button
@@ -32,7 +29,7 @@ export function NewMatchForm({teams}) {
           e.preventDefault();
           insertMatch({
             date: dateRef.current.value,
-            played: playedRef.current.checked,
+            // played: playedRef.current.checked,
             local_team: localTeamRef.current.value,
             visitor_team: visitorTeamRef.current.value,
           });
