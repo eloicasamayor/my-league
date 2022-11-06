@@ -1,4 +1,6 @@
 // Dependencies
+import { useState } from "react";
+import { useEffect } from "react";
 import { useRef } from "react";
 
 // Api
@@ -7,11 +9,17 @@ import { useUpdateMatchMutation } from "../api/matches";
 
 export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, visitorGoals }) {
   const [updateMatch, requestResult] = useUpdateMatchMutation();
-
+  const [playedValue, setPlayedValue] = useState()
+  const [localGoalsValue, setLocalGoalsValue] = useState()
+  const [visitorGoalsValue, setVisitorGoalsValue] = useState()
+console.log('...')
+  useEffect(() => {
+    setLocalGoalsValue(localGoals);
+    setVisitorGoalsValue(visitorGoals);
+    setPlayedValue(played);
+    console.log(localGoals, visitorGoals, played)
+  }, []);
   const idRef = useRef();
-  const localGoalsRef = useRef();
-  const playedRef = useRef();
-  const visitorGoalsRef = useRef();
   return (
     <><h2>Edit Match</h2>
       <form>
@@ -19,43 +27,49 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
         <input type={"text"} id={"id"} name={"id"} defaultValue={id} ref={idRef} disabled/>
         <br />
         <label htmlFor={"played"}>Played:</label>
-        <input type={"checkbox"} id={"played"} name={"played"} ref={playedRef} placeholder={played}/>
+        <input type={"checkbox"} id={"played"} name={"played"} value={playedValue} onChange={(e)=>{setPlayedValue((v)=>!v)}}/>
         <br />
+        {playedValue &&
+        <>
         <label htmlFor={"localGoals"}>{localTeam}</label>
         <input
           type={"number"}
           id={"localGoals"}
           name={"localGoals"}
-          ref={localGoalsRef}
           placeholder={'local goals'}
-          defaultValue={localGoals}
+          onChange={(e)=>{setLocalGoalsValue(e.target.value)}}
+          value={localGoalsValue}
         />
         <br />
+        {localGoalsValue && [...Array(localGoalsValue)].map((e, i) =><input key={i} type={'text'}></input>)}
         <label htmlFor={"description"}>{visitorTeam}</label>
         <input
           type={"number"}
           id={"visitorGoals"}
           name={"visitorGoals"}
-          ref={visitorGoalsRef}
-          defaultValue={visitorGoals}
+          value={visitorGoalsValue}
+          onChange={(e)=>{setVisitorGoalsValue(e.target.value)}}
           placeholder={'visitor goals'}
         />
-        <br />
+        
+      
+        
+        </>}<br />
         <button
           type={"button"}
           onClick={(e) => {
             e.preventDefault();
             updateMatch({
               id,
-              played: playedRef.current.checked,
-              local_goals: localGoalsRef.current.value,
-              visitor_goals: visitorGoalsRef.current.value,
+              played: playedValue,
+              local_goals: localGoalsValue,
+              visitor_goals: visitorGoalsValue,
             });
           }}
         >
           submit
-        </button>
-      </form>
+        </button></form>
+        
     </>
   );
 }
