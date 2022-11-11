@@ -23,7 +23,7 @@ export const matches = createApi({
       query: ({ ...patch }) => ({
         url: "/matches?id=eq."+patch.id,
         method: "PATCH",
-        body: {played: patch.played, local_goals: patch.local_goals, visitor_goals: patch.visitor_goals},
+        body: {played: patch.played, local_goals: patch.local_goals, visitor_goals: patch.visitor_goals, local_scorers: patch.local_scorers, visitor_scorers: patch.visitor_scorers},
       }),
     }),
     deleteMatch: builder.mutation({

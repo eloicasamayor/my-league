@@ -45,7 +45,9 @@ export function MatchesList() {
                 visitorTeam: getTeamNameWithId(match.visitor_team),
                 played: match.played,
                 localGoals: match.local_goals,
-                visitorGoals: match.visitor_goals
+                visitorGoals: match.visitor_goals,
+                localScorers: match.local_scorers,
+                visitorScorers: match.visitor_scorers
                 })}>Edit</button>
                 <button onClick={() => deleteMatch(
                   {id: match.id,
