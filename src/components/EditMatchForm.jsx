@@ -18,37 +18,26 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
     setVisitorGoalsValue(visitorGoals);
     setPlayedValue(played);
   }, [id]);
+
   
   const idRef = useRef();
   const localScorersRef = useRef([]);
   const visitorScorersRef = useRef([]);
-
-  function renderLocalScorersInputs(goals, scorersList){
+  
+  function renderScorersInputs(goals, scorersList, refList){
     var elements = [];
     for(let i =0; i < goals; i++){
         elements.push(
         <input 
-          key={i}
           type={'text'}
-          ref={ref => (localScorersRef.current = [...localScorersRef.current, ref])}
-          defaultValue={scorersList && scorersList[i]}>
+          key={i} 
+          ref={(el) => (refList.current[i] = el)}
+          defaultValue={scorersList.length && scorersList[i]}>
         </input>);
     }
     return elements;
   }
-  function renderVisitorScorersInputs(goals, scorersList){
-    var elements = [];
-    for(let i =0; i < goals; i++){
-        elements.push(
-        <input 
-          key={i}
-          type={'text'}
-          ref={ref => (visitorScorersRef.current = [...visitorScorersRef.current, ref])}
-          defaultValue={scorersList && scorersList[i]}>
-        </input>);
-    }
-    return elements;
-  }
+  
   return (
     <><h2>Edit Match</h2>
       <form>
@@ -66,14 +55,14 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
             id={"localGoals"}
             name={"localGoals"}
             placeholder={'local goals'}
-            onChange={(e)=>{setLocalGoalsValue(e.target.value)}}
+            onChange={(e)=>{setLocalGoalsValue(parseInt(e.target.value))}}
             value={localGoalsValue}
           />
          
           {localGoalsValue && 
           <div>
             <label>{'local scorers:'}</label>
-            {renderLocalScorersInputs(localGoalsValue, localScorers, localScorersRef)}
+            {renderScorersInputs(localGoalsValue, localScorers, localScorersRef)}
           </div>}
          
           <label htmlFor={"description"}>{'Visitor team: '+visitorTeam}</label>
@@ -82,13 +71,13 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
             id={"visitorGoals"}
             name={"visitorGoals"}
             value={visitorGoalsValue}
-            onChange={(e)=>{setVisitorGoalsValue(e.target.value)}}
+            onChange={(e)=>{setVisitorGoalsValue(parseInt(e.target.value))}}
             placeholder={'visitor scorers'}
           />
           {visitorGoalsValue && 
           <div>
             <label>{'visitor scorers:'}</label>
-            {renderVisitorScorersInputs(visitorGoalsValue, visitorScorers, visitorScorersRef)}
+            {renderScorersInputs(visitorGoalsValue, visitorScorers, visitorScorersRef)}
           </div>}
         </>}
         <br />
@@ -96,7 +85,6 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
           type={"button"}
           onClick={(e) => {
             e.preventDefault();
-            console.log('localScorersRef',localScorersRef);
             updateMatch({
               id,
               played: playedValue,
