@@ -11,7 +11,7 @@ export function NewMatchForm({teams}) {
     <h2>Create new match</h2>
     <form>
     <label htmlFor={"date"}>Local team:</label>
-      <input type={"date"} id={"date"} name={"date"} ref={dateRef} />
+      <input type={"date"} id={"date"} name={"date"} ref={dateRef} required/>
       <br />
       <label htmlFor={"local_team"}>Local team:</label>
      <select name="local_team" id="local_team" ref={localTeamRef} required>

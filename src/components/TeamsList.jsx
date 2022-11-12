@@ -9,12 +9,10 @@ export function TeamsList(){
     {teams.isLoading ? (
       <h2>loading teams...</h2>
     ) : (
-      <>
-        <ul>
+      <table>
           {teams.data.map(
-            (team) => team.league === 1 && <li key={team.id}>{team.name}</li>
+            (team) => team.league === 1 && <tr key={team.id}><td>{team.name}</td></tr>
           )}
-        </ul>
-      </>
+      </table>
     )}
   </section>)}
