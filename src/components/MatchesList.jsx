@@ -41,8 +41,8 @@ export function MatchesList() {
               <td>{match.played.toString()}</td>
               <td><button onClick={() => setMatchToEdit(
                 {id: match.id,
-                localTeam: getTeamNameWithId(match.local_team),
-                visitorTeam: getTeamNameWithId(match.visitor_team),
+                localTeam: match.local_team,
+                visitorTeam: match.visitor_team,
                 played: match.played,
                 localGoals: match.local_goals,
                 visitorGoals: match.visitor_goals,

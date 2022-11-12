@@ -5,6 +5,8 @@ import { useRef } from "react";
 
 // Api
 import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
+import { useGetPlayersQuery } from "../api/players";
+import { useGetTeamsQuery } from "../api/teams";
 import { useUpdateMatchMutation } from "../api/matches";
 
 export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, visitorGoals, localScorers, visitorScorers }) {
@@ -12,6 +14,9 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
   const [playedValue, setPlayedValue] = useState();
   const [localGoalsValue, setLocalGoalsValue] = useState();
   const [visitorGoalsValue, setVisitorGoalsValue] = useState();
+
+  const players = useGetPlayersQuery();
+  const teams = useGetTeamsQuery();
 
   useEffect(() => {
     setLocalGoalsValue(localGoals);
@@ -24,16 +29,23 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
   const localScorersRef = useRef([]);
   const visitorScorersRef = useRef([]);
   
-  function renderScorersInputs(goals, scorersList, refList){
+  function renderScorersInputs(team, goals, scorersList, refList){
     var elements = [];
+    const teamPlayers = players.data.filter(player=>player.team === team)
+    debugger
     for(let i =0; i < goals; i++){
         elements.push(
-        <input 
-          type={'text'}
-          key={i} 
-          ref={(el) => (refList.current[i] = el)}
-          defaultValue={scorersList.length && scorersList[i]}>
-        </input>);
+          <>
+            {/* <input 
+              type={'text'}
+              key={i} 
+              
+              defaultValue={scorersList.length && scorersList[i]}>
+            </input> */}
+            <select key={i+'_'} ref={(el) => (refList.current[i] = el)} value={scorersList.length && scorersList[i]}>
+              {teamPlayers.map(player=><option value={player.id}>{player.name}</option>)}
+            </select>
+          </>);
     }
     return elements;
   }
@@ -49,7 +61,7 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
         </div>
         {playedValue &&
         <>
-          <label htmlFor={"localGoals"}>{'Local team: '+localTeam}</label>
+          <label htmlFor={"localGoals"}>{'Local team: '+teams.data.find(team=>team.id === localTeam).name}</label>
           <input
             type={"number"}
             id={"localGoals"}
@@ -62,10 +74,10 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
           {localGoalsValue && 
           <div>
             <label>{'local scorers:'}</label>
-            {renderScorersInputs(localGoalsValue, localScorers, localScorersRef)}
+            {renderScorersInputs(localTeam, localGoalsValue, localScorers, localScorersRef)}
           </div>}
          
-          <label htmlFor={"description"}>{'Visitor team: '+visitorTeam}</label>
+          <label htmlFor={"description"}>{'Visitor team: '+teams.data.find(team=>team.id === visitorTeam).name}</label>
           <input
             type={"number"}
             id={"visitorGoals"}
@@ -77,7 +89,7 @@ export function EditMatchForm({ id, localTeam, visitorTeam, played, localGoals, 
           {visitorGoalsValue && 
           <div>
             <label>{'visitor scorers:'}</label>
-            {renderScorersInputs(visitorGoalsValue, visitorScorers, visitorScorersRef)}
+            {renderScorersInputs(visitorTeam, visitorGoalsValue, visitorScorers, visitorScorersRef)}
           </div>}
         </>}
         <br />
