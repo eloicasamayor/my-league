@@ -10,8 +10,6 @@ import { EditLeagueForm } from "../components/EditLeagueForm";
 import { NewLeagueForm } from "../components/NewLeagueForm";
 
 function LeaguesPage() {
-
-
   const { data, refetch, isLoading, isFetching } = useGetLeaguesQuery();
   const [isEditing, setIsEditing] = useState(false);
 
@@ -35,7 +33,7 @@ function LeaguesPage() {
       ) : (
         <p> {"...Loading"}</p>
       )}
-      <NewLeagueForm refetch={refetch}/>
+      <NewLeagueForm refetch={refetch} />
     </div>
   );
 }

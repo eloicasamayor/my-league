@@ -1,18 +1,26 @@
 // Dependencies
 import { useGetTeamsQuery } from "../api/teams";
 
-export function TeamsList(){
-    const teams = useGetTeamsQuery();
+export function TeamsList() {
+  const teams = useGetTeamsQuery();
 
-    return (<section>
-    <h2>Teams</h2>
-    {teams.isLoading ? (
-      <h2>loading teams...</h2>
-    ) : (
-      <table>
+  return (
+    <section>
+      <h2>Teams</h2>
+      {teams.isLoading ? (
+        <h2>loading teams...</h2>
+      ) : (
+        <table>
           {teams.data.map(
-            (team) => team.league === 1 && <tr key={team.id}><td>{team.name}</td></tr>
+            (team) =>
+              team.league === 1 && (
+                <tr key={team.id}>
+                  <td>{team.name}</td>
+                </tr>
+              )
           )}
-      </table>
-    )}
-  </section>)}
+        </table>
+      )}
+    </section>
+  );
+}

@@ -21,14 +21,20 @@ export const matches = createApi({
     }),
     updateMatch: builder.mutation({
       query: ({ ...patch }) => ({
-        url: "/matches?id=eq."+patch.id,
+        url: "/matches?id=eq." + patch.id,
         method: "PATCH",
-        body: {played: patch.played, local_goals: patch.local_goals, visitor_goals: patch.visitor_goals, local_scorers: patch.local_scorers, visitor_scorers: patch.visitor_scorers},
+        body: {
+          played: patch.played,
+          local_goals: patch.local_goals,
+          visitor_goals: patch.visitor_goals,
+          local_scorers: patch.local_scorers,
+          visitor_scorers: patch.visitor_scorers,
+        },
       }),
     }),
     deleteMatch: builder.mutation({
       query: ({ ...body }) => ({
-        url: "/matches?id=eq."+body.id,
+        url: "/matches?id=eq." + body.id,
         method: "DELETE",
         body: body,
       }),
@@ -36,4 +42,9 @@ export const matches = createApi({
   }),
 });
 
-export const { useGetMatchesQuery, useInsertMatchMutation, useUpdateMatchMutation, useDeleteMatchMutation } = matches;
+export const {
+  useGetMatchesQuery,
+  useInsertMatchMutation,
+  useUpdateMatchMutation,
+  useDeleteMatchMutation,
+} = matches;
