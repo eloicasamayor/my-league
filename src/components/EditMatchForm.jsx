@@ -23,7 +23,6 @@ export function EditMatchForm({
   const [playedValue, setPlayedValue] = useState();
   const [localGoalsValue, setLocalGoalsValue] = useState();
   const [visitorGoalsValue, setVisitorGoalsValue] = useState();
-
   const players = useGetPlayersQuery();
   const teams = useGetTeamsQuery();
 
@@ -39,6 +38,7 @@ export function EditMatchForm({
 
   function renderScorersInputs(team, goals, scorersList, refList) {
     var elements = [];
+
     const teamPlayers = players.data.filter((player) => player.team === team);
     for (let i = 0; i < goals; i++) {
       elements.push(
@@ -106,11 +106,15 @@ export function EditMatchForm({
             {localGoalsValue && (
               <div>
                 <label>{"local scorers:"}</label>
-                {renderScorersInputs(
-                  localTeam,
-                  localGoalsValue,
-                  localScorers,
-                  localScorersRef
+                {localScorers ? (
+                  renderScorersInputs(
+                    localTeam,
+                    localGoalsValue,
+                    localScorers,
+                    localScorersRef
+                  )
+                ) : (
+                  <span>{"no players found in the team :("}</span>
                 )}
               </div>
             )}
@@ -132,11 +136,15 @@ export function EditMatchForm({
             {visitorGoalsValue && (
               <div>
                 <label>{"visitor scorers:"}</label>
-                {renderScorersInputs(
-                  visitorTeam,
-                  visitorGoalsValue,
-                  visitorScorers,
-                  visitorScorersRef
+                {visitorScorers ? (
+                  renderScorersInputs(
+                    visitorTeam,
+                    visitorGoalsValue,
+                    visitorScorers,
+                    visitorScorersRef
+                  )
+                ) : (
+                  <span>{"no players found in this team :("}</span>
                 )}
               </div>
             )}

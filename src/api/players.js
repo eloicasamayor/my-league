@@ -12,7 +12,28 @@ export const players = createApi({
   }),
   endpoints: (builder) => ({
     getPlayers: builder.query({ query: () => "/players" }),
+    insertPlayer: builder.mutation({
+      query: ({ ...post }) => ({
+        url: `/players`,
+        method: "POST",
+        body: post,
+      }),
+    }),
+    updatePlayer: builder.mutation({
+      query: ({ ...patch }) => ({
+        url: "/players?id=eq." + patch.id,
+        method: "PATCH",
+        body: {
+          name: patch.name,
+          team: patch.team,
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetPlayersQuery } = players;
+export const {
+  useGetPlayersQuery,
+  useInsertPlayerMutation,
+  useUpdatePlayerMutation,
+} = players;
