@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useUpdatePlayerMutation } from "../api/players";
 import { useGetTeamsQuery } from "../api/teams";
 
-export function EditMatchForm({ player }) {
+export function EditPlayerForm({ player = {} }) {
   const { id, name, team } = player;
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
   const nameRef = useRef();
@@ -16,15 +16,15 @@ export function EditMatchForm({ player }) {
   }
   return (
     <>
-      <h2>Edit Player {player.name}</h2>
+      <h2>Edit Player</h2>
       <form>
         <label htmlFor={"name"}>Name:</label>
         <input
           type={"text"}
           id={"name"}
           name={"name"}
-          // ref={nameRef}
-          value={player.name}
+          ref={nameRef}
+          defaultValue={player.name}
           required
         />
         <br />
@@ -32,7 +32,13 @@ export function EditMatchForm({ player }) {
         <select name="team" id="team" ref={teamRef} required>
           {teams.data &&
             teams.data.map((team) => (
-              <option value={team.id}>{team.name}</option>
+              <option
+                key={team.id}
+                value={team.id}
+                {...(team.id === team && selected)}
+              >
+                {team.name}
+              </option>
             ))}
         </select>
         <button

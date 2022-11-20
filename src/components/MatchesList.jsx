@@ -5,10 +5,11 @@ import { EditMatchForm } from "./EditMatchForm";
 import { NewMatchForm } from "./NewMatchForm";
 
 export function MatchesList() {
-  const matches = useGetMatchesQuery();
+  const { data, isLoading, refetch, ...rest } = useGetMatchesQuery();
   const [deleteMatch] = useDeleteMatchMutation();
   const teams = useGetTeamsQuery();
   const [matchToEdit, setMatchToEdit] = useState({});
+  debugger;
   function getTeamNameWithId(id) {
     if (teams.data) {
       return teams.data.find((team) => team.id === id).name;
@@ -20,8 +21,8 @@ export function MatchesList() {
   return (
     <section>
       <h2>Matches</h2>
-      {matches.isLoading ? (
-        <h2>loading matches...</h2>
+      {isLoading ? (
+        <h2>loading ...</h2>
       ) : (
         <>
           <table>
@@ -37,7 +38,7 @@ export function MatchesList() {
               </tr>
             </thead>
             <tbody>
-              {matches.data.map((match, i) => (
+              {data.map((match, i) => (
                 <tr key={match.date + i}>
                   <td>{getTeamNameWithId(match.local_team)}</td>
                   <td>{match.local_goals}</td>
@@ -62,7 +63,12 @@ export function MatchesList() {
                     >
                       Edit
                     </button>
-                    <button onClick={() => deleteMatch({ id: match.id })}>
+                    <button
+                      onClick={async () => {
+                        await deleteMatch({ id: match.id });
+                        refetch();
+                      }}
+                    >
                       Delete
                     </button>
                   </td>
@@ -70,7 +76,7 @@ export function MatchesList() {
               ))}
             </tbody>
           </table>
-          <NewMatchForm teams={teams} />
+          <NewMatchForm teams={teams} refetch={refetch} />
           <EditMatchForm {...matchToEdit} />
         </>
       )}

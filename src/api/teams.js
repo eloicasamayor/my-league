@@ -12,7 +12,14 @@ export const teams = createApi({
   }),
   endpoints: (builder) => ({
     getTeams: builder.query({ query: () => "/teams" }),
+    insertTeam: builder.mutation({
+      query: ({ ...post }) => ({
+        url: `/teams`,
+        method: "POST",
+        body: post,
+      }),
+    }),
   }),
 });
 
-export const { useGetTeamsQuery } = teams;
+export const { useGetTeamsQuery, useInsertTeamMutation } = teams;

@@ -1,10 +1,9 @@
 // Dependencies
 import { useInsertMatchMutation } from "../api/matches";
 import { useRef } from "react";
-export function NewMatchForm({ teams }) {
+export function NewMatchForm({ teams, refetch }) {
   const [insertMatch, requestResult] = useInsertMatchMutation();
   const dateRef = useRef();
-  const playedRef = useRef();
   const localTeamRef = useRef();
   const visitorTeamRef = useRef();
   return (
@@ -12,7 +11,13 @@ export function NewMatchForm({ teams }) {
       <h2>Create new match</h2>
       <form>
         <label htmlFor={"date"}>Date:</label>
-        <input type={"date"} id={"date"} name={"date"} ref={dateRef} required />
+        <input
+          type={"datetime-local"}
+          id={"date"}
+          name={"date"}
+          ref={dateRef}
+          required
+        />
         <br />
         <label htmlFor={"local_team"}>Local team:</label>
         <select name="local_team" id="local_team" ref={localTeamRef} required>
@@ -39,18 +44,19 @@ export function NewMatchForm({ teams }) {
         <br />
         <button
           type={"button"}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            insertMatch({
+            await insertMatch({
               date: dateRef.current.value,
-              // played: playedRef.current.checked,
               local_team: localTeamRef.current.value,
               visitor_team: visitorTeamRef.current.value,
             });
+            refetch();
           }}
         >
           submit
         </button>
+        <span>{requestResult.error?.data?.message || ""}</span>
       </form>
     </>
   );

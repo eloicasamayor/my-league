@@ -1,10 +1,7 @@
 // Dependencies
-import { useState } from "react";
-import { useEffect } from "react";
-import { useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Api
-import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
 import { useGetPlayersQuery } from "../api/players";
 import { useGetTeamsQuery } from "../api/teams";
 import { useUpdateMatchMutation } from "../api/matches";
@@ -43,13 +40,11 @@ export function EditMatchForm({
     for (let i = 0; i < goals; i++) {
       elements.push(
         <>
-          <select
-            key={i + "_"}
-            ref={(el) => (refList.current[i] = el)}
-            value={scorersList.length && scorersList[i]}
-          >
+          <select key={i + "_"} ref={(el) => (refList.current[i] = el)}>
             {teamPlayers.map((player) => (
-              <option value={player.id}>{player.name}</option>
+              <option value={player.id} {...(player.id === scorersList[i])}>
+                {player.name}
+              </option>
             ))}
           </select>
         </>
@@ -97,6 +92,8 @@ export function EditMatchForm({
               id={"localGoals"}
               name={"localGoals"}
               placeholder={"local goals"}
+              min={0}
+              max={999}
               onChange={(e) => {
                 setLocalGoalsValue(parseInt(e.target.value));
               }}
@@ -160,15 +157,17 @@ export function EditMatchForm({
               played: playedValue,
               local_goals: localGoalsValue,
               visitor_goals: visitorGoalsValue,
-              local_scorers: localScorersRef.current.map((ref) => ref.value),
+              local_scorers:
+                localScorersRef.current.map((ref) => ref?.value) || "",
               visitor_scorers: visitorScorersRef.current.map(
-                (ref) => ref.value
+                (ref) => ref?.value
               ),
             });
           }}
         >
           submit
         </button>
+        <span>{requestResult.error?.data?.message || ""}</span>
       </form>
     </>
   );

@@ -29,6 +29,13 @@ export const players = createApi({
         },
       }),
     }),
+    deletePlayer: builder.mutation({
+      query: ({ ...body }) => ({
+        url: "/players?id=eq." + body.id,
+        method: "DELETE",
+        body: body,
+      }),
+    }),
   }),
 });
 
@@ -36,4 +43,5 @@ export const {
   useGetPlayersQuery,
   useInsertPlayerMutation,
   useUpdatePlayerMutation,
+  useDeletePlayerMutation,
 } = players;

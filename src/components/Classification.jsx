@@ -1,6 +1,9 @@
 // Dependencies
 import { useGetTeamsQuery } from "../api/teams";
 
+// Components
+import { NewTeamForm } from "./NewTeamForm";
+
 export function Classification() {
   const teams = useGetTeamsQuery();
 
@@ -42,6 +45,7 @@ export function Classification() {
           </tbody>
         </table>
       )}
+      <NewTeamForm />
     </section>
   );
 }

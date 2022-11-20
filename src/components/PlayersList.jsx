@@ -1,19 +1,22 @@
 // Dependencies
 import { useState } from "react";
-import { useGetPlayersQuery } from "../api/players";
+import { useGetPlayersQuery, useDeletePlayerMutation } from "../api/players";
 import { useGetTeamsQuery } from "../api/teams";
 
 // Components
 import { NewPlayerForm } from "./NewPlayerForm";
+import { EditPlayerForm } from "./EditPlayerForm";
 
 export function PlayersList() {
   const players = useGetPlayersQuery();
-  const teams = useGetTeamsQuery();
+  const { data, isLoading, refetch } = useGetTeamsQuery();
   const [editingPlayer, setEditingPlayer] = useState();
+  const [deletePlayer] = useDeletePlayerMutation();
+  debugger;
   return (
     <section>
       <h2>Players</h2>
-      {players.isLoading || teams.isLoading ? (
+      {players.isLoading || isLoading ? (
         <h3>loading...</h3>
       ) : (
         <table>
@@ -23,32 +26,41 @@ export function PlayersList() {
             <th>{"scored goals"}</th>
             <th>{"scored goals home"}</th>
             <th>{"scored goals away"}</th>
-            <th>{"actions"}</th>
+            <th>{"actionss"}</th>
           </tr>
           {players.data.map((player) => (
             <tr key={player.id}>
               <td>{player.name}</td>
               <td>
-                {teams.data.find((team) => team.id === player.team).name ||
+                {data.find((team) => team.id === player.team).name ||
                   player.team}
               </td>
               <td>{player.scored_goals}</td>
               <td>{player.scored_goals_home}</td>
+              <td>{player.scored_goals_away}</td>
               <td>
                 <button
                   onClick={() => {
-                    console.log("joder");
                     setEditingPlayer(player);
                   }}
                 >
                   edit
+                </button>
+                <button
+                  onClick={async () => {
+                    await deletePlayer({ id: player.id });
+                    refetch();
+                  }}
+                >
+                  delete
                 </button>
               </td>
             </tr>
           ))}
         </table>
       )}
-      <NewPlayerForm player={editingPlayer} />
+      <NewPlayerForm />
+      <EditPlayerForm player={editingPlayer} />
     </section>
   );
 }
