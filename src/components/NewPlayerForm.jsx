@@ -37,6 +37,7 @@ export function NewPlayerForm() {
         >
           submit
         </button>
+        <span>{requestResult.error?.data?.message || ""}</span>
       </form>
     </>
   );

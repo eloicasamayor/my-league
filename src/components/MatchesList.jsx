@@ -77,7 +77,7 @@ export function MatchesList() {
             </tbody>
           </table>
           <NewMatchForm teams={teams} refetch={refetch} />
-          <EditMatchForm {...matchToEdit} />
+          <EditMatchForm matchToEdit={matchToEdit} refetch={refetch} />
         </>
       )}
     </section>

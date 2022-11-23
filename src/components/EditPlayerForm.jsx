@@ -29,15 +29,11 @@ export function EditPlayerForm({ player = {} }) {
         />
         <br />
         <label htmlFor={"team"}>Team:</label>
-        <select name="team" id="team" ref={teamRef} required>
+        <select name="team" id="team" ref={teamRef} value={team} required>
           {teams.data &&
-            teams.data.map((team) => (
-              <option
-                key={team.id}
-                value={team.id}
-                {...(team.id === team && selected)}
-              >
-                {team.name}
+            teams.data.map((teamData) => (
+              <option key={teamData.id} value={teamData.id}>
+                {teamData.name}
               </option>
             ))}
         </select>

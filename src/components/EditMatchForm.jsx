@@ -6,16 +6,17 @@ import { useGetPlayersQuery } from "../api/players";
 import { useGetTeamsQuery } from "../api/teams";
 import { useUpdateMatchMutation } from "../api/matches";
 
-export function EditMatchForm({
-  id,
-  localTeam,
-  visitorTeam,
-  played,
-  localGoals,
-  visitorGoals,
-  localScorers,
-  visitorScorers,
-}) {
+export function EditMatchForm({ matchToEdit, refetch }) {
+  const {
+    id,
+    localTeam,
+    visitorTeam,
+    played,
+    localGoals,
+    visitorGoals,
+    localScorers,
+    visitorScorers,
+  } = matchToEdit;
   const [updateMatch, requestResult] = useUpdateMatchMutation();
   const [playedValue, setPlayedValue] = useState();
   const [localGoalsValue, setLocalGoalsValue] = useState();
@@ -150,9 +151,9 @@ export function EditMatchForm({
         <br />
         <button
           type={"button"}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            updateMatch({
+            await updateMatch({
               id,
               played: playedValue,
               local_goals: localGoalsValue,
@@ -163,6 +164,7 @@ export function EditMatchForm({
                 (ref) => ref?.value
               ),
             });
+            refetch();
           }}
         >
           submit

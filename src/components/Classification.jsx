@@ -5,13 +5,13 @@ import { useGetTeamsQuery } from "../api/teams";
 import { NewTeamForm } from "./NewTeamForm";
 
 export function Classification() {
-  const teams = useGetTeamsQuery();
+  const { data, isLoading, refetch } = useGetTeamsQuery();
 
   return (
     <section>
       <h2>Classification</h2>
-      {teams.isLoading ? (
-        <h2>loading teams...</h2>
+      {isLoading ? (
+        <h2>loading ..</h2>
       ) : (
         <table>
           <thead>
@@ -27,7 +27,7 @@ export function Classification() {
             </tr>
           </thead>
           <tbody>
-            {teams.data.map(
+            {data.map(
               (team) =>
                 team.league === 1 && (
                   <tr key={team.id}>
@@ -45,7 +45,7 @@ export function Classification() {
           </tbody>
         </table>
       )}
-      <NewTeamForm />
+      <NewTeamForm refetch={refetch} />
     </section>
   );
 }

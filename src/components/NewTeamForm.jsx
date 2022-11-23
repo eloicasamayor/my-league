@@ -2,7 +2,7 @@
 import { useInsertTeamMutation } from "../api/teams";
 import { useRef } from "react";
 
-export function NewTeamForm() {
+export function NewTeamForm({ refetch }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();
   const nameRef = useRef();
 
@@ -14,12 +14,13 @@ export function NewTeamForm() {
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />
         <button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            insertTeam({
+            await insertTeam({
               name: nameRef.current.value,
               league: 1,
             });
+            refetch();
           }}
         >
           submit
