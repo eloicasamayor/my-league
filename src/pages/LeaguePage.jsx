@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 
 // Components
 import { MatchesList } from "../components/MatchesList";
-import { TeamsList } from "../components/TeamsList";
 import { Classification } from "../components/Classification";
 import { PlayersList } from "../components/PlayersList";
 export function LeaguePage() {

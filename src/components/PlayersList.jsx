@@ -12,7 +12,6 @@ export function PlayersList() {
   const { data, isLoading, refetch } = useGetTeamsQuery();
   const [editingPlayer, setEditingPlayer] = useState();
   const [deletePlayer] = useDeletePlayerMutation();
-  debugger;
   return (
     <section>
       <h2>Players</h2>

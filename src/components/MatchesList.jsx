@@ -9,7 +9,7 @@ export function MatchesList() {
   const [deleteMatch] = useDeleteMatchMutation();
   const teams = useGetTeamsQuery();
   const [matchToEdit, setMatchToEdit] = useState({});
-  debugger;
+
   function getTeamNameWithId(id) {
     if (teams.data) {
       return teams.data.find((team) => team.id === id).name;

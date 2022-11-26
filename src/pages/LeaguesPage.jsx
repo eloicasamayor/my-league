@@ -22,10 +22,8 @@ function LeaguesPage() {
       {!(isLoading || isFetching) ? (
         <ul>
           {data.map((league) => (
-            <li>
-              <>
-                <Link to={`/${league.urlname}`}>{league.name}</Link>
-              </>
+            <li key={league.name}>
+              <Link to={`/${league.urlname}`}>{league.name}</Link>
               {isEditing && <EditLeagueForm {...league} />}
             </li>
           ))}

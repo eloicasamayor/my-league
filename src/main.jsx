@@ -10,20 +10,13 @@ import { store } from "./store";
 import { LeaguesPage } from "./pages/LeaguesPage";
 import { LeaguePage } from "./pages/LeaguePage";
 
-import { HomePage } from "./pages/HomePage";
-import { TeamsPage } from "./pages/TeamsPage";
-import { PlayersPage } from "./pages/PlayersPage";
-
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/leagues" element={<LeaguesPage />} />
-          <Route path="/teams" element={<TeamsPage />} />
-          <Route path="/players" element={<PlayersPage />} />
-          <Route path="/:urlname" element={<LeaguePage />} />
+          <Route index element={<LeaguesPage />} />
+          <Route path=":urlname" element={<LeaguePage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
