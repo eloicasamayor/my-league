@@ -23,7 +23,9 @@ export function NewMatchForm({ teams, refetch }) {
         <select name="local_team" id="local_team" ref={localTeamRef} required>
           {teams.data &&
             teams.data.map((team) => (
-              <option value={team.id}>{team.name}</option>
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
             ))}
         </select>
         <br />

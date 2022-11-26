@@ -1,12 +1,13 @@
 // Dependencies
-import { useGetTeamsQuery } from "../api/teams";
+import { Link } from "react-router-dom";
+import { useDeleteTeamMutation, useGetTeamsQuery } from "../api/teams";
 
 // Components
 import { NewTeamForm } from "./NewTeamForm";
 
 export function Classification() {
   const { data, isLoading, refetch } = useGetTeamsQuery();
-
+  const [deleteTeam] = useDeleteTeamMutation();
   return (
     <section>
       <h2>Classification</h2>
@@ -24,6 +25,7 @@ export function Classification() {
               <th>Defeats</th>
               <th>Scored Goals</th>
               <th>Conceded Goals</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -31,7 +33,9 @@ export function Classification() {
               (team) =>
                 team.league === 1 && (
                   <tr key={team.id}>
-                    <td>{team.name}</td>
+                    <td>
+                      <Link to={"./" + team.urlname}>{team.name}</Link>
+                    </td>
                     <td>{team.points}</td>
                     <td>{team.played_matches}</td>
                     <td>{team.wins}</td>
@@ -39,6 +43,16 @@ export function Classification() {
                     <td>{team.defeats}</td>
                     <td>{team.goals_scored}</td>
                     <td>{team.goals_conceded}</td>
+                    <td>
+                      <button
+                        onClick={async () => {
+                          deleteTeam({ id: team.id });
+                          refetch();
+                        }}
+                      >
+                        delete
+                      </button>
+                    </td>
                   </tr>
                 )
             )}

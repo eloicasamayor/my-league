@@ -16,7 +16,11 @@ export const store = configureStore({
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(leagues.middleware).concat(teams.middleware),
+    getDefaultMiddleware()
+      .concat(leagues.middleware)
+      .concat(teams.middleware)
+      .concat(players.middleware)
+      .concat(matches.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

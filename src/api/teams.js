@@ -19,7 +19,18 @@ export const teams = createApi({
         body: post,
       }),
     }),
+    deleteTeam: builder.mutation({
+      query: ({ ...body }) => ({
+        url: "/teams?id=eq." + body.id,
+        method: "DELETE",
+        body: body,
+      }),
+    }),
   }),
 });
 
-export const { useGetTeamsQuery, useInsertTeamMutation } = teams;
+export const {
+  useGetTeamsQuery,
+  useInsertTeamMutation,
+  useDeleteTeamMutation,
+} = teams;

@@ -21,7 +21,12 @@ export function NewLeagueForm({ refetch }) {
             e.preventDefault();
             insertLeague({
               name: nameRef.current.value,
-              urlname: urlNameRef.current.value,
+              urlname: nameRef.current.value
+                .normalize("NFD")
+                .replace(/[\u0300-\u036f]/g, "")
+                .replace(/\s+/g, "-")
+                .replace(/["']/g, "-")
+                .replace(/["·^]/g, "-"),
             });
           }}
         >

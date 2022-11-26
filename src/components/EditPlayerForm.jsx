@@ -9,10 +9,9 @@ export function EditPlayerForm({ player = {} }) {
   const nameRef = useRef();
   const teamRef = useRef();
   const teams = useGetTeamsQuery();
-  console.log(player);
 
   if (teams.isLoading) {
-    return "holoi";
+    return "loading...";
   }
   return (
     <>

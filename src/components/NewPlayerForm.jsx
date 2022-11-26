@@ -23,7 +23,9 @@ export function NewPlayerForm() {
         <select name="team" id="team" ref={teamRef} required>
           {teams.data &&
             teams.data.map((team) => (
-              <option value={team.id}>{team.name}</option>
+              <option key={team.id} value={team.id}>
+                {team.name}
+              </option>
             ))}
         </select>
         <button

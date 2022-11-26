@@ -9,6 +9,7 @@ import { store } from "./store";
 // Components
 import { LeaguesPage } from "./pages/LeaguesPage";
 import { LeaguePage } from "./pages/LeaguePage";
+import { TeamPage } from "./pages/TeamPage";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,7 +17,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter>
         <Routes>
           <Route index element={<LeaguesPage />} />
-          <Route path=":urlname" element={<LeaguePage />} />
+          <Route path=":leagueUrlName" element={<LeaguePage />} />
+          <Route path=":leagueUrlName/:teamName" element={<TeamPage />} />
         </Routes>
       </BrowserRouter>
     </Provider>
