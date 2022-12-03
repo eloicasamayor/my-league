@@ -31,7 +31,7 @@ export function NewLeagueForm({ refetch }) {
             await insertLeague({
               name: nameRef.current.value,
               urlname: nameToUrlName(nameRef.current.value),
-              name: descriptionRef.current.value,
+              description: descriptionRef.current.value,
             });
             refetch();
           }}

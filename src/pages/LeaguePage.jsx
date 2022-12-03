@@ -50,7 +50,7 @@ export function LeaguePage() {
     (league) => league.urlname === leagueUrlName
   );
   if (!currentLeague) {
-    return <h2>Not found league :/</h2>;
+    return <h2>Not found league "{leagueUrlName}"</h2>;
   }
   teamsData = teamsData.filter((team) => team.league === currentLeague.id);
   matchesData = matchesData.filter(
