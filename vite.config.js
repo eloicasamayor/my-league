@@ -6,6 +6,6 @@ export default defineConfig(({ mode }) => {
   const assetUrl = process.env.VITE_NEXT_PUBLIC_ASSET_URL;
   return {
     plugins: [react()],
-    base: `${assetUrl}`,
+    base: "/my-league-rtk-query/",
   };
 });
