@@ -3,13 +3,12 @@ import { useInsertPlayerMutation } from "../api/players";
 import { useRef } from "react";
 import { useGetTeamsQuery } from "../api/teams";
 
-export function NewPlayerForm() {
+export function NewPlayerForm({ teamsData, teamsIsLoading, playersRefetch }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
-  const teams = useGetTeamsQuery();
 
-  if (teams.isLoading) {
+  if (teamsIsLoading) {
     return "holoi";
   }
   return (
@@ -21,20 +20,21 @@ export function NewPlayerForm() {
         <br />
         <label htmlFor={"team"}>Team:</label>
         <select name="team" id="team" ref={teamRef} required>
-          {teams.data &&
-            teams.data.map((team) => (
+          {teamsData &&
+            teamsData.map((team) => (
               <option key={team.id} value={team.id}>
                 {team.name}
               </option>
             ))}
         </select>
         <button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
             insertPlayer({
               name: nameRef.current.value,
               team: teamRef.current.value,
             });
+            await playersRefetch();
           }}
         >
           submit

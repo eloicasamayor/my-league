@@ -1,27 +1,30 @@
 // Dependencies
 import { useState } from "react";
-import { useGetPlayersQuery, useDeletePlayerMutation } from "../api/players";
-import { useGetTeamsQuery } from "../api/teams";
+import { useDeletePlayerMutation } from "../api/players";
 
 // Components
 import { NewPlayerForm } from "./NewPlayerForm";
 import { EditPlayerForm } from "./EditPlayerForm";
 
-export function PlayersList({ team }) {
-  const players = useGetPlayersQuery();
-  const { data, isLoading, refetch } = useGetTeamsQuery();
+export function PlayersList({
+  teamsData,
+  teamsIsLoading,
+  selectedTeam,
+  playersData,
+  playersIsLoading,
+  playersRefetch,
+}) {
   const [editingPlayer, setEditingPlayer] = useState();
   const [deletePlayer] = useDeletePlayerMutation();
-  let playersList = players.data;
-  if (team) {
-    playersList = playersList.filter((player) => player.team === team);
+
+  if (selectedTeam) {
+    playersData = playersData.filter((player) => player.team === selectedTeam);
   }
   return (
     <section>
-      <h2>Players</h2>
-      {players.isLoading || isLoading ? (
+      {playersIsLoading || teamsIsLoading ? (
         <h3>loading...</h3>
-      ) : playersList.length ? (
+      ) : playersData.length ? (
         <table>
           <tbody>
             <tr>
@@ -32,11 +35,11 @@ export function PlayersList({ team }) {
               <th>{"scored goals away"}</th>
               <th>{"actionss"}</th>
             </tr>
-            {playersList.map((player) => (
+            {playersData.map((player) => (
               <tr key={player.id}>
                 <td>{player.name}</td>
                 <td>
-                  {data.find((team) => team.id === player.team).name ||
+                  {teamsData.find((team) => team.id === player.team).name ||
                     player.team}
                 </td>
                 <td>{player.scored_goals}</td>
@@ -53,7 +56,7 @@ export function PlayersList({ team }) {
                   <button
                     onClick={async () => {
                       await deletePlayer({ id: player.id });
-                      refetch();
+                      playersRefetch();
                     }}
                   >
                     delete
@@ -66,12 +69,7 @@ export function PlayersList({ team }) {
       ) : (
         "no players found for this team"
       )}
-      {!team && (
-        <>
-          <NewPlayerForm />
-          <EditPlayerForm player={editingPlayer} />
-        </>
-      )}
+      {!selectedTeam && <EditPlayerForm player={editingPlayer} />}
     </section>
   );
 }

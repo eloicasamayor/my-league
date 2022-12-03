@@ -2,12 +2,9 @@
 import { Link } from "react-router-dom";
 import { useDeleteTeamMutation, useGetTeamsQuery } from "../api/teams";
 
-// Components
-import { NewTeamForm } from "./NewTeamForm";
-
-export function Classification() {
-  const { data, isLoading, refetch } = useGetTeamsQuery();
+export function Classification({ data, isLoading, refetch }) {
   const [deleteTeam] = useDeleteTeamMutation();
+
   return (
     <section>
       <h2>Classification</h2>
@@ -46,7 +43,7 @@ export function Classification() {
                     <td>
                       <button
                         onClick={async () => {
-                          deleteTeam({ id: team.id });
+                          await deleteTeam({ id: team.id });
                           refetch();
                         }}
                       >
@@ -59,7 +56,6 @@ export function Classification() {
           </tbody>
         </table>
       )}
-      <NewTeamForm refetch={refetch} />
     </section>
   );
 }

@@ -1,43 +1,46 @@
 import _ from "lodash";
 import { useState } from "react";
-import { useGetMatchesQuery, useDeleteMatchMutation } from "../api/matches";
-import { useGetTeamsQuery } from "../api/teams";
+import { useDeleteMatchMutation } from "../api/matches";
 import { EditMatchForm } from "./EditMatchForm";
-import { NewMatchForm } from "./NewMatchForm";
 
-export function MatchesList({ team }) {
-  const { data, isLoading, refetch, ...rest } = useGetMatchesQuery();
+export function MatchesList({
+  teams,
+  selectedTeam,
+  matchesData,
+  matchesIsLoading,
+  matchesRefetch,
+}) {
   const [deleteMatch] = useDeleteMatchMutation();
-  const teams = useGetTeamsQuery();
   const [matchToEdit, setMatchToEdit] = useState({});
 
-  if (isLoading) {
+  if (matchesIsLoading) {
     return "loading...";
   }
   function getTeamNameWithId(id) {
-    if (teams.data) {
-      return teams.data.find((team) => team.id === id).name;
+    if (teams) {
+      return teams.find((team) => team.id === id).name;
     } else {
       return id;
     }
   }
-  let matchesList = data;
-  if (team) {
-    matchesList = matchesList.filter((match) => {
+
+  if (selectedTeam) {
+    matchesData = matchesData.filter((match) => {
       debugger;
-      return match.local_team === team || match.visitor_team === team;
+      return (
+        match.local_team === selectedTeam || match.visitor_team === selectedTeam
+      );
     });
     debugger;
   }
 
   return (
     <section>
-      <h2>Matches</h2>
-      {isLoading ? (
+      {matchesIsLoading ? (
         <h2>loading ...</h2>
       ) : (
         <>
-          {matchesList.length ? (
+          {matchesData.length ? (
             <table>
               <thead>
                 <tr>
@@ -51,7 +54,7 @@ export function MatchesList({ team }) {
                 </tr>
               </thead>
               <tbody>
-                {matchesList.map((match, i) => (
+                {matchesData.map((match, i) => (
                   <tr key={match.date + i}>
                     <td>{getTeamNameWithId(match.local_team)}</td>
                     <td>{match.local_goals}</td>
@@ -79,7 +82,7 @@ export function MatchesList({ team }) {
                       <button
                         onClick={async () => {
                           await deleteMatch({ id: match.id });
-                          refetch();
+                          matchesRefetch();
                         }}
                       >
                         Delete
@@ -92,11 +95,8 @@ export function MatchesList({ team }) {
           ) : (
             "No matches found for this team"
           )}
-          {!team && (
-            <>
-              <NewMatchForm teams={teams} refetch={refetch} />
-              <EditMatchForm matchToEdit={matchToEdit} refetch={refetch} />
-            </>
+          {!selectedTeam && (
+            <EditMatchForm matchToEdit={matchToEdit} refetch={matchesRefetch} />
           )}
         </>
       )}
