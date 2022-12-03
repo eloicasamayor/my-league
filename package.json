@@ -1,6 +1,5 @@
 {
   "name": "my-league-rtk-query",
-  "homepage": "https://eloicasamayor.github.io/my-league-rtk-query",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -9,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "deploy.sh"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
@@ -23,7 +22,6 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.1.0",
-    "gh-pages": "^4.0.0",
     "vite": "^3.1.0"
   }
 }
