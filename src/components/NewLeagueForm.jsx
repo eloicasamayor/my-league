@@ -1,10 +1,14 @@
 // Dependencies
 import { useInsertLeagueMutation } from "../api/leagues";
 import { useRef } from "react";
+
+// helpers
+import { nameToUrlName } from "../helpers/nameToUrlName";
+
 export function NewLeagueForm({ refetch }) {
   const [insertLeague, requestResult] = useInsertLeagueMutation();
   const nameRef = useRef();
-  const urlNameRef = useRef();
+  const descriptionRef = useRef();
   return (
     <>
       <h2>Create new league</h2>
@@ -12,22 +16,24 @@ export function NewLeagueForm({ refetch }) {
         <label htmlFor={"name"}>League name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} />
         <br />
-        <label htmlFor={"urlname"}>Url name:</label>
-        <input type={"text"} id={"urlname"} name={"urlname"} ref={urlNameRef} />
+        <label htmlFor={"description"}>Description:</label>
+        <input
+          type={"text"}
+          id={"description"}
+          name={"description"}
+          ref={descriptionRef}
+        />
         <br />
         <button
           type={"button"}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            insertLeague({
+            await insertLeague({
               name: nameRef.current.value,
-              urlname: nameRef.current.value
-                .normalize("NFD")
-                .replace(/[\u0300-\u036f]/g, "")
-                .replace(/\s+/g, "-")
-                .replace(/["']/g, "-")
-                .replace(/["·^]/g, "-"),
+              urlname: nameToUrlName(nameRef.current.value),
+              name: descriptionRef.current.value,
             });
+            refetch();
           }}
         >
           submit

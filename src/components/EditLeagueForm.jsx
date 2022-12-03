@@ -3,20 +3,25 @@ import { useRef } from "react";
 
 // Api
 import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
+import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function EditLeagueForm({ id, name, urlname, description }) {
+export function EditLeagueForm({ leagueToEdit, leaguesRefetch }) {
+  let { id, name, urlname, description } = leagueToEdit;
   const { refetch } = useGetLeaguesQuery();
   const [updateLeague, requestResult] = useUpdateLeagueMutation();
 
-  const idRef = useRef();
   const nameRef = useRef();
-  const urlRef = useRef();
   const descriptionRef = useRef();
+
+  if (!id) {
+    return "";
+  }
   return (
     <>
+      <h2>Edit League</h2>
       <form>
         <label htmlFor={"id"}>Id:</label>
-        <input type={"text"} id={"id"} name={"id"} value={id} />
+        <input type={"text"} id={"id"} name={"id"} value={id} disabled />
         <br />
         <label htmlFor={"name"}>Name:</label>
         <input
@@ -36,15 +41,6 @@ export function EditLeagueForm({ id, name, urlname, description }) {
           placeholder={description}
         />
         <br />
-        <label htmlFor={"urlname"}>Url:</label>
-        <input
-          type={"text"}
-          id={"urlname"}
-          name={"urlname"}
-          ref={urlRef}
-          placeholder={urlname}
-        />
-        <br />
         <button
           type={"button"}
           onClick={(e) => {
@@ -53,9 +49,9 @@ export function EditLeagueForm({ id, name, urlname, description }) {
               id,
               name: nameRef.current.value,
               description: descriptionRef.current.value,
-              urlname: urlRef.current.value,
+              urlname: nameToUrlName(nameRef.current.value),
             });
-            refetch();
+            leaguesRefetch();
           }}
         >
           submit

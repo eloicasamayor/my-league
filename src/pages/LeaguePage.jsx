@@ -1,39 +1,65 @@
 // Dependencies
 import { useParams } from "react-router-dom";
-import { useGetTeamsQuery } from "../api/teams";
-import { useGetPlayersQuery } from "../api/players";
-import { useGetMatchesQuery } from "../api/matches";
+import {
+  useGetTeamsQuery,
+  useGetPlayersQuery,
+  useGetMatchesQuery,
+  useGetLeaguesQuery,
+} from "../api";
 
 // Components
-import { MatchesList } from "../components/MatchesList";
-import { Classification } from "../components/Classification";
-import { PlayersList } from "../components/PlayersList";
-import { NewTeamForm } from "../components/NewTeamForm";
-import { NewPlayerForm } from "../components/NewPlayerForm";
-import { NewMatchForm } from "../components/NewMatchForm";
+import {
+  MatchesList,
+  Classification,
+  PlayersList,
+  NewTeamForm,
+  NewPlayerForm,
+  NewMatchForm,
+} from "../components";
+
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
   const {
+    data: leaguesData,
+    isLoading: leaguesIsLoading,
+    refetch: leaguesRefetch,
+  } = useGetLeaguesQuery();
+
+  let {
     data: teamsData,
     isLoading: teamsIsLoading,
     refetch: teamsRefetch,
   } = useGetTeamsQuery();
 
-  const {
+  let {
     data: playersData,
     isLoading: playersIsLoading,
     refetch: playersRefetch,
   } = useGetPlayersQuery();
 
-  const {
+  let {
     data: matchesData,
     isLoading: matchesIsLoading,
     refetch: matchesRefetch,
   } = useGetMatchesQuery();
 
-  if (teamsIsLoading) {
+  if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
     return "loading...";
   }
+  const currentLeague = leaguesData.find(
+    (league) => league.urlname === leagueUrlName
+  );
+  if (!currentLeague) {
+    return <h2>Not found league :/</h2>;
+  }
+  teamsData = teamsData.filter((team) => team.league === currentLeague.id);
+  matchesData = matchesData.filter(
+    (match) => match.league === currentLeague.id
+  );
+  playersData = playersData.filter(
+    (player) => player.league === currentLeague.id
+  );
+
   return (
     <div>
       <h1>{leagueUrlName}</h1>
@@ -42,7 +68,7 @@ export function LeaguePage() {
         isLoading={teamsIsLoading}
         refetch={teamsRefetch}
       />
-      <NewTeamForm refetch={teamsRefetch} />
+      <NewTeamForm teamsRefetch={teamsRefetch} currentLeague={currentLeague} />
       <hr />
       <h2>Matches List</h2>
       <MatchesList

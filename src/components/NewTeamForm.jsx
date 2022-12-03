@@ -1,10 +1,12 @@
 // Dependencies
 import { useInsertTeamMutation } from "../api/teams";
 import { useRef } from "react";
+import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function NewTeamForm({ refetch }) {
+export function NewTeamForm({ teamsRefetch, currentLeague }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();
   const nameRef = useRef();
+  const { id } = currentLeague;
 
   // const isError = requestResult.status === "rejected";
   return (
@@ -18,9 +20,10 @@ export function NewTeamForm({ refetch }) {
             e.preventDefault();
             await insertTeam({
               name: nameRef.current.value,
-              league: 1,
+              urlname: nameToUrlName(nameRef.current.value),
+              league: id,
             });
-            refetch();
+            teamsRefetch();
           }}
         >
           submit

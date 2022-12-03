@@ -16,6 +16,9 @@ export function MatchesList({
   if (matchesIsLoading) {
     return "loading...";
   }
+  if (!matchesData.length) {
+    return "no matches :(";
+  }
   function getTeamNameWithId(id) {
     if (teams) {
       return teams.find((team) => team.id === id).name;
@@ -26,12 +29,11 @@ export function MatchesList({
 
   if (selectedTeam) {
     matchesData = matchesData.filter((match) => {
-      debugger;
       return (
-        match.local_team === selectedTeam || match.visitor_team === selectedTeam
+        match.local_team === selectedTeam.id ||
+        match.visitor_team === selectedTeam.id
       );
     });
-    debugger;
   }
 
   return (
