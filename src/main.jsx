@@ -14,7 +14,7 @@ import { TeamPage } from "./pages/TeamPage";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <HashRouter>
+      <HashRouter base="/">
         <Routes>
           <Route index element={<LeaguesPage />} />
           <Route path=":leagueUrlName" element={<LeaguePage />} />
