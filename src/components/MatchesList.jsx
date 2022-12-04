@@ -9,6 +9,8 @@ export function MatchesList({
   matchesData,
   matchesIsLoading,
   matchesRefetch,
+  playersData,
+  teamsData,
 }) {
   const [deleteMatch] = useDeleteMatchMutation();
   const [matchToEdit, setMatchToEdit] = useState({});
@@ -98,7 +100,12 @@ export function MatchesList({
             "No matches found for this team"
           )}
           {!selectedTeam && (
-            <EditMatchForm matchToEdit={matchToEdit} refetch={matchesRefetch} />
+            <EditMatchForm
+              matchToEdit={matchToEdit}
+              refetch={matchesRefetch}
+              playersData={playersData}
+              teamsData={teamsData}
+            />
           )}
         </>
       )}

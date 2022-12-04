@@ -73,7 +73,9 @@ export function PlayersList({
           ))}
         </tbody>
       </table>
-      {!selectedTeam && <EditPlayerForm player={editingPlayer} />}
+      {!selectedTeam && (
+        <EditPlayerForm player={editingPlayer} teamsData={teamsData} />
+      )}
     </section>
   );
 }

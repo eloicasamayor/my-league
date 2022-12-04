@@ -1,7 +1,7 @@
 // Dependencies
 import { useInsertMatchMutation } from "../api/matches";
 import { useRef } from "react";
-export function NewMatchForm({ teams, refetch }) {
+export function NewMatchForm({ teams, refetch, currentLeague }) {
   const [insertMatch, requestResult] = useInsertMatchMutation();
   const dateRef = useRef();
   const localTeamRef = useRef();
@@ -52,6 +52,7 @@ export function NewMatchForm({ teams, refetch }) {
               date: dateRef.current.value,
               local_team: localTeamRef.current.value,
               visitor_team: visitorTeamRef.current.value,
+              league: currentLeague.id,
             });
             refetch();
           }}

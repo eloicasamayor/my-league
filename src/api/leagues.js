@@ -26,6 +26,13 @@ export const leagues = createApi({
         body: patch,
       }),
     }),
+    deleteLeague: builder.mutation({
+      query: ({ ...body }) => ({
+        url: "/leagues?id=eq." + body.id,
+        method: "DELETE",
+        body: body,
+      }),
+    }),
   }),
 });
 
@@ -33,4 +40,5 @@ export const {
   useGetLeaguesQuery,
   useInsertLeagueMutation,
   useUpdateLeagueMutation,
+  useDeleteLeagueMutation,
 } = leagues;

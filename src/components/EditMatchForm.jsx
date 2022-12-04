@@ -2,11 +2,14 @@
 import { useState, useEffect, useRef } from "react";
 
 // Api
-import { useGetPlayersQuery } from "../api/players";
-import { useGetTeamsQuery } from "../api/teams";
 import { useUpdateMatchMutation } from "../api/matches";
 
-export function EditMatchForm({ matchToEdit, refetch }) {
+export function EditMatchForm({
+  matchToEdit,
+  refetch,
+  playersData,
+  teamsData,
+}) {
   const {
     id,
     localTeam,
@@ -21,8 +24,6 @@ export function EditMatchForm({ matchToEdit, refetch }) {
   const [playedValue, setPlayedValue] = useState();
   const [localGoalsValue, setLocalGoalsValue] = useState();
   const [visitorGoalsValue, setVisitorGoalsValue] = useState();
-  const players = useGetPlayersQuery();
-  const teams = useGetTeamsQuery();
 
   useEffect(() => {
     setLocalGoalsValue(localGoals);
@@ -37,7 +38,7 @@ export function EditMatchForm({ matchToEdit, refetch }) {
   function renderScorersInputs(team, goals, scorersList, refList) {
     var elements = [];
 
-    const teamPlayers = players.data.filter((player) => player.team === team);
+    const teamPlayers = playersData.filter((player) => player.team === team);
     for (let i = 0; i < goals; i++) {
       elements.push(
         <>
@@ -86,7 +87,7 @@ export function EditMatchForm({ matchToEdit, refetch }) {
           <>
             <label htmlFor={"localGoals"}>
               {"Local team: " +
-                teams.data.find((team) => team.id === localTeam).name}
+                teamsData.find((team) => team.id === localTeam).name}
             </label>
             <input
               type={"number"}
@@ -119,7 +120,7 @@ export function EditMatchForm({ matchToEdit, refetch }) {
 
             <label htmlFor={"description"}>
               {"Visitor team: " +
-                teams.data.find((team) => team.id === visitorTeam).name}
+                teamsData.find((team) => team.id === visitorTeam).name}
             </label>
             <input
               type={"number"}

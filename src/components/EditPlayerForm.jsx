@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { useUpdatePlayerMutation } from "../api/players";
 import { useGetTeamsQuery } from "../api/teams";
 
-export function EditPlayerForm({ player = {} }) {
+export function EditPlayerForm({ player = {}, teamsData }) {
   const { id, name, team } = player;
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
   const nameRef = useRef();
@@ -29,8 +29,8 @@ export function EditPlayerForm({ player = {} }) {
         <br />
         <label htmlFor={"team"}>Team:</label>
         <select name="team" id="team" ref={teamRef} value={team} required>
-          {teams.data &&
-            teams.data.map((teamData) => (
+          {teamsData &&
+            teamsData.map((teamData) => (
               <option key={teamData.id} value={teamData.id}>
                 {teamData.name}
               </option>

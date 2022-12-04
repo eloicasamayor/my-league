@@ -56,8 +56,8 @@ export function LeaguePage() {
   matchesData = matchesData.filter(
     (match) => match.league === currentLeague.id
   );
-  playersData = playersData.filter(
-    (player) => player.league === currentLeague.id
+  playersData = playersData.filter((player) =>
+    teamsData.find((team) => team.id === player.team)
   );
 
   return (
@@ -76,8 +76,14 @@ export function LeaguePage() {
         matchesData={matchesData}
         matchesIsLoading={matchesIsLoading}
         matchesRefetch={matchesRefetch}
+        playersData={playersData}
+        teamsData={teamsData}
       />
-      <NewMatchForm teams={teamsData} refetch={matchesRefetch} />
+      <NewMatchForm
+        teams={teamsData}
+        refetch={matchesRefetch}
+        currentLeague={currentLeague}
+      />
       <hr />
       <h2>Players</h2>
       <PlayersList

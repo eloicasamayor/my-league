@@ -1,11 +1,14 @@
 // Dependencies
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDeleteLeagueMutation } from "../api/leagues";
 
 // Components
 import { EditLeagueForm } from "./EditLeagueForm";
 export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
   const [leagueToEdit, setLeagueToEdit] = useState();
+
+  const [deleteLeague] = useDeleteLeagueMutation();
 
   if (leaguesIsLoading) {
     return "loading...";
@@ -32,6 +35,14 @@ export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
                   }}
                 >
                   Edit
+                </button>
+                <button
+                  onClick={async () => {
+                    await deleteLeague(league);
+                    leaguesRefetch();
+                  }}
+                >
+                  Delete
                 </button>
               </td>
             </tr>
