@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route, HashRouter } from "react-router-dom";
 
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./redux/store";
 
 // Components
 import { LeaguesPage } from "./pages/LeaguesPage";

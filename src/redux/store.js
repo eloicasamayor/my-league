@@ -4,6 +4,9 @@ import { leagues } from "./api/leagues";
 import { teams } from "./api/teams";
 import { players } from "./api/players";
 import { matches } from "./api/matches";
+import { auth } from "./api/auth";
+import { user } from "./api/user";
+import { authSlice } from "./api";
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +15,9 @@ export const store = configureStore({
     [teams.reducerPath]: teams.reducer,
     [players.reducerPath]: players.reducer,
     [matches.reducerPath]: matches.reducer,
+    [auth.reducerPath]: auth.reducer,
+    [user.reducerPath]: user.reducer,
+    userState: authSlice.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
@@ -20,7 +26,9 @@ export const store = configureStore({
       .concat(leagues.middleware)
       .concat(teams.middleware)
       .concat(players.middleware)
-      .concat(matches.middleware),
+      .concat(matches.middleware)
+      .concat(auth.middleware)
+      .concat(user.middleware),
 });
 
 // optional, but required for refetchOnFocus/refetchOnReconnect behaviors

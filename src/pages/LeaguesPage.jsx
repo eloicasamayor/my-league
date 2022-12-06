@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 
 // Api
-import { useGetLeaguesQuery } from "../api";
+import { useGetLeaguesQuery } from "../redux";
 
 //Components
 import { EditLeagueForm, LeaguesList, NewLeagueForm } from "../components";

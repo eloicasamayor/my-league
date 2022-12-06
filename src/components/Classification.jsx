@@ -1,6 +1,6 @@
 // Dependencies
 import { Link } from "react-router-dom";
-import { useDeleteTeamMutation } from "../api/teams";
+import { useDeleteTeamMutation } from "../redux";
 
 export function Classification({ data, isLoading, refetch }) {
   const [deleteTeam] = useDeleteTeamMutation();

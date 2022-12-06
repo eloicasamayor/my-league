@@ -4,7 +4,7 @@ import {
   useGetTeamsQuery,
   useGetMatchesQuery,
   useGetPlayersQuery,
-} from "../api";
+} from "../redux";
 
 // Components
 import {

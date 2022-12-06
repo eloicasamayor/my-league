@@ -1,5 +1,5 @@
 // Dependencies
-import { useGetTeamsQuery } from "../api/teams";
+import { useGetTeamsQuery } from "../redux";
 
 export function TeamsList() {
   const teams = useGetTeamsQuery();

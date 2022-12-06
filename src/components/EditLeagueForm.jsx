@@ -2,7 +2,7 @@
 import { useRef } from "react";
 
 // Api
-import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../api/leagues";
+import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../redux";
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
 export function EditLeagueForm({ leagueToEdit, leaguesRefetch }) {

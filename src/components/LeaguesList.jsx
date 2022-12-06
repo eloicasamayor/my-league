@@ -1,7 +1,7 @@
 // Dependencies
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { useDeleteLeagueMutation } from "../api/leagues";
+import { useDeleteLeagueMutation } from "../redux";
 
 // Components
 import { EditLeagueForm } from "./EditLeagueForm";

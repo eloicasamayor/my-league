@@ -1,7 +1,6 @@
 // Dependencies
-import { useInsertPlayerMutation } from "../api/players";
+import { useInsertPlayerMutation } from "../redux";
 import { useRef } from "react";
-import { useGetTeamsQuery } from "../api/teams";
 
 export function NewPlayerForm({ teamsData, teamsIsLoading, playersRefetch }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();

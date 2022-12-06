@@ -1,7 +1,8 @@
 // Dependencies
 import { useRef } from "react";
-import { useUpdatePlayerMutation } from "../api/players";
-import { useGetTeamsQuery } from "../api/teams";
+
+// Api
+import { useUpdatePlayerMutation, useGetTeamsQuery } from "../redux";
 
 export function EditPlayerForm({ player = {}, teamsData }) {
   const { id, name, team } = player;

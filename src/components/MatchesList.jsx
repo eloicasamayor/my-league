@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useState } from "react";
-import { useDeleteMatchMutation } from "../api/matches";
+import { useDeleteMatchMutation } from "../redux";
 import { EditMatchForm } from "./EditMatchForm";
 
 export function MatchesList({

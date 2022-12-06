@@ -1,5 +1,5 @@
 // Dependencies
-import { useInsertMatchMutation } from "../api/matches";
+import { useInsertMatchMutation } from "../redux";
 import { useRef } from "react";
 export function NewMatchForm({ teams, refetch, currentLeague }) {
   const [insertMatch, requestResult] = useInsertMatchMutation();

@@ -1,5 +1,5 @@
 // Dependencies
-import { useInsertTeamMutation } from "../api/teams";
+import { useInsertTeamMutation } from "../redux";
 import { useRef } from "react";
 import { nameToUrlName } from "../helpers/nameToUrlName";
 

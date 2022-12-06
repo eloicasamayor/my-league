@@ -1,6 +1,6 @@
 // Dependencies
 import { useState } from "react";
-import { useDeletePlayerMutation } from "../api/players";
+import { useDeletePlayerMutation } from "../redux";
 
 // Components
 import { EditPlayerForm } from "./EditPlayerForm";

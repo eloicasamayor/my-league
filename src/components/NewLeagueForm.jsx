@@ -1,5 +1,5 @@
 // Dependencies
-import { useInsertLeagueMutation } from "../api/leagues";
+import { useInsertLeagueMutation } from "../redux";
 import { useRef } from "react";
 
 // helpers

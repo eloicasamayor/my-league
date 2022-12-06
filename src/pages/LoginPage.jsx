@@ -1,11 +1,33 @@
+import { useRef } from "react";
+import { useLoginUserMutation } from "../redux";
+
 export function LoginPage() {
+  const userRef = useRef();
+  const passwordRef = useRef();
+
+  const [loginUser, { isLoading, isError, error, isSuccess }] =
+    useLoginUserMutation();
+
+  function onSubmitHandler(values) {
+    // ? Executing the loginUser Mutation
+    loginUser(values);
+  }
   return (
     <div>
-      user: <input type="text"></input>
+      user: <input ref={userRef} type="text"></input>
       <br />
-      password: <input type={"password"}></input>
+      password: <input ref={passwordRef} type={"password"}></input>
       <br />
-      <button onClick={() => {}}>Login</button>
+      <button
+        onClick={() =>
+          loginUser({
+            user: userRef.current.value,
+            password: passwordRef.current.value,
+          })
+        }
+      >
+        Login
+      </button>
     </div>
   );
 }

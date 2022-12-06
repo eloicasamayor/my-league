@@ -2,7 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 
 // Api
-import { useUpdateMatchMutation } from "../api/matches";
+import { useUpdateMatchMutation } from "../redux";
 
 export function EditMatchForm({
   matchToEdit,
