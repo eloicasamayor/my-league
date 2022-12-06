@@ -1,20 +1,28 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { setUser } from "./authSlice";
+import { setCredentials } from "./authSlice";
 
 // Constants
-import { supabaseAuthUrl } from "../constants";
+import { supabaseAuthUrl, supabaseKey } from "../constants";
 
 export const user = createApi({
-  reducerPath: "userApi",
+  reducerPath: "user",
   baseQuery: fetchBaseQuery({
-    baseUrl: `${supabaseAuthUrl}/api/users/`,
+    baseUrl: supabaseAuthUrl,
+    prepareHeaders: (headers, { getState }) => {
+      const token = getState().auth.token;
+      headers.set("apikey", `${supabaseKey}`);
+      if (token) {
+        headers.set("authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   tagTypes: ["User"],
   endpoints: (builder) => ({
-    getMe: builder.query({
+    getLoggedInUser: builder.query({
       query() {
         return {
-          url: "me",
+          url: "user",
           credentials: "include",
         };
       },
@@ -22,11 +30,11 @@ export const user = createApi({
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           const { data } = await queryFulfilled;
-          dispatch(setUser(data));
+          dispatch(setCredentials(data));
         } catch (error) {}
       },
     }),
   }),
 });
 
-export const { useGetMeQuery } = user;
+export const { useGetLoggedInUserQuery } = user;

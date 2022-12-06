@@ -4,12 +4,21 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { user } from "./user";
 
 // Constants
-import { supabaseAuthUrl } from "../constants";
+import { supabaseAuthUrl, supabaseKey } from "../constants";
 
 export const auth = createApi({
   reducerPath: "auth",
   baseQuery: fetchBaseQuery({
     baseUrl: supabaseAuthUrl,
+    credentials: "include",
+    prepareHeaders: (headers, { getState }) => {
+      headers.set("apikey", `${supabaseKey}`);
+      const token = getState().auth.token;
+      if (token) {
+        headers.set("Authorization", `Bearer ${token}`);
+      }
+      return headers;
+    },
   }),
   endpoints: (builder) => ({
     registerUser: builder.mutation({
@@ -21,44 +30,22 @@ export const auth = createApi({
         };
       },
     }),
-    loginUser: builder.mutation({
+    login: builder.mutation({
       query(data) {
         return {
           url: "token?grant_type=password",
           method: "POST",
           body: data,
-          credentials: "include",
         };
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
         try {
           await queryFulfilled;
-          await dispatch(user.endpoints.getMe.initiate(null));
+          await dispatch(user.endpoints.getLoggedInUser.initiate(null));
         } catch (error) {}
-      },
-    }),
-    verifyEmail: builder.mutation({
-      query({ verificationCode }) {
-        return {
-          url: `verifyemail/${verificationCode}`,
-          method: "GET",
-        };
-      },
-    }),
-    logoutUser: builder.mutation({
-      query() {
-        return {
-          url: "logout",
-          credentials: "include",
-        };
       },
     }),
   }),
 });
 
-export const {
-  useLoginUserMutation,
-  useRegisterUserMutation,
-  useLogoutUserMutation,
-  useVerifyEmailMutation,
-} = auth;
+export const { useLoginMutation } = auth;

@@ -6,7 +6,7 @@ import { players } from "./api/players";
 import { matches } from "./api/matches";
 import { auth } from "./api/auth";
 import { user } from "./api/user";
-import { authSlice } from "./api";
+import { authSlice } from "./api/authSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +17,7 @@ export const store = configureStore({
     [matches.reducerPath]: matches.reducer,
     [auth.reducerPath]: auth.reducer,
     [user.reducerPath]: user.reducer,
-    userState: authSlice.reducer,
+    auth: authSlice.reducer,
   },
   // Adding the api middleware enables caching, invalidation, polling,
   // and other useful features of `rtk-query`.
