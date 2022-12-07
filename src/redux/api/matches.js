@@ -1,27 +1,18 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { supabaseUrl, supabaseKey } from "../constants";
+import { apiSlice } from "./apiSlice";
 
-export const matches = createApi({
-  reducerPath: "matches",
-  baseQuery: fetchBaseQuery({
-    baseUrl: supabaseUrl,
-    prepareHeaders: (headers) => {
-      headers.set("apikey", `${supabaseKey}`);
-      return headers;
-    },
-  }),
+export const matches = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getMatches: builder.query({ query: () => "/matches" }),
+    getMatches: builder.query({ query: () => "rest/v1/matches" }),
     insertMatch: builder.mutation({
       query: ({ ...post }) => ({
-        url: `/matches`,
+        url: `rest/v1/matches`,
         method: "POST",
         body: post,
       }),
     }),
     updateMatch: builder.mutation({
       query: ({ ...patch }) => ({
-        url: "/matches?id=eq." + patch.id,
+        url: "rest/v1/matches?id=eq." + patch.id,
         method: "PATCH",
         body: {
           played: patch.played,
@@ -34,7 +25,7 @@ export const matches = createApi({
     }),
     deleteMatch: builder.mutation({
       query: ({ ...body }) => ({
-        url: "/matches?id=eq." + body.id,
+        url: "rest/v1/matches?id=eq." + body.id,
         method: "DELETE",
         body: body,
       }),

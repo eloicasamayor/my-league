@@ -13,6 +13,10 @@ export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
   if (leaguesIsLoading) {
     return "loading...";
   }
+  if (!leaguesData) {
+    return "no data :/";
+  }
+
   return (
     <>
       <table>
@@ -22,31 +26,29 @@ export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
           <th>actions</th>
         </tr>
         {leaguesData.map((league) => (
-          <>
-            <tr>
-              <td>
-                <Link to={league.urlname}>{league.name}</Link>
-              </td>
-              <td>{league.description}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    setLeagueToEdit(league);
-                  }}
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={async () => {
-                    await deleteLeague(league);
-                    leaguesRefetch();
-                  }}
-                >
-                  Delete
-                </button>
-              </td>
-            </tr>
-          </>
+          <tr key={league.id}>
+            <td>
+              <Link to={league.urlname}>{league.name}</Link>
+            </td>
+            <td>{league.description}</td>
+            <td>
+              <button
+                onClick={() => {
+                  setLeagueToEdit(league);
+                }}
+              >
+                Edit
+              </button>
+              <button
+                onClick={async () => {
+                  await deleteLeague(league);
+                  leaguesRefetch();
+                }}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
         ))}
       </table>
       <EditLeagueForm

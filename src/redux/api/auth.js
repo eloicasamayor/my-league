@@ -1,30 +1,12 @@
-// Dependencies
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-
 import { user } from "./user";
+import { apiSlice } from "./apiSlice";
 
-// Constants
-import { supabaseAuthUrl, supabaseKey } from "../constants";
-
-export const auth = createApi({
-  reducerPath: "auth",
-  baseQuery: fetchBaseQuery({
-    baseUrl: supabaseAuthUrl,
-    credentials: "include",
-    prepareHeaders: (headers, { getState }) => {
-      headers.set("apikey", `${supabaseKey}`);
-      const token = getState().auth.token;
-      if (token) {
-        headers.set("Authorization", `Bearer ${token}`);
-      }
-      return headers;
-    },
-  }),
+export const auth = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     registerUser: builder.mutation({
       query(data) {
         return {
-          url: "register",
+          url: "/auth/v1/register",
           method: "POST",
           body: data,
         };
@@ -33,12 +15,13 @@ export const auth = createApi({
     login: builder.mutation({
       query(data) {
         return {
-          url: "token?grant_type=password",
+          url: "/auth/v1/token?grant_type=password",
           method: "POST",
           body: data,
         };
       },
       async onQueryStarted(args, { dispatch, queryFulfilled }) {
+        debugger;
         try {
           await queryFulfilled;
           await dispatch(user.endpoints.getLoggedInUser.initiate(null));
