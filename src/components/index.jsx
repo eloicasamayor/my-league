@@ -11,3 +11,5 @@ export { NewLeagueForm } from "./NewLeagueForm";
 export { EditLeagueForm } from "./EditLeagueForm";
 export { EditMatchForm } from "./EditMatchForm";
 export { EditPlayerForm } from "./EditPlayerForm";
+
+export { PageLayout } from "./PageLayout";
