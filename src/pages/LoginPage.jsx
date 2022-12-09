@@ -11,8 +11,18 @@ export function LoginPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  function handleCredentialResponse(response) {
-    console.log("Encoded JWT ID token: " + response.credential);
+  async function handleCredentialResponse(response) {
+    console.log("JWTtoken: " + response.credential);
+    console.log("clientId: " + response.clientId);
+    await dispatch(
+      setCredentials({
+        user: response.clientId,
+        token: response.credential,
+      })
+    );
+    window.location.href =
+      "https://xabtfstsrkphffptblep.supabase.co/auth/v1/authorize?provider=google";
+    // navigate("/welcome");
   }
 
   useEffect(() => {
