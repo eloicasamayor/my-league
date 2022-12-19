@@ -2,7 +2,7 @@
 import { useInsertPlayerMutation } from "../redux";
 import { useRef } from "react";
 
-export function NewPlayerForm({ teamsData, teamsIsLoading, playersRefetch }) {
+export function NewPlayerForm({ teamsData, teamsIsLoading }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
@@ -27,13 +27,12 @@ export function NewPlayerForm({ teamsData, teamsIsLoading, playersRefetch }) {
             ))}
         </select>
         <button
-          onClick={async (e) => {
+          onClick={(e) => {
             e.preventDefault();
             insertPlayer({
               name: nameRef.current.value,
               team: teamRef.current.value,
             });
-            await playersRefetch();
           }}
         >
           submit

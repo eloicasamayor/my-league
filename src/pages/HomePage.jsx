@@ -1,3 +1,4 @@
+// Dependencies
 import { Link } from "react-router-dom";
 
 export function HomePage() {

@@ -1,28 +1,26 @@
 import { apiSlice } from "./apiSlice";
+import { supabase } from "../../supabase";
 
 export const leagues = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getLeagues: builder.query({ query: () => "rest/v1/leagues" }),
+    getLeagues: builder.query({
+      queryFn: async () => await supabase.from("leagues").select(),
+      providesTags: ["leagues"],
+    }),
     insertLeague: builder.mutation({
-      query: ({ ...post }) => ({
-        url: `rest/v1/leagues`,
-        method: "POST",
-        body: post,
-      }),
+      queryFn: async (post) =>
+        await supabase.from("leagues").insert([{ ...post }]),
+      invalidatesTags: ["leagues"],
     }),
     updateLeague: builder.mutation({
-      query: ({ ...patch }) => ({
-        url: "rest/v1/leagues",
-        method: "PATCH",
-        body: patch,
-      }),
+      queryFn: async (patch) =>
+        await supabase.from("leagues").update(patch).eq("id", patch.id),
+      invalidatesTags: ["leagues"],
     }),
     deleteLeague: builder.mutation({
-      query: ({ ...body }) => ({
-        url: "rest/v1/leagues?id=eq." + body.id,
-        method: "DELETE",
-        body: body,
-      }),
+      queryFn: async (body) =>
+        await supabase.from("leagues").delete().eq("id", body.id),
+      invalidatesTags: ["leagues"],
     }),
   }),
 });

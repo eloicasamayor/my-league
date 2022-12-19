@@ -1,23 +1,21 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { supabaseUrl, supabaseKey } from "../constants";
 import { apiSlice } from "./apiSlice";
+import { supabase } from "../../supabase";
 
 export const teams = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    getTeams: builder.query({ query: () => "rest/v1/teams" }),
+    getTeams: builder.query({
+      queryFn: async () => await supabase.from("teams").select(),
+      providesTags: ["teams"],
+    }),
     insertTeam: builder.mutation({
-      query: ({ ...post }) => ({
-        url: `rest/v1/teams`,
-        method: "POST",
-        body: post,
-      }),
+      queryFn: async (post) =>
+        await supabase.from("teams").insert([{ ...post }]),
+      invalidatesTags: ["teams"],
     }),
     deleteTeam: builder.mutation({
-      query: ({ ...body }) => ({
-        url: "rest/v1/teams?id=eq." + body.id,
-        method: "DELETE",
-        body: body,
-      }),
+      queryFn: async (body) =>
+        await supabase.from("teams").delete().eq("id", body.id),
+      invalidatesTags: ["teams"],
     }),
   }),
 });

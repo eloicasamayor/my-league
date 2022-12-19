@@ -5,7 +5,7 @@ import { useDeleteLeagueMutation } from "../redux";
 
 // Components
 import { EditLeagueForm } from "./EditLeagueForm";
-export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
+export function LeaguesList({ leaguesData, leaguesIsLoading }) {
   const [leagueToEdit, setLeagueToEdit] = useState();
 
   const [deleteLeague] = useDeleteLeagueMutation();
@@ -39,22 +39,12 @@ export function LeaguesList({ leaguesData, leaguesIsLoading, leaguesRefetch }) {
               >
                 Edit
               </button>
-              <button
-                onClick={async () => {
-                  await deleteLeague(league);
-                  leaguesRefetch();
-                }}
-              >
-                Delete
-              </button>
+              <button onClick={() => deleteLeague(league)}>Delete</button>
             </td>
           </tr>
         ))}
       </table>
-      <EditLeagueForm
-        leagueToEdit={leagueToEdit ?? {}}
-        leaguesRefetch={leaguesRefetch}
-      />
+      <EditLeagueForm leagueToEdit={leagueToEdit ?? {}} />
     </>
   );
 }

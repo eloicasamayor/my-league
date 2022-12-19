@@ -1,83 +1,30 @@
-import { useRef, useEffect } from "react";
-import { setCredentials, useLoginMutation } from "../redux";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
+import { supabase } from "../supabase";
 
 export function LoginPage() {
-  const userRef = useRef();
-  const passwordRef = useRef();
-
-  const [login, { isLoading }] = useLoginMutation();
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  async function handleCredentialResponse(response) {
-    console.log("JWTtoken: " + response.credential);
-    console.log("clientId: " + response.clientId);
-    await dispatch(
-      setCredentials({
-        user: response.clientId,
-        token: response.credential,
-      })
-    );
-    window.location.href =
-      "https://xabtfstsrkphffptblep.supabase.co/auth/v1/authorize?provider=google";
-    // navigate("/welcome");
-  }
-
+  let userData;
   useEffect(() => {
-    google.accounts.id.initialize({
-      client_id:
-        "598619732828-kvrhfbe32v57ijou787cdlseb6nkqgi0.apps.googleusercontent.com",
-      callback: handleCredentialResponse,
-    });
-    google.accounts.id.renderButton(
-      document.getElementById("buttonDiv"),
-      { theme: "outline", size: "large" } // customization attributes
-    );
-    google.accounts.id.prompt(); // also display the One Tap dialog
+    getUserData();
   }, []);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    debugger;
-    // try {
-    debugger;
-    const userData = await login({
-      email: userRef.current.value,
-      password: passwordRef.current.value,
-    }).unwrap();
-    debugger;
-    dispatch(setCredentials({ ...userData, user }));
-    navigate("/welcome");
-    /* } catch (error) {
-      console.log("there was en error: ");
-      console.log(error);
-    } */
+  async function getUserData() {
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    return user;
   }
-  if (isLoading) {
-    return "loading...";
+
+  async function signInWithGoogle() {
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    console.log(data);
   }
+  debugger;
   return (
     <>
-      <form>
-        {/* email: <input ref={userRef} type="email"></input>
-        <br />
-        password: <input ref={passwordRef} type={"password"}></input>
-        <br />
-        <button onClick={(e) => handleSubmit(e)}>Login</button>
-        <button
-        onClick={() =>
-          registerUser({
-            email: userRef.current.value,
-            password: passwordRef.current.value,
-          })
-        }
-      >
-        Sign up
-      </button> */}
-        <div id="buttonDiv"></div>
-      </form>
+      <button onClick={signInWithGoogle}>Log in with Google</button>
+      {userData && JSON.stringify(userData)}
     </>
   );
 }

@@ -5,7 +5,7 @@ import { useRef } from "react";
 // helpers
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function NewLeagueForm({ refetch }) {
+export function NewLeagueForm() {
   const [insertLeague, requestResult] = useInsertLeagueMutation();
   const nameRef = useRef();
   const descriptionRef = useRef();
@@ -33,7 +33,6 @@ export function NewLeagueForm({ refetch }) {
               urlname: nameToUrlName(nameRef.current.value),
               description: descriptionRef.current.value,
             });
-            refetch();
           }}
         >
           submit

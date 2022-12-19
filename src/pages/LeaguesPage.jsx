@@ -24,7 +24,7 @@ function LeaguesPage() {
         leaguesIsLoading={leaguesIsLoading}
         leaguesRefetch={leaguesRefetch}
       />
-      <NewLeagueForm leaguesRefetch={leaguesRefetch} />
+      <NewLeagueForm />
     </div>
   );
 }

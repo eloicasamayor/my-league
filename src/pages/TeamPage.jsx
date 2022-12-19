@@ -17,23 +17,11 @@ import {
 export function TeamPage() {
   const { teamName } = useParams();
 
-  let {
-    data: teamsData,
-    isLoading: teamsIsLoading,
-    refetch: teamsRefetch,
-  } = useGetTeamsQuery();
+  let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
 
-  let {
-    data: playersData,
-    isLoading: playersIsLoading,
-    refetch: playersRefetch,
-  } = useGetPlayersQuery();
+  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
 
-  let {
-    data: matchesData,
-    isLoading: matchesIsLoading,
-    refetch: matchesRefetch,
-  } = useGetMatchesQuery();
+  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
   if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
     return "loading...";
@@ -49,18 +37,16 @@ export function TeamPage() {
         teamsIsLoading={teamsIsLoading}
         playersData={playersData}
         playersIsLoading={playersIsLoading}
-        playersRefetch={playersRefetch}
         selectedTeam={selectedTeam}
       />
       <EditPlayerForm />
-      <NewPlayerForm />
+      <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
       <hr />
       <h2>Matches</h2>
       <MatchesList
         teams={teamsData}
         matchesData={matchesData}
         matchesIsLoading={matchesIsLoading}
-        matchesRefetch={matchesRefetch}
         selectedTeam={selectedTeam}
       />
     </>

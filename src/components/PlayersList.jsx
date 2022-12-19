@@ -11,7 +11,6 @@ export function PlayersList({
   selectedTeam,
   playersData,
   playersIsLoading,
-  playersRefetch,
 }) {
   const [editingPlayer, setEditingPlayer] = useState();
   const [deletePlayer] = useDeletePlayerMutation();
@@ -60,12 +59,7 @@ export function PlayersList({
                 >
                   edit
                 </button>
-                <button
-                  onClick={async () => {
-                    await deletePlayer({ id: player.id });
-                    playersRefetch();
-                  }}
-                >
+                <button onClick={() => deletePlayer({ id: player.id })}>
                   delete
                 </button>
               </td>

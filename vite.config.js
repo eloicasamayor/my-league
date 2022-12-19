@@ -8,6 +8,6 @@ export default defineConfig(({ mode }) => {
   return {
     server: { https: true },
     plugins: [react(), mkcert()],
-    base: "/my-league-rtk-query/",
+    base: "/",
   };
 });
