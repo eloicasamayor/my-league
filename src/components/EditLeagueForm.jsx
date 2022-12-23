@@ -5,7 +5,7 @@ import { useRef } from "react";
 import { useUpdateLeagueMutation, useGetLeaguesQuery } from "../redux";
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function EditLeagueForm({ leagueToEdit, leaguesRefetch }) {
+export function EditLeagueForm({ leagueToEdit }) {
   let { id, name, urlname, description } = leagueToEdit;
   const { refetch } = useGetLeaguesQuery();
   const [updateLeague, requestResult] = useUpdateLeagueMutation();
@@ -51,7 +51,6 @@ export function EditLeagueForm({ leagueToEdit, leaguesRefetch }) {
               description: descriptionRef.current.value,
               urlname: nameToUrlName(nameRef.current.value),
             });
-            leaguesRefetch();
           }}
         >
           submit
