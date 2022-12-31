@@ -23,6 +23,7 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
         <tr>
           <th>name</th>
           <th>description</th>
+          <th>owner</th>
           <th>actions</th>
         </tr>
         {leaguesData.map((league) => (
@@ -31,6 +32,7 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
               <Link to={league.urlname}>{league.name}</Link>
             </td>
             <td>{league.description}</td>
+            <td>{league.owner}</td>
             <td>
               <button
                 onClick={() => {

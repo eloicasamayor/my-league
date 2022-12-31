@@ -15,10 +15,11 @@ export function PageLayout() {
         {authData && (
           <div style={{ float: "right" }}>
             <img
-              height="40px"
+              height="30px"
               src={authData.user?.user_metadata?.picture}
             ></img>
             {authData.user?.user_metadata?.full_name}
+            {` (${authData.user?.id})`}
           </div>
         )}
       </section>
