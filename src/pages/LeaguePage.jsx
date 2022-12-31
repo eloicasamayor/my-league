@@ -19,29 +19,14 @@ import {
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
-  const {
-    data: leaguesData,
-    isLoading: leaguesIsLoading,
-    refetch: leaguesRefetch,
-  } = useGetLeaguesQuery();
+  const { data: leaguesData, isLoading: leaguesIsLoading } =
+    useGetLeaguesQuery();
 
-  let {
-    data: teamsData,
-    isLoading: teamsIsLoading,
-    refetch: teamsRefetch,
-  } = useGetTeamsQuery();
+  let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
 
-  let {
-    data: playersData,
-    isLoading: playersIsLoading,
-    refetch: playersRefetch,
-  } = useGetPlayersQuery();
+  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
 
-  let {
-    data: matchesData,
-    isLoading: matchesIsLoading,
-    refetch: matchesRefetch,
-  } = useGetMatchesQuery();
+  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
   if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
     return "loading...";
@@ -63,27 +48,18 @@ export function LeaguePage() {
   return (
     <div>
       <h1>{leagueUrlName}</h1>
-      <Classification
-        data={teamsData}
-        isLoading={teamsIsLoading}
-        refetch={teamsRefetch}
-      />
-      <NewTeamForm teamsRefetch={teamsRefetch} currentLeague={currentLeague} />
+      <Classification data={teamsData} isLoading={teamsIsLoading} />
+      <NewTeamForm currentLeague={currentLeague} />
       <hr />
       <h2>Matches List</h2>
       <MatchesList
         teams={teamsData}
         matchesData={matchesData}
         matchesIsLoading={matchesIsLoading}
-        matchesRefetch={matchesRefetch}
         playersData={playersData}
         teamsData={teamsData}
       />
-      <NewMatchForm
-        teams={teamsData}
-        refetch={matchesRefetch}
-        currentLeague={currentLeague}
-      />
+      <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
       <hr />
       <h2>Players</h2>
       <PlayersList
@@ -91,13 +67,8 @@ export function LeaguePage() {
         teamsIsLoading={teamsIsLoading}
         playersData={playersData}
         playersIsLoading={playersIsLoading}
-        playersRefetch={playersRefetch}
       />
-      <NewPlayerForm
-        teamsData={teamsData}
-        teamsIsLoading={teamsIsLoading}
-        playersRefetch={playersRefetch}
-      />
+      <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
     </div>
   );
 }

@@ -4,12 +4,7 @@ import { useState, useEffect, useRef } from "react";
 // Api
 import { useUpdateMatchMutation } from "../redux";
 
-export function EditMatchForm({
-  matchToEdit,
-  refetch,
-  playersData,
-  teamsData,
-}) {
+export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
   const {
     id,
     localTeam,
@@ -42,9 +37,13 @@ export function EditMatchForm({
     for (let i = 0; i < goals; i++) {
       elements.push(
         <>
-          <select key={i + "_"} ref={(el) => (refList.current[i] = el)}>
+          <select key={i + "_" + team} ref={(el) => (refList.current[i] = el)}>
             {teamPlayers.map((player) => (
-              <option value={player.id} {...(player.id === scorersList[i])}>
+              <option
+                key={player.id}
+                value={player.id}
+                {...(player.id === scorersList[i])}
+              >
                 {player.name}
               </option>
             ))}
@@ -152,9 +151,17 @@ export function EditMatchForm({
         <br />
         <button
           type={"button"}
-          onClick={async (e) => {
+          onClick={(e) => {
             e.preventDefault();
-            await updateMatch({
+            localScorersRef.current = localScorersRef.current.slice(
+              0,
+              localGoalsValue
+            );
+            visitorScorersRef.current = visitorScorersRef.current.slice(
+              0,
+              visitorGoalsValue
+            );
+            updateMatch({
               id,
               played: playedValue,
               local_goals: localGoalsValue,
@@ -165,7 +172,6 @@ export function EditMatchForm({
                 (ref) => ref?.value
               ),
             });
-            refetch();
           }}
         >
           submit

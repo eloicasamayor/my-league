@@ -8,7 +8,6 @@ export function MatchesList({
   selectedTeam,
   matchesData,
   matchesIsLoading,
-  matchesRefetch,
   playersData,
   teamsData,
 }) {
@@ -83,12 +82,7 @@ export function MatchesList({
                       >
                         Edit
                       </button>
-                      <button
-                        onClick={async () => {
-                          await deleteMatch({ id: match.id });
-                          matchesRefetch();
-                        }}
-                      >
+                      <button onClick={() => deleteMatch({ id: match.id })}>
                         Delete
                       </button>
                     </td>
@@ -102,7 +96,6 @@ export function MatchesList({
           {!selectedTeam && (
             <EditMatchForm
               matchToEdit={matchToEdit}
-              refetch={matchesRefetch}
               playersData={playersData}
               teamsData={teamsData}
             />
