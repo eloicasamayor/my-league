@@ -11,6 +11,7 @@ export function PlayersList({
   selectedTeam,
   playersData,
   playersIsLoading,
+  isOwner,
 }) {
   const [editingPlayer, setEditingPlayer] = useState();
   const [deletePlayer] = useDeletePlayerMutation();
@@ -39,7 +40,7 @@ export function PlayersList({
             <th>{"scored goals"}</th>
             <th>{"scored goals home"}</th>
             <th>{"scored goals away"}</th>
-            <th>{"actionss"}</th>
+            {isOwner && <th>{"actions"}</th>}
           </tr>
           {playersData.map((player) => (
             <tr key={player.id}>
@@ -51,23 +52,25 @@ export function PlayersList({
               <td>{player.scored_goals}</td>
               <td>{player.scored_goals_home}</td>
               <td>{player.scored_goals_away}</td>
-              <td>
-                <button
-                  onClick={() => {
-                    setEditingPlayer(player);
-                  }}
-                >
-                  edit
-                </button>
-                <button onClick={() => deletePlayer({ id: player.id })}>
-                  delete
-                </button>
-              </td>
+              {isOwner && (
+                <td>
+                  <button
+                    onClick={() => {
+                      setEditingPlayer(player);
+                    }}
+                  >
+                    edit
+                  </button>
+                  <button onClick={() => deletePlayer({ id: player.id })}>
+                    delete
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>
       </table>
-      {!selectedTeam && (
+      {isOwner && !selectedTeam && (
         <EditPlayerForm player={editingPlayer} teamsData={teamsData} />
       )}
     </section>

@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom";
 import { useDeleteTeamMutation } from "../redux";
 
-export function Classification({ data, isLoading, refetch }) {
+export function Classification({ data, isLoading, isOwner }) {
   const [deleteTeam] = useDeleteTeamMutation();
 
   if (isLoading) {
@@ -25,7 +25,7 @@ export function Classification({ data, isLoading, refetch }) {
             <th>Defeats</th>
             <th>Scored Goals</th>
             <th>Conceded Goals</th>
-            <th>Actions</th>
+            {isOwner && <th>Actions</th>}
           </tr>
         </thead>
         <tbody>
@@ -41,16 +41,18 @@ export function Classification({ data, isLoading, refetch }) {
               <td>{team.defeats}</td>
               <td>{team.goals_scored}</td>
               <td>{team.goals_conceded}</td>
-              <td>
-                <button
-                  onClick={async () => {
-                    await deleteTeam({ id: team.id });
-                    refetch();
-                  }}
-                >
-                  delete
-                </button>
-              </td>
+              {isOwner && (
+                <td>
+                  <button
+                    onClick={async () => {
+                      await deleteTeam({ id: team.id });
+                      refetch();
+                    }}
+                  >
+                    delete
+                  </button>
+                </td>
+              )}
             </tr>
           ))}
         </tbody>

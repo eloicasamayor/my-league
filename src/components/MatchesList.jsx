@@ -10,6 +10,7 @@ export function MatchesList({
   matchesIsLoading,
   playersData,
   teamsData,
+  isOwner,
 }) {
   const [deleteMatch] = useDeleteMatchMutation();
   const [matchToEdit, setMatchToEdit] = useState({});
@@ -53,7 +54,7 @@ export function MatchesList({
                   <th>visitor team</th>
                   <th>date</th>
                   <th>played</th>
-                  <th>Actions</th>
+                  {isOwner && <th>Actions</th>}
                 </tr>
               </thead>
               <tbody>
@@ -65,27 +66,29 @@ export function MatchesList({
                     <td>{getTeamNameWithId(match.visitor_team)}</td>
                     <td>{match.date}</td>
                     <td>{match.played.toString()}</td>
-                    <td>
-                      <button
-                        onClick={() =>
-                          setMatchToEdit({
-                            id: match.id,
-                            localTeam: match.local_team,
-                            visitorTeam: match.visitor_team,
-                            played: match.played,
-                            localGoals: match.local_goals,
-                            visitorGoals: match.visitor_goals,
-                            localScorers: match.local_scorers,
-                            visitorScorers: match.visitor_scorers,
-                          })
-                        }
-                      >
-                        Edit
-                      </button>
-                      <button onClick={() => deleteMatch({ id: match.id })}>
-                        Delete
-                      </button>
-                    </td>
+                    {isOwner && (
+                      <td>
+                        <button
+                          onClick={() =>
+                            setMatchToEdit({
+                              id: match.id,
+                              localTeam: match.local_team,
+                              visitorTeam: match.visitor_team,
+                              played: match.played,
+                              localGoals: match.local_goals,
+                              visitorGoals: match.visitor_goals,
+                              localScorers: match.local_scorers,
+                              visitorScorers: match.visitor_scorers,
+                            })
+                          }
+                        >
+                          Edit
+                        </button>
+                        <button onClick={() => deleteMatch({ id: match.id })}>
+                          Delete
+                        </button>
+                      </td>
+                    )}
                   </tr>
                 ))}
               </tbody>
@@ -93,7 +96,7 @@ export function MatchesList({
           ) : (
             "No matches found for this team"
           )}
-          {!selectedTeam && (
+          {isOwner && !selectedTeam && (
             <EditMatchForm
               matchToEdit={matchToEdit}
               playersData={playersData}

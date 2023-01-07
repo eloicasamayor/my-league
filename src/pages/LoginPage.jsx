@@ -53,6 +53,7 @@ export function LoginPage() {
 
   return (
     <>
+      <h1>Login</h1>
       {userData ? (
         <>
           {userData.email}
@@ -62,7 +63,6 @@ export function LoginPage() {
               setCount(count + 1);
             }}
           >
-            {" "}
             get user data
           </button>
           <button

@@ -7,7 +7,6 @@ import { nameToUrlName } from "../helpers/nameToUrlName";
 
 export function EditLeagueForm({ leagueToEdit }) {
   let { id, name, urlname, description } = leagueToEdit;
-  const { refetch } = useGetLeaguesQuery();
   const [updateLeague, requestResult] = useUpdateLeagueMutation();
 
   const nameRef = useRef();

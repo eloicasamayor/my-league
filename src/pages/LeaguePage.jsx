@@ -24,9 +24,7 @@ export function LeaguePage() {
     useGetLeaguesQuery();
 
   let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
-
   let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
-
   let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
   const authData = useSelector((state) => state.auth);
@@ -47,14 +45,20 @@ export function LeaguePage() {
   playersData = playersData.filter((player) =>
     teamsData.find((team) => team.id === player.team)
   );
-  const ownerIsCurrentUser = authData?.user?.id === currentLeague.owner;
+  const isOwner = authData?.user?.id === currentLeague.owner;
 
   return (
     <div>
-      <h1>{leagueUrlName}</h1>
-      <p>I am the owner: {ownerIsCurrentUser.toString()}</p>
-      <Classification data={teamsData} isLoading={teamsIsLoading} />
-      <NewTeamForm currentLeague={currentLeague} />
+      <h1>{currentLeague.name}</h1>
+      <h2>{currentLeague.description}</h2>
+      <h3>{currentLeague.urlname}</h3>
+      <p>I am the owner: {isOwner.toString()}</p>
+      <Classification
+        data={teamsData}
+        isLoading={teamsIsLoading}
+        isOwner={isOwner}
+      />
+      {isOwner && <NewTeamForm currentLeague={currentLeague} />}
       <hr />
       <h2>Matches List</h2>
       <MatchesList
@@ -63,8 +67,11 @@ export function LeaguePage() {
         matchesIsLoading={matchesIsLoading}
         playersData={playersData}
         teamsData={teamsData}
+        isOwner={isOwner}
       />
-      <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
+      {isOwner && (
+        <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
+      )}
       <hr />
       <h2>Players</h2>
       <PlayersList
@@ -72,8 +79,11 @@ export function LeaguePage() {
         teamsIsLoading={teamsIsLoading}
         playersData={playersData}
         playersIsLoading={playersIsLoading}
+        isOwner={isOwner}
       />
-      <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      {isOwner && (
+        <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      )}
     </div>
   );
 }

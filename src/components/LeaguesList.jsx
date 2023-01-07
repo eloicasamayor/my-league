@@ -2,13 +2,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDeleteLeagueMutation } from "../redux";
-
+import { useSelector } from "react-redux";
 // Components
 import { EditLeagueForm } from "./EditLeagueForm";
+
 export function LeaguesList({ leaguesData, leaguesIsLoading }) {
   const [leagueToEdit, setLeagueToEdit] = useState();
 
   const [deleteLeague] = useDeleteLeagueMutation();
+  const authData = useSelector((state) => state.auth);
 
   if (leaguesIsLoading) {
     return "loading...";
@@ -34,14 +36,20 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
             <td>{league.description}</td>
             <td>{league.owner}</td>
             <td>
-              <button
-                onClick={() => {
-                  setLeagueToEdit(league);
-                }}
-              >
-                Edit
-              </button>
-              <button onClick={() => deleteLeague(league)}>Delete</button>
+              {authData?.user?.id === league.owner ? (
+                <>
+                  <button
+                    onClick={() => {
+                      setLeagueToEdit(league);
+                    }}
+                  >
+                    Edit
+                  </button>
+                  <button onClick={() => deleteLeague(league)}>Delete</button>
+                </>
+              ) : (
+                "-"
+              )}
             </td>
           </tr>
         ))}
