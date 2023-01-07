@@ -6,6 +6,7 @@ import {
   useGetMatchesQuery,
   useGetLeaguesQuery,
 } from "../redux";
+import { useSelector } from "react-redux";
 
 // Components
 import {
@@ -28,6 +29,8 @@ export function LeaguePage() {
 
   let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
+  const authData = useSelector((state) => state.auth);
+
   if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
     return "loading...";
   }
@@ -44,10 +47,12 @@ export function LeaguePage() {
   playersData = playersData.filter((player) =>
     teamsData.find((team) => team.id === player.team)
   );
+  const ownerIsCurrentUser = authData?.user?.id === currentLeague.owner;
 
   return (
     <div>
       <h1>{leagueUrlName}</h1>
+      <p>I am the owner: {ownerIsCurrentUser.toString()}</p>
       <Classification data={teamsData} isLoading={teamsIsLoading} />
       <NewTeamForm currentLeague={currentLeague} />
       <hr />
