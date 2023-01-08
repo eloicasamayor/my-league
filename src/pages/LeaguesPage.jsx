@@ -1,6 +1,7 @@
 // Dependencies
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 
 // Api
 import { useGetLeaguesQuery } from "../redux";
@@ -11,10 +12,10 @@ import { EditLeagueForm, LeaguesList, NewLeagueForm } from "../components";
 function LeaguesPage() {
   const {
     data: leaguesData,
-    refetch: leaguesRefetch,
     isLoading: leaguesIsLoading,
     isFetching: leaguesIsFetching,
   } = useGetLeaguesQuery();
+  const authData = useSelector((state) => state.auth);
 
   return (
     <div>
@@ -22,9 +23,15 @@ function LeaguesPage() {
       <LeaguesList
         leaguesData={leaguesData}
         leaguesIsLoading={leaguesIsLoading}
-        leaguesRefetch={leaguesRefetch}
       />
-      <NewLeagueForm />
+      {authData?.user?.id && authData?.session ? (
+        <NewLeagueForm />
+      ) : (
+        <>
+          <h2>Create new league</h2>
+          <p>{"login to create a league"}</p>
+        </>
+      )}
     </div>
   );
 }

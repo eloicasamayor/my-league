@@ -3,10 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export const authSlice = createSlice({
   name: "auth",
-  initialState: { user: "" },
+  initialState: {},
   reducers: {
-    setUser(state, action) {
-      state.user = action.payload;
+    setAuth(state, action) {
+      state.user = action.payload.user;
+      state.session = action.payload.session;
     },
   },
 });
@@ -14,4 +15,4 @@ export const authSlice = createSlice({
 // Extract the action creators object and the reducer
 const { actions, reducer } = authSlice;
 // Extract and export each action creator by name
-export const { setUser } = actions;
+export const { setAuth } = actions;

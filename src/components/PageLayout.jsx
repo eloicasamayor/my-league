@@ -8,7 +8,7 @@ export function PageLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const authData = useSelector((state) => state.auth);
-
+  debugger;
   return (
     <>
       <section>
@@ -19,8 +19,11 @@ export function PageLayout() {
               <button onClick={() => navigate("/")}>🏠</button>
             </>
           )}
-          <Link style={{ alignSelf: "flex-end" }} to={"/login"}>
-            {authData?.user?.id ? authData.user.email : "login"}
+          <Link to={"/login"}>
+            {authData?.user?.email ?? "login"}{" "}
+            {authData?.user?.id &&
+              !authData?.session &&
+              "(pending email verification)"}
           </Link>
         </div>
       </section>

@@ -53,7 +53,7 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
     }
     return elements;
   }
-
+  debugger;
   return (
     <>
       <h2>Edit Match</h2>
