@@ -1,6 +1,5 @@
 // Dependencies
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
 import { supabase } from "../supabase";
 import { setAuth } from "../redux/auth/slice";
 import { useRef } from "react";

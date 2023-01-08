@@ -1,14 +1,34 @@
-import { Outlet } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+// dependencies
+import { useNavigate, useLocation, Link, Outlet } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { setAuth } from "../redux/auth/slice";
+import { supabase } from "../supabase";
 
 export function PageLayout() {
   const navigate = useNavigate();
   const location = useLocation();
   const authData = useSelector((state) => state.auth);
-  debugger;
+  const dispatch = useDispatch();
+
+  const getAuth = async () => {
+    const { data: user } = await supabase.auth.getUser();
+    const { data: session } = await supabase.auth.getSession();
+    if (user) {
+      dispatch(setAuth({ ...user, ...session }));
+    }
+  };
+
+  useEffect(() => {
+    if (
+      authData &&
+      Object.keys(authData).length === 0 &&
+      Object.getPrototypeOf(authData) === Object.prototype
+    ) {
+      getAuth();
+    }
+  }, []);
+
   return (
     <>
       <section>

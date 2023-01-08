@@ -1,6 +1,8 @@
 // Dependencies
 import { useInsertTeamMutation } from "../redux";
 import { useRef } from "react";
+
+// Helpers
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
 export function NewTeamForm({ teamsRefetch, currentLeague }) {
