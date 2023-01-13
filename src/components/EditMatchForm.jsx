@@ -37,13 +37,13 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
     for (let i = 0; i < goals; i++) {
       elements.push(
         <>
-          <select key={i + "_" + team} ref={(el) => (refList.current[i] = el)}>
+          <select
+            key={i + "_" + team}
+            ref={(el) => (refList.current[i] = el)}
+            defaultValue={scorersList?.[i] ?? 0}
+          >
             {teamPlayers.map((player) => (
-              <option
-                key={player.id}
-                value={player.id}
-                {...(player.id === scorersList[i])}
-              >
+              <option key={player.id} value={player.id}>
                 {player.name}
               </option>
             ))}
@@ -103,15 +103,11 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
             {localGoalsValue && (
               <div>
                 <label>{"local scorers:"}</label>
-                {localScorers ? (
-                  renderScorersInputs(
-                    localTeam,
-                    localGoalsValue,
-                    localScorers,
-                    localScorersRef
-                  )
-                ) : (
-                  <span>{"no players found in the team :("}</span>
+                {renderScorersInputs(
+                  localTeam,
+                  localGoalsValue,
+                  localScorers,
+                  localScorersRef
                 )}
               </div>
             )}
@@ -133,15 +129,11 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
             {visitorGoalsValue && (
               <div>
                 <label>{"visitor scorers:"}</label>
-                {visitorScorers ? (
-                  renderScorersInputs(
-                    visitorTeam,
-                    visitorGoalsValue,
-                    visitorScorers,
-                    visitorScorersRef
-                  )
-                ) : (
-                  <span>{"no players found in this team :("}</span>
+                {renderScorersInputs(
+                  visitorTeam,
+                  visitorGoalsValue,
+                  visitorScorers,
+                  visitorScorersRef
                 )}
               </div>
             )}
