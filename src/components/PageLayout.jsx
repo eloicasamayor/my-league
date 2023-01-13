@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setAuth } from "../redux/auth/slice";
 import { supabase } from "../supabase";
+import { ArrowLeftIcon } from "@heroicons/react/24/solid";
 
 export function PageLayout() {
   const navigate = useNavigate();
@@ -35,7 +36,9 @@ export function PageLayout() {
         <div style={{ display: "flex" }}>
           {location.pathname !== "/" && (
             <>
-              <button onClick={() => navigate(-1)}>◀️</button>
+              <button onClick={() => navigate(-1)}>
+                <ArrowLeftIcon className="stroke-1" />
+              </button>
               <button onClick={() => navigate("/")}>🏠</button>
             </>
           )}

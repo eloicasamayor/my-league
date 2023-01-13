@@ -1,0 +1,24 @@
+@layer base {
+  h1 {
+    @apply text-4xl;
+  }
+  h2 {
+    @apply text-2xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  a {
+    @apply text-blue-600 underline;
+  }
+  button {
+    @apply bg-amber-800 rounded-xl px-8;
+  }
+  table {
+    @apply table-auto;
+  }
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
