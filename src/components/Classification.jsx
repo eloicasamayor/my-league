@@ -1,9 +1,14 @@
 // Dependencies
 import { Link } from "react-router-dom";
 import { useDeleteTeamMutation } from "../redux";
+import { useState } from "react";
+
+// Components
+import { EditTeamForm } from "./EditTeamForm";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [deleteTeam] = useDeleteTeamMutation();
+  const [teamToEdit, setTeamToEdit] = useState({});
 
   if (isLoading) {
     return "loading...";
@@ -43,13 +48,15 @@ export function Classification({ data, isLoading, isOwner }) {
               <td>{team.goals_conceded}</td>
               {isOwner && (
                 <td>
-                  <button
-                    onClick={async () => {
-                      await deleteTeam({ id: team.id });
-                      refetch();
-                    }}
-                  >
+                  <button onClick={() => deleteTeam({ id: team.id })}>
                     delete
+                  </button>
+                  <button
+                    onClick={() =>
+                      setTeamToEdit({ id: team.id, name: team.name })
+                    }
+                  >
+                    edit
                   </button>
                 </td>
               )}
@@ -57,6 +64,7 @@ export function Classification({ data, isLoading, isOwner }) {
           ))}
         </tbody>
       </table>
+      <EditTeamForm team={teamToEdit} />
     </section>
   );
 }

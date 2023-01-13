@@ -1,3 +1,4 @@
+// Dependencies
 import { apiSlice } from "./apiSlice";
 import { supabase } from "../../supabase";
 
@@ -12,6 +13,16 @@ export const teams = apiSlice.injectEndpoints({
         await supabase.from("teams").insert([{ ...post }]),
       invalidatesTags: ["teams"],
     }),
+    updateTeam: builder.mutation({
+      queryFn: async (patch) =>
+        await supabase
+          .from("teams")
+          .update({
+            name: patch.name,
+          })
+          .eq("id", patch.id),
+      invalidatesTags: ["teams"],
+    }),
     deleteTeam: builder.mutation({
       queryFn: async (body) =>
         await supabase.from("teams").delete().eq("id", body.id),
@@ -23,5 +34,6 @@ export const teams = apiSlice.injectEndpoints({
 export const {
   useGetTeamsQuery,
   useInsertTeamMutation,
+  useUpdateTeamMutation,
   useDeleteTeamMutation,
 } = teams;
