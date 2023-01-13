@@ -64,7 +64,7 @@ export function Classification({ data, isLoading, isOwner }) {
           ))}
         </tbody>
       </table>
-      <EditTeamForm team={teamToEdit} />
+      {isOwner && <EditTeamForm team={teamToEdit} />}
     </section>
   );
 }

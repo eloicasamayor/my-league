@@ -26,8 +26,7 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
         <tr>
           <th>name</th>
           <th>description</th>
-          <th>owner</th>
-          <th>actions</th>
+          {authData.user?.id && <th>actions</th>}
         </tr>
         {leaguesData.map((league) => (
           <tr key={league.id}>
@@ -35,23 +34,24 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
               <Link to={league.urlname}>{league.name}</Link>
             </td>
             <td>{league.description}</td>
-            <td>{league.owner}</td>
-            <td>
-              {authData?.user?.id === league.owner ? (
-                <>
-                  <button
-                    onClick={() => {
-                      setLeagueToEdit(league);
-                    }}
-                  >
-                    Edit
-                  </button>
-                  <button onClick={() => deleteLeague(league)}>Delete</button>
-                </>
-              ) : (
-                "-"
-              )}
-            </td>
+            {authData.user?.id && (
+              <td>
+                {authData?.user?.id === league.owner ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        setLeagueToEdit(league);
+                      }}
+                    >
+                      Edit
+                    </button>
+                    <button onClick={() => deleteLeague(league)}>Delete</button>
+                  </>
+                ) : (
+                  "-"
+                )}
+              </td>
+            )}
           </tr>
         ))}
       </table>

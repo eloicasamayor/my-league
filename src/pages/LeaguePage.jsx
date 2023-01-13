@@ -29,7 +29,12 @@ export function LeaguePage() {
 
   const authData = useSelector((state) => state.auth);
 
-  if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
+  if (
+    teamsIsLoading ||
+    matchesIsLoading ||
+    playersIsLoading ||
+    leaguesIsLoading
+  ) {
     return "loading...";
   }
   const currentLeague = leaguesData.find(
@@ -52,7 +57,6 @@ export function LeaguePage() {
       <h1>{currentLeague.name}</h1>
       <h2>{currentLeague.description}</h2>
       <h3>{currentLeague.urlname}</h3>
-      <p>I am the owner: {isOwner.toString()}</p>
       <Classification
         data={teamsData}
         isLoading={teamsIsLoading}

@@ -47,7 +47,6 @@ export function TeamPage() {
     <>
       <h1>{teamName}</h1>
       <h2>Players</h2>
-      <h3>isOwner = {isOwner.toString()}</h3>
       <PlayersList
         teamsData={teamsData}
         teamsIsLoading={teamsIsLoading}
