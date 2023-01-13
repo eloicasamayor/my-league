@@ -4,7 +4,9 @@ import {
   useGetTeamsQuery,
   useGetMatchesQuery,
   useGetPlayersQuery,
+  useGetLeaguesQuery,
 } from "../redux";
+import { useSelector } from "react-redux";
 
 // Components
 import {
@@ -18,20 +20,34 @@ export function TeamPage() {
   const { teamName } = useParams();
 
   let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
-
   let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
-
   let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
+  const { data: leaguesData, isLoading: leaguesIsLoading } =
+    useGetLeaguesQuery();
 
-  if (teamsIsLoading || matchesIsLoading || playersIsLoading) {
+  if (
+    teamsIsLoading ||
+    matchesIsLoading ||
+    playersIsLoading ||
+    leaguesIsLoading
+  ) {
     return "loading...";
   }
   const selectedTeam = teamsData.find((team) => team.urlname === teamName);
+
+  const authData = useSelector((state) => state.auth);
+
+  const leagueOwner = leaguesData.find(
+    (league) => league.id === selectedTeam.league
+  ).owner;
+
+  const isOwner = !!(authData.user && authData.user.id === leagueOwner);
 
   return (
     <>
       <h1>{teamName}</h1>
       <h2>Players</h2>
+      <h3>isOwner = {isOwner.toString()}</h3>
       <PlayersList
         teamsData={teamsData}
         teamsIsLoading={teamsIsLoading}
@@ -39,8 +55,10 @@ export function TeamPage() {
         playersIsLoading={playersIsLoading}
         selectedTeam={selectedTeam}
       />
-      <EditPlayerForm />
-      <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      {isOwner && <EditPlayerForm />}
+      {isOwner && (
+        <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      )}
       <hr />
       <h2>Matches</h2>
       <MatchesList
