@@ -22,14 +22,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <BrowserRouter base="/">
         <Routes>
           <Route path="/" element={<PageLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="leagues">
-              <Route index element={<LeaguesPage />} />
-              <Route path=":leagueUrlName">
-                <Route index element={<LeaguePage />} />
-                <Route path=":teamName" element={<TeamPage />} />
-              </Route>
+            <Route index element={<LeaguesPage />} />
+            <Route path="/login" element={<LoginPage />}></Route>
+            <Route path=":leagueUrlName">
+              <Route index element={<LeaguePage />} />
+              <Route path=":teamName" element={<TeamPage />} />
             </Route>
           </Route>
         </Routes>

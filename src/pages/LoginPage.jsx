@@ -58,7 +58,12 @@ export function LoginPage() {
           {/* <button onClick={(e) => signInWithGoogle(e)}>
             Log in with Google
           </button> */}
-          <form onSubmit={(e) => login(e)}>
+          <form
+            onSubmit={(e) => login(e)}
+            className={
+              "flex flex-col py-10 px-5 gap-4 bg-violet-400 rounded-2xl"
+            }
+          >
             <label htmlFor="emailAddress">Email</label>
             <input
               ref={emailRef}
@@ -67,6 +72,7 @@ export function LoginPage() {
               required
             ></input>
             <label htmlFor="password">Password</label>
+
             <input
               ref={passwordRef}
               id={"password"}
@@ -74,13 +80,15 @@ export function LoginPage() {
               minLength={"6"}
               required
             ></input>
-            <input type={"submit"} value={"login"} />
+            <div className="flex justify-center">
+              <input type={"submit"} value={"login"} />
 
-            <input
-              type={"submit"}
-              onClick={(e) => signup(e)}
-              value={"signup"}
-            />
+              <input
+                type={"submit"}
+                onClick={(e) => signup(e)}
+                value={"signup"}
+              />
+            </div>
           </form>
         </div>
       )}

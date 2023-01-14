@@ -1,6 +1,6 @@
 @layer base {
   h1 {
-    @apply text-4xl;
+    @apply text-4xl py-2;
   }
   h2 {
     @apply text-2xl;
@@ -18,19 +18,42 @@
     @apply px-2 py-1 rounded-2xl mx-1;
   }
   table {
-    @apply table-auto w-full rounded-2xl p-2 bg-white;
+    @apply table-auto w-full rounded-2xl p-2 bg-white block overflow-x-auto whitespace-nowrap;
   }
   table tr:hover {
     @apply bg-violet-200;
   }
+  table tr {
+    @apply h-8;
+  }
+  table tr td {
+    @apply p-2;
+  }
   .btn {
     @apply bg-violet-500 rounded-xl px-2;
+  }
+  input[type="button"],
+  input[type="submit"],
+  input[type="reset"] {
+    @apply bg-violet-500 rounded-xl px-2;
+  }
+  input[type="text"],
+  input[type="password"],
+  input[type="email"] {
+    @apply rounded-2xl px-3 py-1;
   }
   header .btn {
     @apply px-2 py-1;
   }
   section {
     @apply my-6;
+  }
+  input[type="button"]:hover,
+  input[type="submit"]:hover,
+  input[type="reset"]:hover,
+  button:hover,
+  .btn:hover {
+    @apply bg-violet-700 cursor-pointer;
   }
 }
 @layer components {
