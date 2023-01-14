@@ -34,30 +34,26 @@ export function PageLayout() {
 
   return (
     <>
-      <section>
-        <div className={"w-full flex justify-between"}>
-          {location.pathname !== "/" && (
-            <div>
-              <button onClick={() => navigate(-1)}>
-                <ArrowLeft />
-              </button>
-              <button onClick={() => navigate("/")}>
-                <HomeIcon />
-              </button>
-            </div>
-          )}
-          <Link to={"/login"} className={"flex self-end"}>
-            <button className="flex">
-              <UserIcon />
-              {authData?.user?.email ?? "login"}
-              {authData?.user?.id &&
-                !authData?.session &&
-                "(pending email verification)"}
+      <header className="h-14 w-full flex justify-between items-center px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
+        {location.pathname !== "/" && (
+          <div>
+            <button onClick={() => navigate(-1)}>
+              <ArrowLeft />
             </button>
-          </Link>
-        </div>
-      </section>
-      <main>
+            <button onClick={() => navigate("/")}>
+              <HomeIcon />
+            </button>
+          </div>
+        )}
+        <Link to={"/login"} className={"btn flex"}>
+          <UserIcon />
+          {authData?.user?.email ?? "login"}
+          {authData?.user?.id &&
+            !authData?.session &&
+            "(pending email verification)"}
+        </Link>
+      </header>
+      <main className={"p-4"}>
         <Outlet />
       </main>
     </>

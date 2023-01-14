@@ -53,7 +53,7 @@ export function LeaguePage() {
   const isOwner = authData?.user?.id === currentLeague.owner;
 
   return (
-    <div className="bg-indigo-500">
+    <div>
       <h1>{currentLeague.name}</h1>
       <h2>{currentLeague.description}</h2>
       <Classification

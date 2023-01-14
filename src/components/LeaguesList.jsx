@@ -24,7 +24,7 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
 
   return (
     <>
-      <table className="bg-white">
+      <table>
         <tr>
           <th>name</th>
           <th>description</th>
