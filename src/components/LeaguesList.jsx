@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 // Components
 import { EditLeagueForm } from "./EditLeagueForm";
+import { TrashIcon } from "./icons/TrashIcon";
+import { PencilIcon } from "./icons/PencilIcon";
 
 export function LeaguesList({ leaguesData, leaguesIsLoading }) {
   const [leagueToEdit, setLeagueToEdit] = useState();
@@ -22,7 +24,7 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
 
   return (
     <>
-      <table>
+      <table className="bg-white">
         <tr>
           <th>name</th>
           <th>description</th>
@@ -43,9 +45,12 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
                         setLeagueToEdit(league);
                       }}
                     >
-                      Edit
+                      <TrashIcon />
                     </button>
-                    <button onClick={() => deleteLeague(league)}>Delete</button>
+
+                    <button onClick={() => deleteLeague(league)}>
+                      <PencilIcon />
+                    </button>
                   </>
                 ) : (
                   "-"

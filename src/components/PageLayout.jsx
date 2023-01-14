@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setAuth } from "../redux/auth/slice";
 import { supabase } from "../supabase";
-import { ArrowLeftIcon } from "@heroicons/react/24/solid";
+import { ArrowLeft } from "./icons/ArrowLeft";
+import { HomeIcon } from "./icons/HomeIcon";
+import { UserIcon } from "./icons/UserIcon";
 
 export function PageLayout() {
   const navigate = useNavigate();
@@ -33,20 +35,25 @@ export function PageLayout() {
   return (
     <>
       <section>
-        <div style={{ display: "flex" }}>
+        <div className={"w-full flex justify-between"}>
           {location.pathname !== "/" && (
-            <>
+            <div>
               <button onClick={() => navigate(-1)}>
-                <ArrowLeftIcon className="stroke-1" />
+                <ArrowLeft />
               </button>
-              <button onClick={() => navigate("/")}>🏠</button>
-            </>
+              <button onClick={() => navigate("/")}>
+                <HomeIcon />
+              </button>
+            </div>
           )}
-          <Link to={"/login"}>
-            {authData?.user?.email ?? "login"}{" "}
-            {authData?.user?.id &&
-              !authData?.session &&
-              "(pending email verification)"}
+          <Link to={"/login"} className={"flex self-end"}>
+            <button className="flex">
+              <UserIcon />
+              {authData?.user?.email ?? "login"}
+              {authData?.user?.id &&
+                !authData?.session &&
+                "(pending email verification)"}
+            </button>
           </Link>
         </div>
       </section>
