@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { EditLeagueForm } from "./EditLeagueForm";
 import { TrashIcon } from "./icons/TrashIcon";
 import { PencilIcon } from "./icons/PencilIcon";
+import { PhotoIcon } from "./icons/PhotoIcon";
 
 export function LeaguesList({ leaguesData, leaguesIsLoading }) {
   const [leagueToEdit, setLeagueToEdit] = useState();
@@ -26,12 +27,20 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
     <>
       <table>
         <tr>
+          <tr></tr>
           <th>name</th>
           <th>description</th>
           {authData.user?.id && <th>actions</th>}
         </tr>
         {leaguesData.map((league) => (
           <tr key={league.id}>
+            <tr>
+              {league.img ? (
+                <img src={league.img} width={30} height={30}></img>
+              ) : (
+                <PhotoIcon />
+              )}
+            </tr>
             <td>
               <Link to={league.urlname}>{league.name}</Link>
             </td>
@@ -45,11 +54,11 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
                         setLeagueToEdit(league);
                       }}
                     >
-                      <TrashIcon />
+                      <PencilIcon />
                     </button>
 
                     <button onClick={() => deleteLeague(league)}>
-                      <PencilIcon />
+                      <TrashIcon />
                     </button>
                   </>
                 ) : (

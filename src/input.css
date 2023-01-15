@@ -33,6 +33,7 @@
     @apply bg-violet-500 rounded-xl px-2;
   }
   input[type="button"],
+  button[type="button"],
   input[type="submit"],
   input[type="reset"] {
     @apply bg-violet-500 rounded-xl px-2;
