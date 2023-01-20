@@ -69,7 +69,10 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
           </tr>
         ))}
       </table>
-      <EditLeagueForm leagueToEdit={leagueToEdit ?? {}} />
+      <EditLeagueForm
+        leagueToEdit={leagueToEdit ?? {}}
+        setLeagueToEdit={setLeagueToEdit}
+      />
     </>
   );
 }
