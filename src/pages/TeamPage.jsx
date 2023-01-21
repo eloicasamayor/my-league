@@ -1,5 +1,6 @@
 // Dependencies
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import {
   useGetTeamsQuery,
   useGetMatchesQuery,
@@ -14,6 +15,7 @@ import {
   MatchesList,
   NewPlayerForm,
   PlayersList,
+  Modal,
 } from "../components";
 
 export function TeamPage() {
@@ -41,6 +43,9 @@ export function TeamPage() {
     (league) => league.id === selectedTeam.league
   ).owner;
 
+  const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
+  const [showEditPlayerModal, setShowEditPlayerModal] = useState(false);
+
   const isOwner = !!(authData.user && authData.user.id === leagueOwner);
 
   return (
@@ -53,14 +58,24 @@ export function TeamPage() {
         playersData={playersData}
         playersIsLoading={playersIsLoading}
         selectedTeam={selectedTeam}
+        isOwner={isOwner}
       />
-      {isOwner && <EditPlayerForm />}
-      {isOwner && (
-        <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      {/*       {isOwner && showEditPlayerModal && (
+        <Modal onCloseModal={() => setShowEditPlayerModal(false)}>
+          <EditPlayerForm />
+        </Modal>
       )}
-      <hr />
+      {isOwner && showNewPlayerModal && (
+        <Modal onCloseModal={() => setShowNewPlayerForm(false)}>
+          <NewPlayerForm
+            teamsData={teamsData}
+            teamsIsLoading={teamsIsLoading}
+          />
+        </Modal>
+      )} */}
       <h2>Matches</h2>
       <MatchesList
+        isOwner={isOwner}
         teams={teamsData}
         matchesData={matchesData}
         matchesIsLoading={matchesIsLoading}

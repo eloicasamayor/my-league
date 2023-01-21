@@ -1,14 +1,13 @@
 // Dependencies
 import { Link } from "react-router-dom";
-import { useDeleteTeamMutation } from "../redux";
 import { useState } from "react";
-
+import { _ } from "lodash";
 // Components
 import { EditTeamForm } from "./EditTeamForm";
 import { Modal } from "./modal";
+import { PencilIcon } from "./icons/PencilIcon";
 
 export function Classification({ data, isLoading, isOwner }) {
-  const [deleteTeam] = useDeleteTeamMutation();
   const [teamToEdit, setTeamToEdit] = useState({});
 
   if (isLoading) {
@@ -31,7 +30,7 @@ export function Classification({ data, isLoading, isOwner }) {
             <th>Defeats</th>
             <th>Scored Goals</th>
             <th>Conceded Goals</th>
-            {isOwner && <th>Actions</th>}
+            {isOwner && <th></th>}
           </tr>
         </thead>
         <tbody>
@@ -49,15 +48,12 @@ export function Classification({ data, isLoading, isOwner }) {
               <td>{team.goals_conceded}</td>
               {isOwner && (
                 <td>
-                  <button onClick={() => deleteTeam({ id: team.id })}>
-                    delete
-                  </button>
                   <button
                     onClick={() =>
                       setTeamToEdit({ id: team.id, name: team.name })
                     }
                   >
-                    edit
+                    <PencilIcon />
                   </button>
                 </td>
               )}
@@ -65,7 +61,7 @@ export function Classification({ data, isLoading, isOwner }) {
           ))}
         </tbody>
       </table>
-      {isOwner && teamToEdit && (
+      {isOwner && !_.isEmpty(teamToEdit) && (
         <Modal onCloseModal={setTeamToEdit}>
           <EditTeamForm team={teamToEdit} />
         </Modal>

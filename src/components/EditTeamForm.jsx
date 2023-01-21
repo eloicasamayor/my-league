@@ -2,11 +2,13 @@
 import { useRef } from "react";
 
 // Api
-import { useUpdateTeamMutation, useGetTeamsQuery } from "../redux";
+import { useUpdateTeamMutation, useDeleteTeamMutation } from "../redux";
 
 export function EditTeamForm({ team = {} }) {
   const { id, name } = team;
   const [editTeam, requestResult] = useUpdateTeamMutation();
+  const [deleteTeam] = useDeleteTeamMutation();
+
   const nameRef = useRef();
 
   return (
@@ -34,6 +36,7 @@ export function EditTeamForm({ team = {} }) {
           submit
         </button>
       </form>
+      <button onClick={() => deleteTeam({ id: team.id })}>delete</button>
     </>
   );
 }

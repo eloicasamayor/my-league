@@ -1,7 +1,8 @@
 import _ from "lodash";
 import { useState } from "react";
-import { useDeleteMatchMutation } from "../redux";
 import { EditMatchForm } from "./EditMatchForm";
+import { PencilIcon } from "./icons/PencilIcon";
+import { Modal } from "./modal";
 
 export function MatchesList({
   teams,
@@ -12,7 +13,6 @@ export function MatchesList({
   teamsData,
   isOwner,
 }) {
-  const [deleteMatch] = useDeleteMatchMutation();
   const [matchToEdit, setMatchToEdit] = useState({});
 
   if (matchesIsLoading) {
@@ -54,7 +54,7 @@ export function MatchesList({
                   <th>visitor team</th>
                   <th>date</th>
                   <th>played</th>
-                  {isOwner && <th>Actions</th>}
+                  {isOwner && !selectedTeam && <th></th>}
                 </tr>
               </thead>
               <tbody>
@@ -66,7 +66,7 @@ export function MatchesList({
                     <td>{getTeamNameWithId(match.visitor_team)}</td>
                     <td>{match.date}</td>
                     <td>{match.played.toString()}</td>
-                    {isOwner && (
+                    {isOwner && !selectedTeam && (
                       <td>
                         <button
                           onClick={() =>
@@ -82,10 +82,7 @@ export function MatchesList({
                             })
                           }
                         >
-                          Edit
-                        </button>
-                        <button onClick={() => deleteMatch({ id: match.id })}>
-                          Delete
+                          <PencilIcon />
                         </button>
                       </td>
                     )}
@@ -96,12 +93,14 @@ export function MatchesList({
           ) : (
             "No matches found for this team"
           )}
-          {isOwner && !selectedTeam && (
-            <EditMatchForm
-              matchToEdit={matchToEdit}
-              playersData={playersData}
-              teamsData={teamsData}
-            />
+          {isOwner && !selectedTeam && !_.isEmpty(matchToEdit) && (
+            <Modal onCloseModal={() => setMatchToEdit(null)}>
+              <EditMatchForm
+                matchToEdit={matchToEdit}
+                playersData={playersData}
+                teamsData={teamsData}
+              />
+            </Modal>
           )}
         </>
       )}

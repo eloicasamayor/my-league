@@ -2,7 +2,12 @@
 import { useRef } from "react";
 
 // Api
-import { useUpdatePlayerMutation, useGetTeamsQuery } from "../redux";
+import {
+  useUpdatePlayerMutation,
+  useGetTeamsQuery,
+  useDeletePlayerMutation,
+} from "../redux";
+import { TrashIcon } from "./icons/TrashIcon";
 
 export function EditPlayerForm({ player = {}, teamsData }) {
   const { id, name, team } = player;
@@ -10,6 +15,7 @@ export function EditPlayerForm({ player = {}, teamsData }) {
   const nameRef = useRef();
   const teamRef = useRef();
   const teams = useGetTeamsQuery();
+  const [deletePlayer] = useDeletePlayerMutation();
 
   if (teams.isLoading) {
     return "loading...";
@@ -17,7 +23,7 @@ export function EditPlayerForm({ player = {}, teamsData }) {
   return (
     <>
       <h2>Edit Player</h2>
-      <form>
+      <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
         <input
           type={"text"}
@@ -27,7 +33,6 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           defaultValue={player.name}
           required
         />
-        <br />
         <label htmlFor={"team"}>Team:</label>
         <select name="team" id="team" ref={teamRef} value={team} required>
           {teamsData &&
@@ -50,6 +55,10 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           submit
         </button>
       </form>
+      <button onClick={() => deletePlayer({ id: id })}>
+        <TrashIcon />
+        Delete player
+      </button>
     </>
   );
 }

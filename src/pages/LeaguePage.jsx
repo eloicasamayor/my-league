@@ -64,37 +64,45 @@ export function LeaguePage() {
 
   return (
     <div>
-      <header className="flex gap-2">
+      <header className="flex gap-0 lg:gap-2">
         <img src={currentLeague.img} className={"w-20"} />
         <div className="grow">
           <h1>{currentLeague.name}</h1>
           <h2>{currentLeague.description}</h2>
         </div>
 
-        <button
-          onClick={() => setShowEditLeagueModal(true)}
-          name={"Edit league info"}
-        >
-          <PencilIcon />
-        </button>
-        <button onClick={() => setShowNewTeamModal(true)} name={"Add new team"}>
-          <PlusIcon />
-          {"New Team"}
-        </button>
-        <button
-          onClick={() => setShowNewMatchModal(true)}
-          name={"Add new match"}
-        >
-          <PlusIcon />
-          {"New Match"}
-        </button>
-        <button
-          onClick={() => setShowNewPlayerModal(true)}
-          name={"Add new Player"}
-        >
-          <PlusIcon />
-          {"New Player"}
-        </button>
+        {isOwner && (
+          <>
+            <button
+              onClick={() => setShowEditLeagueModal(true)}
+              name={"Edit league info"}
+            >
+              <PencilIcon />
+              {"Edit info"}
+            </button>
+            <button
+              onClick={() => setShowNewTeamModal(true)}
+              name={"Add new team"}
+            >
+              <PlusIcon />
+              {"New Team"}
+            </button>
+            <button
+              onClick={() => setShowNewMatchModal(true)}
+              name={"Add new match"}
+            >
+              <PlusIcon />
+              {"New Match"}
+            </button>
+            <button
+              onClick={() => setShowNewPlayerModal(true)}
+              name={"Add new Player"}
+            >
+              <PlusIcon />
+              {"New Player"}
+            </button>
+          </>
+        )}
       </header>
 
       {showEditLeagueModal && (
@@ -112,7 +120,6 @@ export function LeaguePage() {
           <NewTeamForm currentLeague={currentLeague} />
         </Modal>
       )}
-      <hr />
       <h2>Matches List</h2>
       <MatchesList
         teams={teamsData}
@@ -127,7 +134,6 @@ export function LeaguePage() {
           <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
         </Modal>
       )}
-      <hr />
       <h2>Players</h2>
       <PlayersList
         teamsData={teamsData}

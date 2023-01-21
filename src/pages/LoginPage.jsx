@@ -54,7 +54,7 @@ export function LoginPage() {
           </button>
         </>
       ) : (
-        <div>
+        <div className="w-11/12 mx-auto lg:w-2/4">
           {/* <button onClick={(e) => signInWithGoogle(e)}>
             Log in with Google
           </button> */}

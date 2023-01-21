@@ -2,7 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 
 // Api
-import { useUpdateMatchMutation } from "../redux";
+import { useUpdateMatchMutation, useDeleteMatchMutation } from "../redux";
+import { TrashIcon } from "./icons/TrashIcon";
 
 export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
   const {
@@ -16,6 +17,8 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
     visitorScorers,
   } = matchToEdit;
   const [updateMatch, requestResult] = useUpdateMatchMutation();
+  const [deleteMatch] = useDeleteMatchMutation();
+
   const [playedValue, setPlayedValue] = useState();
   const [localGoalsValue, setLocalGoalsValue] = useState();
   const [visitorGoalsValue, setVisitorGoalsValue] = useState();
@@ -56,7 +59,7 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
   return (
     <>
       <h2>Edit Match</h2>
-      <form>
+      <form className="flex flex-col gap-2">
         <label style={{ display: "none" }} htmlFor={"id"}>
           Id:
         </label>
@@ -82,62 +85,65 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
           />
         </div>
         {playedValue && (
-          <>
-            <label htmlFor={"localGoals"}>
-              {"Local team: " +
-                teamsData.find((team) => team.id === localTeam).name}
-            </label>
-            <input
-              type={"number"}
-              id={"localGoals"}
-              name={"localGoals"}
-              placeholder={"local goals"}
-              min={0}
-              max={999}
-              onChange={(e) => {
-                setLocalGoalsValue(parseInt(e.target.value));
-              }}
-              value={localGoalsValue}
-            />
+          <div className="flex justify-evenly">
+            <div>
+              <h3>Local team</h3>
+              <label htmlFor={"localGoals"}>
+                {teamsData.find((team) => team.id === localTeam).name}
+              </label>
+              <input
+                type={"number"}
+                id={"localGoals"}
+                name={"localGoals"}
+                placeholder={"local goals"}
+                min={0}
+                max={999}
+                onChange={(e) => {
+                  setLocalGoalsValue(parseInt(e.target.value));
+                }}
+                value={localGoalsValue}
+              />
 
-            {localGoalsValue && (
-              <div>
-                <label>{"local scorers:"}</label>
-                {renderScorersInputs(
-                  localTeam,
-                  localGoalsValue,
-                  localScorers,
-                  localScorersRef
-                )}
-              </div>
-            )}
-
-            <label htmlFor={"description"}>
-              {"Visitor team: " +
-                teamsData.find((team) => team.id === visitorTeam).name}
-            </label>
-            <input
-              type={"number"}
-              id={"visitorGoals"}
-              name={"visitorGoals"}
-              value={visitorGoalsValue}
-              onChange={(e) => {
-                setVisitorGoalsValue(parseInt(e.target.value));
-              }}
-              placeholder={"visitor scorers"}
-            />
-            {visitorGoalsValue && (
-              <div>
-                <label>{"visitor scorers:"}</label>
-                {renderScorersInputs(
-                  visitorTeam,
-                  visitorGoalsValue,
-                  visitorScorers,
-                  visitorScorersRef
-                )}
-              </div>
-            )}
-          </>
+              {localGoalsValue && (
+                <div>
+                  <label>{"local scorers:"}</label>
+                  {renderScorersInputs(
+                    localTeam,
+                    localGoalsValue,
+                    localScorers,
+                    localScorersRef
+                  )}
+                </div>
+              )}
+            </div>
+            <div>
+              <h3>Visitor team</h3>
+              <label htmlFor={"description"}>
+                {teamsData.find((team) => team.id === visitorTeam).name}
+              </label>
+              <input
+                type={"number"}
+                id={"visitorGoals"}
+                name={"visitorGoals"}
+                value={visitorGoalsValue}
+                onChange={(e) => {
+                  setVisitorGoalsValue(parseInt(e.target.value));
+                }}
+                placeholder={"visitor scorers"}
+              />
+              {visitorGoalsValue && (
+                <div>
+                  <label>{"visitor scorers:"}</label>
+                  {renderScorersInputs(
+                    visitorTeam,
+                    visitorGoalsValue,
+                    visitorScorers,
+                    visitorScorersRef
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         )}
         <br />
         <button
@@ -169,6 +175,9 @@ export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
         </button>
         <span>{requestResult.error?.data?.message || ""}</span>
       </form>
+      <button onClick={() => deleteMatch({ id: id })}>
+        <TrashIcon /> {"Delete match"}
+      </button>
     </>
   );
 }

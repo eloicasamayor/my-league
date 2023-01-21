@@ -42,8 +42,7 @@ function LeaguesPage() {
             <NewLeagueForm />
           ) : (
             <>
-              <h2>Create new league</h2>
-              <p>
+              <p className="text-center	">
                 <Link to={"/login"}>login</Link> to create a league
               </p>
             </>

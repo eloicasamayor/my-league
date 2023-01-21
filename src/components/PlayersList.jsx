@@ -1,9 +1,10 @@
 // Dependencies
 import { useState } from "react";
-import { useDeletePlayerMutation } from "../redux";
 
 // Components
 import { EditPlayerForm } from "./EditPlayerForm";
+import { PencilIcon } from "./icons/PencilIcon";
+import { Modal } from "./modal";
 
 export function PlayersList({
   teamsData,
@@ -14,7 +15,6 @@ export function PlayersList({
   isOwner,
 }) {
   const [editingPlayer, setEditingPlayer] = useState();
-  const [deletePlayer] = useDeletePlayerMutation();
 
   if (playersIsLoading || teamsIsLoading) {
     return "loading...";
@@ -40,7 +40,7 @@ export function PlayersList({
             <th>{"scored goals"}</th>
             <th>{"scored goals home"}</th>
             <th>{"scored goals away"}</th>
-            {isOwner && <th>{"actions"}</th>}
+            {isOwner && <th></th>}
           </tr>
           {playersData.map((player) => (
             <tr key={player.id}>
@@ -59,10 +59,7 @@ export function PlayersList({
                       setEditingPlayer(player);
                     }}
                   >
-                    edit
-                  </button>
-                  <button onClick={() => deletePlayer({ id: player.id })}>
-                    delete
+                    <PencilIcon />
                   </button>
                 </td>
               )}
@@ -70,8 +67,10 @@ export function PlayersList({
           ))}
         </tbody>
       </table>
-      {isOwner && !selectedTeam && (
-        <EditPlayerForm player={editingPlayer} teamsData={teamsData} />
+      {isOwner && editingPlayer && (
+        <Modal onCloseModal={() => setEditingPlayer(null)}>
+          <EditPlayerForm player={editingPlayer} teamsData={teamsData} />
+        </Modal>
       )}
     </section>
   );
