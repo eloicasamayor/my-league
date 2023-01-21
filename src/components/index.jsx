@@ -14,3 +14,4 @@ export { EditMatchForm } from "./EditMatchForm";
 export { EditPlayerForm } from "./EditPlayerForm";
 
 export { PageLayout } from "./PageLayout";
+export { Modal } from "./Modal";

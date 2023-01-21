@@ -14,7 +14,7 @@ export function NewTeamForm({ teamsRefetch, currentLeague }) {
   return (
     <>
       <h2>Create new team</h2>
-      <form>
+      <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />
         <button

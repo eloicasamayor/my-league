@@ -1,5 +1,6 @@
 // Dependencies
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 import {
   useGetTeamsQuery,
   useGetPlayersQuery,
@@ -16,7 +17,11 @@ import {
   NewTeamForm,
   NewPlayerForm,
   NewMatchForm,
+  Modal,
+  EditLeagueForm,
 } from "../components";
+import { PencilIcon } from "../components/icons/PencilIcon";
+import { PlusIcon } from "../components/icons/PlusIcon";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -28,6 +33,11 @@ export function LeaguePage() {
   let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
   const authData = useSelector((state) => state.auth);
+
+  const [showEditLeagueModal, setShowEditLeagueModal] = useState(false);
+  const [showNewTeamModal, setShowNewTeamModal] = useState(false);
+  const [showNewMatchModal, setShowNewMatchModal] = useState(false);
+  const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
 
   if (
     teamsIsLoading ||
@@ -54,14 +64,54 @@ export function LeaguePage() {
 
   return (
     <div>
-      <h1>{currentLeague.name}</h1>
-      <h2>{currentLeague.description}</h2>
+      <header className="flex gap-2">
+        <img src={currentLeague.img} className={"w-20"} />
+        <div className="grow">
+          <h1>{currentLeague.name}</h1>
+          <h2>{currentLeague.description}</h2>
+        </div>
+
+        <button
+          onClick={() => setShowEditLeagueModal(true)}
+          name={"Edit league info"}
+        >
+          <PencilIcon />
+        </button>
+        <button onClick={() => setShowNewTeamModal(true)} name={"Add new team"}>
+          <PlusIcon />
+          {"New Team"}
+        </button>
+        <button
+          onClick={() => setShowNewMatchModal(true)}
+          name={"Add new match"}
+        >
+          <PlusIcon />
+          {"New Match"}
+        </button>
+        <button
+          onClick={() => setShowNewPlayerModal(true)}
+          name={"Add new Player"}
+        >
+          <PlusIcon />
+          {"New Player"}
+        </button>
+      </header>
+
+      {showEditLeagueModal && (
+        <Modal onCloseModal={() => setShowEditLeagueModal(false)}>
+          <EditLeagueForm leagueToEdit={currentLeague} />
+        </Modal>
+      )}
       <Classification
         data={teamsData}
         isLoading={teamsIsLoading}
         isOwner={isOwner}
       />
-      {isOwner && <NewTeamForm currentLeague={currentLeague} />}
+      {isOwner && showNewTeamModal && (
+        <Modal onCloseModal={() => setShowNewTeamModal(false)}>
+          <NewTeamForm currentLeague={currentLeague} />
+        </Modal>
+      )}
       <hr />
       <h2>Matches List</h2>
       <MatchesList
@@ -72,8 +122,10 @@ export function LeaguePage() {
         teamsData={teamsData}
         isOwner={isOwner}
       />
-      {isOwner && (
-        <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
+      {isOwner && showNewMatchModal && (
+        <Modal onCloseModal={() => setShowNewMatchModal(false)}>
+          <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
+        </Modal>
       )}
       <hr />
       <h2>Players</h2>
@@ -84,8 +136,13 @@ export function LeaguePage() {
         playersIsLoading={playersIsLoading}
         isOwner={isOwner}
       />
-      {isOwner && (
-        <NewPlayerForm teamsData={teamsData} teamsIsLoading={teamsIsLoading} />
+      {isOwner && showNewPlayerModal && (
+        <Modal onCloseModal={() => setShowNewPlayerModal(false)}>
+          <NewPlayerForm
+            teamsData={teamsData}
+            teamsIsLoading={teamsIsLoading}
+          />
+        </Modal>
       )}
     </div>
   );

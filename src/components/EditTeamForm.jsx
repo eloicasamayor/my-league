@@ -12,7 +12,7 @@ export function EditTeamForm({ team = {} }) {
   return (
     <>
       <h2>{team.name ? `Editing "${team.name}"` : "Edit team"}</h2>
-      <form>
+      <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
         <input
           type={"text"}

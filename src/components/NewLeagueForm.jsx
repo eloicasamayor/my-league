@@ -16,10 +16,9 @@ export function NewLeagueForm() {
     <>
       <h2>Create new league</h2>
       {authData?.user?.id ? (
-        <form>
+        <form className="flex flex-col gap-2">
           <label htmlFor={"name"}>League name:</label>
           <input type={"text"} id={"name"} name={"name"} ref={nameRef} />
-          <br />
           <label htmlFor={"description"}>Description:</label>
           <input
             type={"text"}
@@ -27,7 +26,6 @@ export function NewLeagueForm() {
             name={"description"}
             ref={descriptionRef}
           />
-          <br />
           <button
             type={"button"}
             onClick={async (e) => {

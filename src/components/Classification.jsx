@@ -5,6 +5,7 @@ import { useState } from "react";
 
 // Components
 import { EditTeamForm } from "./EditTeamForm";
+import { Modal } from "./modal";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [deleteTeam] = useDeleteTeamMutation();
@@ -64,7 +65,11 @@ export function Classification({ data, isLoading, isOwner }) {
           ))}
         </tbody>
       </table>
-      {isOwner && <EditTeamForm team={teamToEdit} />}
+      {isOwner && teamToEdit && (
+        <Modal onCloseModal={setTeamToEdit}>
+          <EditTeamForm team={teamToEdit} />
+        </Modal>
+      )}
     </section>
   );
 }

@@ -1,4 +1,7 @@
 @layer base {
+  * {
+    @apply text-zinc-50;
+  }
   h1 {
     @apply text-4xl py-2 text-stone-100;
   }
@@ -21,16 +24,19 @@
     @apply px-2 py-1 rounded-2xl mx-1;
   }
   table {
-    @apply table-auto w-full rounded-md p-2 bg-zinc-700/75 block overflow-x-auto whitespace-nowrap;
-  }
-  table tr:hover {
-    @apply bg-violet-200;
+    @apply w-full rounded-md p-2 bg-zinc-700/75;
   }
   table tr {
-    @apply h-8;
+    @apply h-8 w-full;
+  }
+  table tr:hover {
+    @apply bg-zinc-600;
   }
   table tr td {
-    @apply p-2;
+    @apply p-1;
+  }
+  table button {
+    @apply p-1;
   }
   .btn {
     @apply bg-violet-400/75 rounded-xl p-2;
@@ -45,7 +51,7 @@
   input[type="text"],
   input[type="password"],
   input[type="email"] {
-    @apply rounded-3xl px-3 py-1;
+    @apply rounded-3xl px-3 py-1 bg-zinc-600/75;
   }
   header .btn {
     @apply px-2 py-1;

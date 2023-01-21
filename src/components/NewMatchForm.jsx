@@ -10,7 +10,7 @@ export function NewMatchForm({ teams, currentLeague }) {
   return (
     <>
       <h2>Create new match</h2>
-      <form>
+      <form className="flex flex-col gap-2">
         <label htmlFor={"date"}>Date:</label>
         <input
           type={"datetime-local"}
