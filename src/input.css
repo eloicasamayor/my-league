@@ -24,7 +24,7 @@
     @apply px-2 py-1 rounded-2xl mx-1;
   }
   table {
-    @apply w-full rounded-md p-2 bg-zinc-700/75;
+    @apply w-full rounded-md bg-zinc-700/75 block overflow-x-auto whitespace-nowrap sm:table;
   }
   table tr {
     @apply h-8 w-full;
