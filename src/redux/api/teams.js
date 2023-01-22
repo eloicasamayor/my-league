@@ -15,12 +15,7 @@ export const teams = apiSlice.injectEndpoints({
     }),
     updateTeam: builder.mutation({
       queryFn: async (patch) =>
-        await supabase
-          .from("teams")
-          .update({
-            name: patch.name,
-          })
-          .eq("id", patch.id),
+        await supabase.from("teams").update(patch).eq("id", patch.id),
       invalidatesTags: ["teams"],
     }),
     deleteTeam: builder.mutation({

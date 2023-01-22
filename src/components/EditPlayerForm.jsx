@@ -7,10 +7,11 @@ import {
   useGetTeamsQuery,
   useDeletePlayerMutation,
 } from "../redux";
+
+// Components
 import { TrashIcon } from "./icons/TrashIcon";
 
 export function EditPlayerForm({ player = {}, teamsData }) {
-  const { id, name, team } = player;
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
@@ -34,7 +35,13 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           required
         />
         <label htmlFor={"team"}>Team:</label>
-        <select name="team" id="team" ref={teamRef} value={team} required>
+        <select
+          name="team"
+          id="team"
+          ref={teamRef}
+          value={player.team}
+          required
+        >
           {teamsData &&
             teamsData.map((teamData) => (
               <option key={teamData.id} value={teamData.id}>
@@ -46,7 +53,7 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           onClick={(e) => {
             e.preventDefault();
             editPlayer({
-              id,
+              id: player.id,
               name: nameRef.current.value,
               team: teamRef.current.value,
             });
@@ -55,7 +62,7 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           submit
         </button>
       </form>
-      <button onClick={() => deletePlayer({ id: id })}>
+      <button onClick={() => deletePlayer({ id: player.id })}>
         <TrashIcon />
         Delete player
       </button>

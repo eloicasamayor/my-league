@@ -1,15 +1,16 @@
 // Dependencies
 import { useRef } from "react";
-import { supabase } from "../supabase";
 
 // Api
 import { useUpdateLeagueMutation } from "../redux";
 import { useDeleteLeagueMutation } from "../redux";
 
+// Helpers
 import { nameToUrlName } from "../helpers/nameToUrlName";
-import { useState } from "react";
-import { Modal } from "./modal";
+
+// Components
 import { TrashIcon } from "./icons/TrashIcon";
+import { EditPhotoForm } from "./EditPhotoForm";
 
 export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   const [updateLeague, requestResult] = useUpdateLeagueMutation();
@@ -17,7 +18,6 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
 
   const nameRef = useRef();
   const descriptionRef = useRef();
-  const fileRef = useRef();
 
   if (!leagueToEdit.id) {
     return "";
@@ -26,61 +26,12 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   return (
     <>
       <h2>Edit League</h2>
-      <div className="flex flex-col gap-4 lg:flex-row">
-        <div className="w-50 h-50 border-2 border-zinc-50 border-dashed p-5 rounded-full ">
-          {leagueToEdit.img ? (
-            <div>
-              <img src={leagueToEdit.img} width={300}></img>
-              <button
-                onClick={async (e) => {
-                  e.preventDefault();
-                  debugger;
-                  const { data, error } = await supabase.storage
-                    .from("leagues-img")
-                    .remove([`${leagueToEdit.id + ".jpg"}`]);
-                  if (!error) {
-                    updateLeague({
-                      id: leagueToEdit.id,
-                      img: "",
-                    });
-                  }
-                }}
-                className={"mt-"}
-              >
-                Remove
-              </button>
-            </div>
-          ) : (
-            <form
-              onSubmit={async (event) => {
-                event.preventDefault();
-                debugger;
-                const file = event.target[0].files[0];
-                const { data, error } = await supabase.storage
-                  .from("leagues-img")
-                  .upload(`${leagueToEdit.id + ".jpg"}`, file, {
-                    cacheControl: "3600",
-                    upsert: false,
-                  });
-                if (data) {
-                  const { data: response } = await supabase.storage
-                    .from("leagues-img")
-                    .getPublicUrl(`${leagueToEdit.id + ".jpg"}`);
-                  console.log(response);
-                  debugger;
-                  updateLeague({
-                    id: leagueToEdit.id,
-                    img: response.publicUrl,
-                  });
-                }
-              }}
-            >
-              <p>League logo</p>
-              <input ref={fileRef} type={"file"}></input>
-              <input type={"submit"}></input>
-            </form>
-          )}
-        </div>
+      <div className="flex flex-col gap-4 lg:flex-row items-center">
+        <EditPhotoForm
+          itemToEdit={leagueToEdit}
+          bucketName={"leagues-img"}
+          updateItem={updateLeague}
+        />
         <form
           className="flex flex-col w-full gap-2"
           onSubmit={(e) => {

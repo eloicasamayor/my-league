@@ -10,7 +10,7 @@ import { MoreIcon } from "./icons/MoreIcon";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
-  const [seeAllStats, setSeeAllStats] = useState(false);
+  const [seeAllStats, setSeeAllStats] = useState(true);
 
   if (isLoading) {
     return "loading...";
@@ -45,6 +45,7 @@ export function Classification({ data, isLoading, isOwner }) {
                 />
               </label>
             </th>
+            <th></th>
             <th>Points</th>
             <th>Played</th>
             {seeAllStats && (
@@ -63,6 +64,9 @@ export function Classification({ data, isLoading, isOwner }) {
           {data.map((team) => (
             <tr key={team.id}>
               <td>
+                <img src={team.img} className={"w-4"} />
+              </td>
+              <td>
                 <Link to={"./" + team.urlname}>{team.name}</Link>
               </td>
               <td>{team.points}</td>
@@ -78,11 +82,7 @@ export function Classification({ data, isLoading, isOwner }) {
               )}
               {isOwner && (
                 <td>
-                  <button
-                    onClick={() =>
-                      setTeamToEdit({ id: team.id, name: team.name })
-                    }
-                  >
+                  <button onClick={() => setTeamToEdit(team)}>
                     <PencilIcon />
                   </button>
                 </td>
