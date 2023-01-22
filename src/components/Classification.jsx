@@ -6,9 +6,11 @@ import { _ } from "lodash";
 import { EditTeamForm } from "./EditTeamForm";
 import { Modal } from "./modal";
 import { PencilIcon } from "./icons/PencilIcon";
+import { MoreIcon } from "./icons/MoreIcon";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
+  const [seeAllStats, setSeeAllStats] = useState(false);
 
   if (isLoading) {
     return "loading...";
@@ -19,17 +21,41 @@ export function Classification({ data, isLoading, isOwner }) {
   return (
     <section>
       <h2>Classification</h2>
+
       <table>
         <thead>
           <tr>
-            <th>Team</th>
+            <th>
+              <input
+                type="checkbox"
+                id="see-all-stats-checkbox"
+                name="see all stats"
+                checked={seeAllStats}
+                onChange={() => setSeeAllStats(!seeAllStats)}
+                className={"hidden"}
+              />
+              <label
+                htmlFor="see-all-stats-checkbox"
+                className={`cursor-pointer`}
+              >
+                <MoreIcon
+                  pathClassName={
+                    seeAllStats ? "stroke-white" : "stroke-violet-600"
+                  }
+                />
+              </label>
+            </th>
             <th>Points</th>
             <th>Played</th>
-            <th>Wins</th>
-            <th>Draws</th>
-            <th>Defeats</th>
-            <th>Scored Goals</th>
-            <th>Conceded Goals</th>
+            {seeAllStats && (
+              <>
+                <th>Wins</th>
+                <th>Draws</th>
+                <th>Defeats</th>
+                <th>Scored Goals</th>
+                <th>Conceded Goals</th>
+              </>
+            )}
             {isOwner && <th></th>}
           </tr>
         </thead>
@@ -41,11 +67,15 @@ export function Classification({ data, isLoading, isOwner }) {
               </td>
               <td>{team.points}</td>
               <td>{team.played_matches}</td>
-              <td>{team.wins}</td>
-              <td>{team.draws}</td>
-              <td>{team.defeats}</td>
-              <td>{team.goals_scored}</td>
-              <td>{team.goals_conceded}</td>
+              {seeAllStats && (
+                <>
+                  <td>{team.wins}</td>
+                  <td>{team.draws}</td>
+                  <td>{team.defeats}</td>
+                  <td>{team.goals_scored}</td>
+                  <td>{team.goals_conceded}</td>
+                </>
+              )}
               {isOwner && (
                 <td>
                   <button

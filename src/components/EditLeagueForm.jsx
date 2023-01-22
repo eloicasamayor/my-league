@@ -34,15 +34,15 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
               <button
                 onClick={async (e) => {
                   e.preventDefault();
+                  debugger;
                   const { data, error } = await supabase.storage
                     .from("leagues-img")
-                    .remove([`${id + ".jpg"}`]);
+                    .remove([`${leagueToEdit.id + ".jpg"}`]);
                   if (!error) {
                     updateLeague({
-                      id: id,
+                      id: leagueToEdit.id,
                       img: "",
                     });
-                    setLeagueDetails({ ...leagueToEdit, img: "" });
                   }
                 }}
                 className={"mt-"}
@@ -54,24 +54,22 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
             <form
               onSubmit={async (event) => {
                 event.preventDefault();
+                debugger;
                 const file = event.target[0].files[0];
                 const { data, error } = await supabase.storage
                   .from("leagues-img")
-                  .upload(`${id + ".jpg"}`, file, {
+                  .upload(`${leagueToEdit.id + ".jpg"}`, file, {
                     cacheControl: "3600",
                     upsert: false,
                   });
                 if (data) {
                   const { data: response } = await supabase.storage
                     .from("leagues-img")
-                    .getPublicUrl(`${id + ".jpg"}`);
+                    .getPublicUrl(`${leagueToEdit.id + ".jpg"}`);
                   console.log(response);
+                  debugger;
                   updateLeague({
-                    id: id,
-                    img: response.publicUrl,
-                  });
-                  setLeagueDetails({
-                    ...leagueToEdit,
+                    id: leagueToEdit.id,
                     img: response.publicUrl,
                   });
                 }
