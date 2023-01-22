@@ -13,6 +13,7 @@ import {
   TeamPage,
   LoginPage,
   HomePage,
+  NewLeaguePage,
 } from "./pages";
 import { PageLayout } from "./components/pageLayout";
 
@@ -24,6 +25,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/" element={<PageLayout />}>
             <Route index element={<LeaguesPage />} />
             <Route path="/login" element={<LoginPage />}></Route>
+            <Route path="/new-league" element={<NewLeaguePage />}></Route>
             <Route path=":leagueUrlName">
               <Route index element={<LeaguePage />} />
               <Route path=":teamName" element={<TeamPage />} />

@@ -65,7 +65,7 @@ export function LeaguePage() {
   return (
     <div>
       <header className="flex gap-0 lg:gap-2">
-        <img src={currentLeague.img} className={"w-20"} />
+        <img src={currentLeague.img} className={"w-20 aspect-square"} />
         <div className="grow">
           <h1>{currentLeague.name}</h1>
           <h2>{currentLeague.description}</h2>

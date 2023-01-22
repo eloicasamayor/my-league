@@ -1,5 +1,5 @@
 // Dependencies
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -9,9 +9,12 @@ import { useGetLeaguesQuery } from "../redux";
 //Components
 import { EditLeagueForm, LeaguesList, NewLeagueForm } from "../components";
 import { PlusIcon } from "../components/icons/PlusIcon";
+import { MoreIcon } from "../components/icons/MoreIcon";
+
 import { Modal } from "../components/modal";
 
 function LeaguesPage() {
+  const navigate = useNavigate();
   const {
     data: leaguesData,
     isLoading: leaguesIsLoading,
@@ -21,14 +24,20 @@ function LeaguesPage() {
   const [showModal, setShowModal] = useState(false);
   return (
     <div>
-      <header className="flex justify-between align-middle">
+      <header className="flex justify-between align-middle py-2">
         <h1>Leagues</h1>
 
         <button
-          className=" w-10 h-10 aspect-square rounded-full"
+          className="aspect-square rounded-full"
           onClick={() => setShowModal(true)}
         >
           <PlusIcon />
+        </button>
+        <button
+          className="rounded-full"
+          onClick={() => navigate("/new-league")}
+        >
+          Create league
         </button>
       </header>
 
