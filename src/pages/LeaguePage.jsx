@@ -38,6 +38,7 @@ export function LeaguePage() {
   const [showNewTeamModal, setShowNewTeamModal] = useState(false);
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   if (
     teamsIsLoading ||
@@ -104,44 +105,65 @@ export function LeaguePage() {
           </>
         )}
       </header>
+      <ul className="h-8 flex gap-2 m-2">
+        <li className=" p-2 btn" onClick={() => setSelectedTab(0)}>
+          Classification
+        </li>
+        <li className=" p-2 btn" onClick={() => setSelectedTab(1)}>
+          Matches
+        </li>
+        <li className=" p-2 btn" onClick={() => setSelectedTab(2)}>
+          Players
+        </li>
+      </ul>
 
       {showEditLeagueModal && (
         <Modal onCloseModal={() => setShowEditLeagueModal(false)}>
           <EditLeagueForm leagueToEdit={currentLeague} />
         </Modal>
       )}
-      <Classification
-        data={teamsData}
-        isLoading={teamsIsLoading}
-        isOwner={isOwner}
-      />
+      {selectedTab === 0 && (
+        <Classification
+          data={teamsData}
+          isLoading={teamsIsLoading}
+          isOwner={isOwner}
+        />
+      )}
       {isOwner && showNewTeamModal && (
         <Modal onCloseModal={() => setShowNewTeamModal(false)}>
           <NewTeamForm currentLeague={currentLeague} />
         </Modal>
       )}
-      <h2>Matches List</h2>
-      <MatchesList
-        teams={teamsData}
-        matchesData={matchesData}
-        matchesIsLoading={matchesIsLoading}
-        playersData={playersData}
-        teamsData={teamsData}
-        isOwner={isOwner}
-      />
+      {selectedTab === 1 && (
+        <>
+          <h2>Matches List</h2>
+          <MatchesList
+            teams={teamsData}
+            matchesData={matchesData}
+            matchesIsLoading={matchesIsLoading}
+            playersData={playersData}
+            teamsData={teamsData}
+            isOwner={isOwner}
+          />
+        </>
+      )}
       {isOwner && showNewMatchModal && (
         <Modal onCloseModal={() => setShowNewMatchModal(false)}>
           <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
         </Modal>
       )}
-      <h2>Players</h2>
-      <PlayersList
-        teamsData={teamsData}
-        teamsIsLoading={teamsIsLoading}
-        playersData={playersData}
-        playersIsLoading={playersIsLoading}
-        isOwner={isOwner}
-      />
+      {selectedTab === 2 && (
+        <>
+          <h2>Players</h2>
+          <PlayersList
+            teamsData={teamsData}
+            teamsIsLoading={teamsIsLoading}
+            playersData={playersData}
+            playersIsLoading={playersIsLoading}
+            isOwner={isOwner}
+          />
+        </>
+      )}
       {isOwner && showNewPlayerModal && (
         <Modal onCloseModal={() => setShowNewPlayerModal(false)}>
           <NewPlayerForm
