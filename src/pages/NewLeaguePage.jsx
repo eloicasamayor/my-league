@@ -3,11 +3,29 @@ import { PlusIcon } from "../components/icons/PlusIcon";
 import { useState } from "react";
 
 export function NewLeaguePage() {
-  const teamsRefs = useRef([]);
   const nameRef = useRef();
   const descriptionRef = useRef();
-  const [teamsQuantity, setTeamsQuantity] = useState(1);
   const [selectedTab, setSelectedTab] = useState(0);
+  const [teams, setTeams] = useState([]);
+
+  function generateMatchings() {
+    const matches = [];
+    teams.forEach((team) => {
+      let matchingsJornada1 = [];
+      teams.forEach(
+        (team, i) =>
+          i % 2 === 0 &&
+          matchingsJornada1.push({
+            local: team,
+            visitor: teams[i + 1] ?? "",
+          })
+      );
+      matches.push(matchingsJornada1);
+      matchingsJornada1 = [];
+      teams.push(teams.shift());
+    });
+    console.log(matches);
+  }
 
   return (
     <>
@@ -45,19 +63,31 @@ export function NewLeaguePage() {
         <section>
           <h2>Teams</h2>
           <form>
-            {[...Array(teamsQuantity)].map((team, i) => (
-              <div>
-                <label>{"Team " + i}</label>
-                <input
-                  type={"text"}
-                  ref={(el) => (teamsRefs.current[i] = el)}
-                />
-              </div>
-            ))}
+            {teams.map((team, i) => {
+              debugger;
+              return (
+                <div key={"-" + i}>
+                  <label>{"Team " + (i + 1)}</label>
+                  <input
+                    type={"text"}
+                    value={team}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      let varTeams = [...teams];
+                      varTeams[i] = e.target.value;
+                      debugger;
+                      setTeams(varTeams);
+                    }}
+                  />
+                </div>
+              );
+            })}
             <button
               onClick={(e) => {
                 e.preventDefault();
-                setTeamsQuantity((q) => q + 1);
+                let varTeams = [...teams];
+                varTeams.push("team " + (teams.length + 1));
+                setTeams(varTeams);
               }}
             >
               <PlusIcon />
@@ -68,7 +98,7 @@ export function NewLeaguePage() {
       {selectedTab === 2 && (
         <section>
           <h2>Generate matchings</h2>
-          <button>Generate</button>
+          <button onClick={() => generateMatchings()}>Generate</button>
         </section>
       )}
     </>
