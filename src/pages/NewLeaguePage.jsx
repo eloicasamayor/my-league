@@ -7,6 +7,7 @@ export function NewLeaguePage() {
   const descriptionRef = useRef();
   const [selectedTab, setSelectedTab] = useState(0);
   const [teams, setTeams] = useState([]);
+  const [matchings, setMatchings] = useState([]);
 
   function generateMatchings() {
     const matches = [];
@@ -25,6 +26,7 @@ export function NewLeaguePage() {
       teams.push(teams.shift());
     });
     console.log(matches);
+    setMatchings(matches);
   }
 
   return (
@@ -96,9 +98,10 @@ export function NewLeaguePage() {
         </section>
       )}
       {selectedTab === 2 && (
-        <section>
+        <section style={{ maxWidth: "1hv" }}>
           <h2>Generate matchings</h2>
           <button onClick={() => generateMatchings()}>Generate</button>
+          <pre style={{ maxWidth: "100%" }}>{JSON.stringify(matchings)}</pre>
         </section>
       )}
     </>
