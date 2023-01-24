@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { useState } from "react";
+import { arrayMoveImmutable } from "array-move";
 
 export function NewLeaguePage() {
   const nameRef = useRef();
@@ -11,21 +12,31 @@ export function NewLeaguePage() {
 
   function generateMatchings() {
     const matches = [];
-    teams.forEach((team) => {
+    if (teams.length % 2 !== 0) {
+      teams.push("--");
+    }
+    const teamsLenght = teams.length;
+    let teamsCopy = [...teams];
+
+    [...Array(teamsLenght * 2)].forEach((team, jornada) => {
       let matchingsJornada1 = [];
-      teams.forEach(
-        (team, i) =>
-          i % 2 === 0 &&
+      teamsCopy.forEach((team, i) => {
+        i % 2 === 0 &&
           matchingsJornada1.push({
             local: team,
-            visitor: teams[i + 1] ?? "",
-          })
-      );
+            visitor: teamsCopy[i + 1],
+          });
+      });
       matches.push(matchingsJornada1);
       matchingsJornada1 = [];
-      teams.push(teams.shift());
+      teams.forEach((_, index) => {
+        if (index % 2 === 0) {
+          const from = jornada % 2 === 0 ? index : index + 1;
+          const to = from + 1;
+          teamsCopy = arrayMoveImmutable(teamsCopy, from, to);
+        }
+      });
     });
-    console.log(matches);
     setMatchings(matches);
   }
 
@@ -69,7 +80,7 @@ export function NewLeaguePage() {
               debugger;
               return (
                 <div key={"-" + i}>
-                  <label>{"Team " + (i + 1)}</label>
+                  <label>{i + 1}</label>
                   <input
                     type={"text"}
                     value={team}
@@ -88,7 +99,7 @@ export function NewLeaguePage() {
               onClick={(e) => {
                 e.preventDefault();
                 let varTeams = [...teams];
-                varTeams.push("team " + (teams.length + 1));
+                varTeams.push(teams.length + 1);
                 setTeams(varTeams);
               }}
             >
@@ -98,10 +109,18 @@ export function NewLeaguePage() {
         </section>
       )}
       {selectedTab === 2 && (
-        <section style={{ maxWidth: "1hv" }}>
+        <section className="flex flex-col">
           <h2>Generate matchings</h2>
           <button onClick={() => generateMatchings()}>Generate</button>
-          <pre style={{ maxWidth: "100%" }}>{JSON.stringify(matchings)}</pre>
+          <div>
+            <ul>
+              {matchings.map((jornada, i) => (
+                <li>
+                  --- Jornada {i} {JSON.stringify(jornada)}
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       )}
     </>
