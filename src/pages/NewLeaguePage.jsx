@@ -3,6 +3,9 @@ import { PlusIcon } from "../components/icons/PlusIcon";
 import { useState } from "react";
 import { arrayMoveImmutable } from "array-move";
 
+// Helpers
+import { getCombinations } from "../helpers/getCombinations";
+
 export function NewLeaguePage() {
   const nameRef = useRef();
   const descriptionRef = useRef();
@@ -11,35 +14,9 @@ export function NewLeaguePage() {
   const [matchings, setMatchings] = useState([]);
 
   function generateMatchings() {
-    const matches = [];
-    if (teams.length % 2 !== 0) {
-      teams.push("--");
-    }
-    const teamsLenght = teams.length;
-    let teamsCopy = [...teams];
-
-    [...Array(teamsLenght * 2)].forEach((team, jornada) => {
-      let matchingsJornada1 = [];
-      teamsCopy.forEach((team, i) => {
-        i % 2 === 0 &&
-          matchingsJornada1.push({
-            local: team,
-            visitor: teamsCopy[i + 1],
-          });
-      });
-      matches.push(matchingsJornada1);
-      matchingsJornada1 = [];
-      teams.forEach((_, index) => {
-        if (index % 2 === 0) {
-          const from = jornada % 2 === 0 ? index : index + 1;
-          const to = from + 1;
-          teamsCopy = arrayMoveImmutable(teamsCopy, from, to);
-        }
-      });
-    });
-    setMatchings(matches);
+    const combinations = getCombinations(teams, 2);
+    setMatchings(combinations);
   }
-
   return (
     <>
       <h1>New league</h1>
@@ -77,7 +54,6 @@ export function NewLeaguePage() {
           <h2>Teams</h2>
           <form>
             {teams.map((team, i) => {
-              debugger;
               return (
                 <div key={"-" + i}>
                   <label>{i + 1}</label>
@@ -88,7 +64,6 @@ export function NewLeaguePage() {
                       e.preventDefault();
                       let varTeams = [...teams];
                       varTeams[i] = e.target.value;
-                      debugger;
                       setTeams(varTeams);
                     }}
                   />
