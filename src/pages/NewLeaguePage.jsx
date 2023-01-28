@@ -4,7 +4,7 @@ import { useState } from "react";
 import { arrayMoveImmutable } from "array-move";
 
 // Helpers
-import { getCombinations } from "../helpers/getCombinations";
+import { getMatchings } from "../helpers/getMatchings";
 
 export function NewLeaguePage() {
   const nameRef = useRef();
@@ -13,72 +13,6 @@ export function NewLeaguePage() {
   const [teams, setTeams] = useState([]);
   const [matchings, setMatchings] = useState([]);
 
-  function generateMatchings() {
-    let teamsCopy = [...teams];
-    let totsElsPartits = getCombinations(teams, 2);
-    const numJornades = teams.length - 1;
-    const jornades = [];
-    let ultimEquipQueHaDescansat = "";
-
-    function crearArrayJornada(numJornada) {
-      const jornada = [];
-      if (ultimEquipQueHaDescansat) {
-        teamsCopy = [
-          ultimEquipQueHaDescansat,
-          ...teams.filter((t) => t !== ultimEquipQueHaDescansat),
-        ];
-      }
-      // iterar els equips
-
-      // iterar els equips: per a cada equip he d'afegir un partit on aquest participi a la jornada. Si l'equip ja té un partit doncs el salto.
-      teamsCopy.forEach((team) => {
-        // per a cada equip, primer comprobo que no tingui un partit en la jornada
-        if (
-          totsElsPartits.length &&
-          !jornada.find((partit) => partit[0] === team || partit[1] === team)
-        ) {
-          // si no té un partit en la jornada, buscaré en la llista totsElsPartits un partit on jugui aquest equip,
-          // ---> l'altre equip no ha de tenir partit en la jordada!
-
-          let partit = totsElsPartits.find((partit) => {
-            return (
-              (partit[0] === team &&
-                !jornada.find(
-                  (p) => p[0] === partit[1] || p[1] === partit[1]
-                )) ||
-              (partit[1] === team &&
-                !jornada.find((p) => {
-                  const ret = p[0] === partit[0] || p[1] === partit[0];
-                  return ret;
-                }))
-            );
-          });
-          if (partit) {
-            // el treuré de la llista de totsElsPartits
-            totsElsPartits = totsElsPartits.filter(
-              (p) => !(p[0] === partit[0] && p[1] === partit[1])
-            );
-            ultimEquipQueHaDescansat = "";
-          } else {
-            partit = [team, ""];
-            ultimEquipQueHaDescansat = team;
-          }
-
-          // i l'afegeixo a la llista de la jornada
-          jornada.push(partit);
-        }
-      });
-      return jornada;
-    }
-    let numJornada = 0;
-    while (totsElsPartits.length) {
-      numJornada = numJornada + 1;
-      jornades.push(crearArrayJornada(numJornada));
-      debugger;
-    }
-
-    setMatchings(jornades);
-  }
   return (
     <>
       <h1>New league</h1>
@@ -148,14 +82,31 @@ export function NewLeaguePage() {
       {selectedTab === 2 && (
         <section className="flex flex-col">
           <h2>Generate matchings</h2>
-          <button onClick={() => generateMatchings()}>Generate</button>
+          <button onClick={() => setMatchings(getMatchings(teams))}>
+            Generate
+          </button>
           <div>
             <ul>
-              {matchings.map((jornada, i) => (
-                <li>
-                  --- Jornada {i} {JSON.stringify(jornada)}
-                </li>
-              ))}
+              {matchings.map((jornada, i) => {
+                const equiposQueJuegan = [];
+                jornada.forEach((e) => equiposQueJuegan.push(...e));
+                debugger;
+                const equiposQueDescansan = teams.filter((t) => {
+                  const ret = !equiposQueJuegan.find((e) => e === t);
+                  debugger;
+                  return ret;
+                });
+                return (
+                  <>
+                    {i === matchings.length / 2 && <p>-------</p>}
+                    <li>
+                      - Jornada {i} {JSON.stringify(jornada)}
+                      {!!equiposQueDescansan.length &&
+                        `descansan ${equiposQueDescansan}`}
+                    </li>
+                  </>
+                );
+              })}
             </ul>
           </div>
         </section>
