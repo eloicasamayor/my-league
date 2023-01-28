@@ -14,8 +14,70 @@ export function NewLeaguePage() {
   const [matchings, setMatchings] = useState([]);
 
   function generateMatchings() {
-    const combinations = getCombinations(teams, 2);
-    setMatchings(combinations);
+    let teamsCopy = [...teams];
+    let totsElsPartits = getCombinations(teams, 2);
+    const numJornades = teams.length - 1;
+    const jornades = [];
+    let ultimEquipQueHaDescansat = "";
+
+    function crearArrayJornada(numJornada) {
+      const jornada = [];
+      if (ultimEquipQueHaDescansat) {
+        teamsCopy = [
+          ultimEquipQueHaDescansat,
+          ...teams.filter((t) => t !== ultimEquipQueHaDescansat),
+        ];
+      }
+      // iterar els equips
+
+      // iterar els equips: per a cada equip he d'afegir un partit on aquest participi a la jornada. Si l'equip ja té un partit doncs el salto.
+      teamsCopy.forEach((team) => {
+        // per a cada equip, primer comprobo que no tingui un partit en la jornada
+        if (
+          totsElsPartits.length &&
+          !jornada.find((partit) => partit[0] === team || partit[1] === team)
+        ) {
+          // si no té un partit en la jornada, buscaré en la llista totsElsPartits un partit on jugui aquest equip,
+          // ---> l'altre equip no ha de tenir partit en la jordada!
+
+          let partit = totsElsPartits.find((partit) => {
+            return (
+              (partit[0] === team &&
+                !jornada.find(
+                  (p) => p[0] === partit[1] || p[1] === partit[1]
+                )) ||
+              (partit[1] === team &&
+                !jornada.find((p) => {
+                  const ret = p[0] === partit[0] || p[1] === partit[0];
+                  return ret;
+                }))
+            );
+          });
+          if (partit) {
+            // el treuré de la llista de totsElsPartits
+            totsElsPartits = totsElsPartits.filter(
+              (p) => !(p[0] === partit[0] && p[1] === partit[1])
+            );
+            ultimEquipQueHaDescansat = "";
+          } else {
+            partit = [team, ""];
+            ultimEquipQueHaDescansat = team;
+          }
+
+          // i l'afegeixo a la llista de la jornada
+          jornada.push(partit);
+        }
+      });
+      return jornada;
+    }
+    let numJornada = 0;
+    while (totsElsPartits.length) {
+      numJornada = numJornada + 1;
+      jornades.push(crearArrayJornada(numJornada));
+      debugger;
+    }
+
+    setMatchings(jornades);
   }
   return (
     <>
