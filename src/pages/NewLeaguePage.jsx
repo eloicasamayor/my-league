@@ -10,6 +10,7 @@ import { LeagueDay } from "../components/LeagueDay";
 import { getMatchings } from "../helpers/getMatchings";
 import { shuffle } from "../helpers/shuffle";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
+import { addDays, endOfToday, nextSunday } from "date-fns";
 
 export function NewLeaguePage() {
   const nameRef = useRef();
@@ -18,8 +19,24 @@ export function NewLeaguePage() {
   const [teams, setTeams] = useState([]);
   const [matchings, setMatchings] = useState([]);
 
+  function addDatesToMatchings(matchings) {
+    const date = endOfToday();
+    let firstDay = nextSunday(date);
+    let day = firstDay;
+    const matchingsWithDates = matchings.map((matchs, i) => {
+      if (i !== 0) {
+        day = addDays(day, 7);
+      }
+      return {
+        matches: matchs,
+        date: day,
+      };
+    });
+    return matchingsWithDates;
+  }
+
   function onSelectMatchings() {
-    setMatchings(getMatchings(teams));
+    setMatchings(addDatesToMatchings(getMatchings(teams)));
   }
 
   return (
@@ -88,7 +105,7 @@ export function NewLeaguePage() {
               onClick={() => {
                 const teamsCopy = [...teams];
                 shuffle(teamsCopy);
-                setMatchings(getMatchings(teamsCopy));
+                setMatchings(addDatesToMatchings(getMatchings(teamsCopy)));
               }}
               className={"flex items-center justify-center"}
             >
@@ -101,7 +118,6 @@ export function NewLeaguePage() {
           </div>
           <div>
             <ul className="flex flex-col gap-2">
-              <div>Primera vuelta</div>
               {matchings.map((jornada, indexJornada) => (
                 <LeagueDay
                   indexJornada={indexJornada}
