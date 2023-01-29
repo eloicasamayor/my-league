@@ -1,10 +1,15 @@
 import { useRef } from "react";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { useState } from "react";
-import { arrayMoveImmutable } from "array-move";
+
+// Components
+import { StepsNavigation } from "../components/StepsNavigation";
+import { LeagueDay } from "../components/LeagueDay";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
+import { shuffle } from "../helpers/shuffle";
+import { UpdateIcon } from "../components/icons/UpdateIcon";
 
 export function NewLeaguePage() {
   const nameRef = useRef();
@@ -13,57 +18,52 @@ export function NewLeaguePage() {
   const [teams, setTeams] = useState([]);
   const [matchings, setMatchings] = useState([]);
 
+  function onSelectMatchings() {
+    setMatchings(getMatchings(teams));
+  }
+
   return (
     <>
       <h1>New league</h1>
-      <ol className="h-8 flex gap-2 m-2">
-        <li className=" p-2 btn " onClick={() => setSelectedTab(0)}>
-          1. League info
-        </li>
-        <li className=" p-2 btn" onClick={() => setSelectedTab(1)}>
-          2. Teams
-        </li>
-
-        <li className=" p-2 btn" onClick={() => setSelectedTab(2)}>
-          3. Matchings
-        </li>
-      </ol>
+      <StepsNavigation
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        onSelectMatchings={onSelectMatchings}
+      />
       {selectedTab === 0 && (
         <section>
           <h2>League info</h2>
-          <div>
-            <label>{"Name"}</label>
-            <input type={"text"} ref={nameRef} />
-          </div>
-          <div>
-            <label>{"Description"}</label>
-            <input type={"text"} ref={descriptionRef} />
-          </div>
-          <div>
-            <label>{"Logo"}</label>
-            <input type={"file"} />
-          </div>
+          <form className="flex flex-col gap-2">
+            <label htmlFor={"name"}>League name:</label>
+            <input type={"text"} id={"name"} name={"name"} ref={nameRef} />
+            <label htmlFor={"description"}>Description:</label>
+            <input
+              type={"text"}
+              id={"description"}
+              name={"description"}
+              ref={descriptionRef}
+            />
+          </form>
         </section>
       )}
       {selectedTab === 1 && (
         <section>
           <h2>Teams</h2>
-          <form>
+          <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
-                <div key={"-" + i}>
-                  <label>{i + 1}</label>
-                  <input
-                    type={"text"}
-                    value={team}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      let varTeams = [...teams];
-                      varTeams[i] = e.target.value;
-                      setTeams(varTeams);
-                    }}
-                  />
-                </div>
+                <input
+                  key={"-" + i}
+                  type={"text"}
+                  value={team}
+                  onChange={(e) => {
+                    e.preventDefault();
+                    let varTeams = [...teams];
+                    varTeams[i] = e.target.value;
+                    setTeams(varTeams);
+                    setMatchings([]);
+                  }}
+                />
               );
             })}
             <button
@@ -72,6 +72,7 @@ export function NewLeaguePage() {
                 let varTeams = [...teams];
                 varTeams.push(teams.length + 1);
                 setTeams(varTeams);
+                setMatchings([]);
               }}
             >
               <PlusIcon />
@@ -81,32 +82,33 @@ export function NewLeaguePage() {
       )}
       {selectedTab === 2 && (
         <section className="flex flex-col">
-          <h2>Generate matchings</h2>
-          <button onClick={() => setMatchings(getMatchings(teams))}>
-            Generate
-          </button>
+          <h2>Matchings</h2>
+          <div className="flex">
+            <button
+              onClick={() => {
+                const teamsCopy = [...teams];
+                shuffle(teamsCopy);
+                setMatchings(getMatchings(teamsCopy));
+              }}
+              className={"flex items-center justify-center"}
+            >
+              <UpdateIcon />
+              Shulffle
+            </button>
+            <div>
+              <p>Dates</p>
+            </div>
+          </div>
           <div>
-            <ul>
-              {matchings.map((jornada, i) => {
-                const equiposQueJuegan = [];
-                jornada.forEach((e) => equiposQueJuegan.push(...e));
-                debugger;
-                const equiposQueDescansan = teams.filter((t) => {
-                  const ret = !equiposQueJuegan.find((e) => e === t);
-                  debugger;
-                  return ret;
-                });
-                return (
-                  <>
-                    {i === matchings.length / 2 && <p>-------</p>}
-                    <li>
-                      - Jornada {i} {JSON.stringify(jornada)}
-                      {!!equiposQueDescansan.length &&
-                        `descansan ${equiposQueDescansan}`}
-                    </li>
-                  </>
-                );
-              })}
+            <ul className="flex flex-col gap-2">
+              <div>Primera vuelta</div>
+              {matchings.map((jornada, indexJornada) => (
+                <LeagueDay
+                  indexJornada={indexJornada}
+                  teams={teams}
+                  jornada={jornada}
+                />
+              ))}
             </ul>
           </div>
         </section>

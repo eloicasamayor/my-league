@@ -24,9 +24,18 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
           <tr key={league.id}>
             <td>
               {league.img ? (
-                <img src={league.img} width={30} height={30}></img>
+                <img
+                  src={league.img}
+                  className={
+                    "inline-block h-10 w-10 rounded-xl ring-2 ring-white"
+                  }
+                ></img>
               ) : (
-                <PhotoIcon />
+                <PhotoIcon
+                  svgClassName={
+                    "p-2 inline-block h-10 w-10 rounded-xl ring-2 ring-white"
+                  }
+                />
               )}
             </td>
             <td>
