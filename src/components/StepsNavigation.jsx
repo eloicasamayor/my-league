@@ -33,7 +33,19 @@ export function StepsNavigation({
           onSelectMatchings();
         }}
       >
-        3. Matchings
+        3. Dates
+      </li>
+      <li
+        className={`p-2 btn " + ${
+          selectedTab === 3 ? "border-solid border-2 border-stone-100" : ""
+        }
+          `}
+        onClick={() => {
+          setSelectedTab(3);
+          onSelectMatchings();
+        }}
+      >
+        4. Matchings
       </li>
     </ol>
   );

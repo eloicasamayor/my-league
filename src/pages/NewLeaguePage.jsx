@@ -98,6 +98,36 @@ export function NewLeaguePage() {
         </section>
       )}
       {selectedTab === 2 && (
+        <section>
+          <h2>Dates</h2>
+          <form>
+            <label for="day-of-the-week">day of the week:</label>
+
+            <select
+              name="day-of-the-week"
+              id="day-of-the-week"
+              defaultValue={"sunday"}
+            >
+              <option value="monday">monday</option>
+              <option value="tuesday">tuesday</option>
+              <option value="wednesday">wednesday</option>
+              <option value="thursday">thursday</option>
+              <option value="friday">friday</option>
+              <option value="saturday">saturday</option>
+              <option value="sunday">sunday</option>
+            </select>
+          </form>
+
+          <label>period</label>
+          <select name="day-of-the-week" id="day-of-the-week">
+            <option value="every week">every week</option>
+            <option value="every 2 weeks">every 2 weeks</option>
+            <option value="every 3 weeks">every 3 weeks</option>
+            <option value="every 4 weeks">every 4 weeks</option>
+          </select>
+        </section>
+      )}
+      {selectedTab === 3 && (
         <section className="flex flex-col">
           <h2>Matchings</h2>
           <div className="flex">
