@@ -6,13 +6,15 @@ import { useState } from "react";
 import { StepsNavigation } from "../components/StepsNavigation";
 import { LeagueDay } from "../components/LeagueDay";
 import { WeekDaySelect } from "../components/WeekDaySelect";
+import { ArrowBackIcon } from "../components/icons/ArrowBackIcon";
+import { TrashIcon } from "../components/icons/TrashIcon";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
 import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
 import { shuffle } from "../helpers/shuffle";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
-import { addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 
 // Constants
 import { WEEK_DAYS } from "../components/constants/dates";
@@ -46,9 +48,30 @@ export function NewLeaguePage() {
     });
     return matchingsWithDates;
   }
+  function shuffleMatchings(matchings, teamsCopy) {
+    return matchings.map((m, i) => ({ ...m, matches: teamsCopy[i] }));
+  }
 
   function onSelectMatchings() {
     setMatchings(addDatesToMatchings(getMatchings(teams)));
+  }
+  function resetMatchingsDates() {
+    let firstDay = getFirstMatchDay({
+      dayOfTheWeek: weekDayValue,
+      startingDay: startingDateValue,
+    });
+    let day = firstDay;
+
+    const matchingsWithDates = matchings.map((match, i) => {
+      if (i !== 0) {
+        day = addDays(day, 7);
+      }
+      return {
+        ...match,
+        date: day,
+      };
+    });
+    return matchingsWithDates;
   }
 
   return (
@@ -81,31 +104,38 @@ export function NewLeaguePage() {
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
-                <input
-                  key={"-" + i}
-                  type={"text"}
-                  value={team}
-                  onChange={(e) => {
-                    e.preventDefault();
-                    let varTeams = [...teams];
-                    varTeams[i] = e.target.value;
-                    setTeams(varTeams);
-                    setMatchings([]);
-                  }}
-                />
+                <div>
+                  <input
+                    key={"-" + i}
+                    type={"text"}
+                    value={team}
+                    onChange={(e) => {
+                      e.preventDefault();
+                      let varTeams = [...teams];
+                      varTeams[i] = e.target.value;
+                      setTeams(varTeams);
+                      setMatchings([]);
+                    }}
+                  />
+                  <button>
+                    <TrashIcon />
+                  </button>
+                </div>
               );
             })}
-            <button
-              onClick={(e) => {
-                e.preventDefault();
-                let varTeams = [...teams];
-                varTeams.push(teams.length + 1);
-                setTeams(varTeams);
-                setMatchings([]);
-              }}
-            >
-              <PlusIcon />
-            </button>
+            <div>
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  let varTeams = [...teams];
+                  varTeams.push(teams.length + 1);
+                  setTeams(varTeams);
+                  setMatchings([]);
+                }}
+              >
+                <PlusIcon />
+              </button>
+            </div>
           </form>
         </section>
       )}
@@ -120,6 +150,7 @@ export function NewLeaguePage() {
               name="starting day"
               id="starting-day"
               onChange={(e) => setStartingDateValue(e.target.value)}
+              defaultValue={new Date().toLocaleDateString("es-ES")}
             ></input>
 
             <label htmlFor="day-of-the-week">There will be matches on </label>
@@ -131,9 +162,9 @@ export function NewLeaguePage() {
             />
           </form>
 
-          <button>
+          {/* <button>
             <PlusIcon />
-          </button>
+          </button> */}
         </section>
       )}
       {selectedTab === 3 && (
@@ -144,16 +175,21 @@ export function NewLeaguePage() {
               onClick={() => {
                 const teamsCopy = [...teams];
                 shuffle(teamsCopy);
-                setMatchings(addDatesToMatchings(getMatchings(teamsCopy)));
+                setMatchings(
+                  shuffleMatchings(matchings, getMatchings(teamsCopy))
+                );
               }}
               className={"flex items-center justify-center"}
             >
               <UpdateIcon />
               Shulffle
             </button>
-            <div>
-              <p>Dates</p>
-            </div>
+            <button
+              onClick={() => setMatchings(resetMatchingsDates(matchings))}
+            >
+              <ArrowBackIcon />
+              Reset dates
+            </button>
           </div>
           <div>
             <ul className="flex flex-col gap-2">

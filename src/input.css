@@ -57,8 +57,10 @@
   }
   input[type="text"],
   input[type="password"],
+  input[type="date"],
+  select,
   input[type="email"] {
-    @apply rounded-3xl px-3 py-1 bg-zinc-600/75;
+    @apply rounded-3xl px-3 py-1 bg-zinc-600/75 text-stone-100;
   }
   header .btn {
     @apply px-2 py-1;
