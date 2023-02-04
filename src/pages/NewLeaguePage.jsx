@@ -5,24 +5,36 @@ import { useState } from "react";
 // Components
 import { StepsNavigation } from "../components/StepsNavigation";
 import { LeagueDay } from "../components/LeagueDay";
+import { WeekDaySelect } from "../components/WeekDaySelect";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
+import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
 import { shuffle } from "../helpers/shuffle";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
-import { addDays, endOfToday, nextSunday } from "date-fns";
+import { addDays } from "date-fns";
+
+// Constants
+import { WEEK_DAYS } from "../components/constants/dates";
 
 export function NewLeaguePage() {
   const nameRef = useRef();
   const descriptionRef = useRef();
   const [selectedTab, setSelectedTab] = useState(0);
+  const [startingDateValue, setStartingDateValue] = useState();
+  const [weekDayValue, setWeekDayValue] = useState();
   const [teams, setTeams] = useState([]);
+
+  // objecte jornadas [{date: <>, matches: [<>, <>]}]
   const [matchings, setMatchings] = useState([]);
 
   function addDatesToMatchings(matchings) {
-    const date = endOfToday();
-    let firstDay = nextSunday(date);
+    let firstDay = getFirstMatchDay({
+      dayOfTheWeek: weekDayValue,
+      startingDay: startingDateValue,
+    });
     let day = firstDay;
+
     const matchingsWithDates = matchings.map((matchs, i) => {
       if (i !== 0) {
         day = addDays(day, 7);
@@ -100,31 +112,28 @@ export function NewLeaguePage() {
       {selectedTab === 2 && (
         <section>
           <h2>Dates</h2>
-          <form>
-            <label for="day-of-the-week">day of the week:</label>
+          <form className="flex flex-col">
+            <label htmlFor="starting-day">The league will start</label>
+            <input
+              value={startingDateValue}
+              type={"date"}
+              name="starting day"
+              id="starting-day"
+              onChange={(e) => setStartingDateValue(e.target.value)}
+            ></input>
 
-            <select
-              name="day-of-the-week"
-              id="day-of-the-week"
-              defaultValue={"sunday"}
-            >
-              <option value="monday">monday</option>
-              <option value="tuesday">tuesday</option>
-              <option value="wednesday">wednesday</option>
-              <option value="thursday">thursday</option>
-              <option value="friday">friday</option>
-              <option value="saturday">saturday</option>
-              <option value="sunday">sunday</option>
-            </select>
+            <label htmlFor="day-of-the-week">There will be matches on </label>
+
+            <WeekDaySelect
+              value={weekDayValue}
+              options={WEEK_DAYS.map((day, i) => ({ value: i, label: day }))}
+              onChange={(e) => setWeekDayValue(e)}
+            />
           </form>
 
-          <label>period</label>
-          <select name="day-of-the-week" id="day-of-the-week">
-            <option value="every week">every week</option>
-            <option value="every 2 weeks">every 2 weeks</option>
-            <option value="every 3 weeks">every 3 weeks</option>
-            <option value="every 4 weeks">every 4 weeks</option>
-          </select>
+          <button>
+            <PlusIcon />
+          </button>
         </section>
       )}
       {selectedTab === 3 && (
@@ -148,13 +157,17 @@ export function NewLeaguePage() {
           </div>
           <div>
             <ul className="flex flex-col gap-2">
-              {matchings.map((jornada, indexJornada) => (
-                <LeagueDay
-                  indexJornada={indexJornada}
-                  teams={teams}
-                  jornada={jornada}
-                />
-              ))}
+              {matchings.map((jornada, indexJornada) => {
+                return (
+                  <LeagueDay
+                    indexJornada={indexJornada}
+                    teams={teams}
+                    jornada={jornada}
+                    matchings={matchings}
+                    setMatchings={setMatchings}
+                  />
+                );
+              })}
             </ul>
           </div>
         </section>
