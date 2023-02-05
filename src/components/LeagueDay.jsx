@@ -1,5 +1,6 @@
 // Helpers
 import { addDays, format } from "date-fns";
+import { ArrowDownDoble } from "./icons/ArrowDownDoble";
 
 export function LeagueDay({
   teams,
@@ -26,10 +27,13 @@ export function LeagueDay({
   );
   return (
     <li className="w-full rounded-md bg-zinc-700/75 block p-1">
-      <p>
-        {format(jornada.date, "EEEE dd MMM yyyy")}{" "}
-        <button onClick={() => skipThisWeek(indexJornada)}>skip week</button>
-      </p>
+      <div className="flex justify-between">
+        <p>{format(jornada.date, "EEEE dd MMM yyyy")}</p>
+        <button onClick={() => skipThisWeek(indexJornada)}>
+          <ArrowDownDoble />
+          skip week
+        </button>
+      </div>
 
       {jornada.matches.map((match) => (
         <div className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2">{`${match[0]} - ${match[1]}`}</div>

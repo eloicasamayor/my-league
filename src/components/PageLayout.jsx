@@ -36,7 +36,7 @@ export function PageLayout() {
     <>
       <header className="h-14 w-full flex justify-between items-center px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
         {location.pathname !== "/" ? (
-          <div>
+          <div className="flex">
             <button onClick={() => navigate(-1)}>
               <ArrowLeft />
             </button>

@@ -14,17 +14,23 @@ import { getMatchings } from "../helpers/getMatchings";
 import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
 import { shuffle } from "../helpers/shuffle";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
-import { addDays, format } from "date-fns";
+import { addDays, format, endOfDay } from "date-fns";
 
 // Constants
 import { WEEK_DAYS } from "../components/constants/dates";
+import { UploadIcon } from "../components/icons/ArrowBackIcon copy";
 
 export function NewLeaguePage() {
-  const nameRef = useRef();
-  const descriptionRef = useRef();
+  const [leagueName, setLeagueName] = useState("New league");
+  const [leagueDescription, setLeagueDescription] = useState(
+    "New league description"
+  );
+
   const [selectedTab, setSelectedTab] = useState(0);
-  const [startingDateValue, setStartingDateValue] = useState();
-  const [weekDayValue, setWeekDayValue] = useState();
+  const [startingDateValue, setStartingDateValue] = useState(
+    format(new Date(), "yyyy-MM-dd")
+  );
+  const [weekDayValue, setWeekDayValue] = useState("6");
   const [teams, setTeams] = useState([]);
 
   // objecte jornadas [{date: <>, matches: [<>, <>]}]
@@ -75,73 +81,94 @@ export function NewLeaguePage() {
   }
 
   return (
-    <>
-      <h1>New league</h1>
+    <div className="pt-2">
+      <form className="flex flex-col sm:flex-row">
+        <div className="relative w-full">
+          <label className="special-label" htmlFor={"name"}>
+            League name
+          </label>
+          <input
+            className="text-xl special-input leading-9"
+            type={"text"}
+            id={"name"}
+            name={"name"}
+            value={leagueName}
+            onChange={(e) => setLeagueName(e.target.value)}
+          />
+        </div>
+        <div className="relative w-full">
+          <label className="special-label" htmlFor={"description"}>
+            Description
+          </label>
+          <input
+            className="text-lg special-input leading-9"
+            type={"text"}
+            id={"description"}
+            name={"description"}
+            value={leagueDescription}
+            onChange={(e) => setLeagueDescription(e.target.value)}
+          />
+        </div>
+      </form>
       <StepsNavigation
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         onSelectMatchings={onSelectMatchings}
       />
       {selectedTab === 0 && (
-        <section>
-          <h2>League info</h2>
-          <form className="flex flex-col gap-2">
-            <label htmlFor={"name"}>League name:</label>
-            <input type={"text"} id={"name"} name={"name"} ref={nameRef} />
-            <label htmlFor={"description"}>Description:</label>
-            <input
-              type={"text"}
-              id={"description"}
-              name={"description"}
-              ref={descriptionRef}
-            />
-          </form>
-        </section>
-      )}
-      {selectedTab === 1 && (
-        <section>
-          <h2>Teams</h2>
+        <section className="bg-zinc-900 px-2 py-4">
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
-                <div>
-                  <input
-                    key={"-" + i}
-                    type={"text"}
-                    value={team}
-                    onChange={(e) => {
-                      e.preventDefault();
-                      let varTeams = [...teams];
-                      varTeams[i] = e.target.value;
-                      setTeams(varTeams);
-                      setMatchings([]);
-                    }}
-                  />
-                  <button>
-                    <TrashIcon />
-                  </button>
+                <div className="flex">
+                  <div className="relative w-full">
+                    <input
+                      className="special-input text-xl p-2 text-center"
+                      key={"-" + i}
+                      type={"text"}
+                      value={team}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        let varTeams = [...teams];
+                        varTeams[i] = e.target.value;
+                        setTeams(varTeams);
+                        setMatchings([]);
+                      }}
+                    />
+                    <button
+                      className="absolute right-0 top-0"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        const teamsCopy = [...teams];
+                        teamsCopy.splice(i, 1);
+                        setTeams(teamsCopy);
+                      }}
+                    >
+                      <TrashIcon />
+                    </button>
+                  </div>
                 </div>
               );
             })}
             <div>
               <button
+                className="w-full"
                 onClick={(e) => {
                   e.preventDefault();
                   let varTeams = [...teams];
-                  varTeams.push(teams.length + 1);
+                  varTeams.push(`New team ${teams.length + 1}`);
                   setTeams(varTeams);
                   setMatchings([]);
                 }}
               >
-                <PlusIcon />
+                <PlusIcon /> Add team
               </button>
             </div>
           </form>
         </section>
       )}
-      {selectedTab === 2 && (
-        <section>
-          <h2>Dates</h2>
+      {selectedTab === 1 && (
+        <section className="bg-zinc-900 px-2 py-4">
           <form className="flex flex-col">
             <label htmlFor="starting-day">The league will start</label>
             <input
@@ -150,7 +177,6 @@ export function NewLeaguePage() {
               name="starting day"
               id="starting-day"
               onChange={(e) => setStartingDateValue(e.target.value)}
-              defaultValue={new Date().toLocaleDateString("es-ES")}
             ></input>
 
             <label htmlFor="day-of-the-week">There will be matches on </label>
@@ -167,10 +193,9 @@ export function NewLeaguePage() {
           </button> */}
         </section>
       )}
-      {selectedTab === 3 && (
-        <section className="flex flex-col">
-          <h2>Matchings</h2>
-          <div className="flex">
+      {selectedTab === 2 && (
+        <section className="flex flex-col bg-zinc-900 px-2 py-4">
+          <div className="flex gap-2 pb-2">
             <button
               onClick={() => {
                 const teamsCopy = [...teams];
@@ -190,6 +215,11 @@ export function NewLeaguePage() {
               <ArrowBackIcon />
               Reset dates
             </button>
+            <div className="grow"></div>
+            <button>
+              <UploadIcon />
+              Save
+            </button>
           </div>
           <div>
             <ul className="flex flex-col gap-2">
@@ -208,6 +238,6 @@ export function NewLeaguePage() {
           </div>
         </section>
       )}
-    </>
+    </div>
   );
 }

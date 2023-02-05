@@ -37,6 +37,7 @@ function LeaguesPage() {
           className="rounded-full"
           onClick={() => navigate("/new-league")}
         >
+          <PlusIcon />
           Create league
         </button>
       </header>

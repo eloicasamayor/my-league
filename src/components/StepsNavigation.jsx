@@ -4,28 +4,32 @@ export function StepsNavigation({
   onSelectMatchings,
 }) {
   return (
-    <ol className="h-8 flex gap-2 m-2">
+    <ol className="h-8 flex gap-6 mx-2 my-2 items-center justify-center">
       <li
-        className={`p-2 btn ${
-          selectedTab === 0 ? "border-solid border-2 border-stone-100" : ""
-        }`}
-        onClick={() => setSelectedTab(0)}
-      >
-        1. League info
-      </li>
-      <li
-        className={`p-2 btn " + ${
-          selectedTab === 1 ? "border-solid border-2 border-stone-100" : ""
+        className={`p-2 text-2xl cursor-pointer " + ${
+          selectedTab === 0 ? "text-violet-200" : "text-zinc-500"
         }
           `}
-        onClick={() => setSelectedTab(1)}
+        onClick={() => setSelectedTab(0)}
       >
-        2. Teams
+        Teams
       </li>
 
       <li
-        className={`p-2 btn " + ${
-          selectedTab === 2 ? "border-solid border-2 border-stone-100" : ""
+        className={`p-2 text-2xl cursor-pointer font-medium " + ${
+          selectedTab === 1 ? "" : "text-zinc-500"
+        }
+          `}
+        onClick={() => {
+          setSelectedTab(1);
+          onSelectMatchings();
+        }}
+      >
+        Dates
+      </li>
+      <li
+        className={`p-2 text-2xl cursor-pointer " + ${
+          selectedTab === 2 ? "" : "text-zinc-500"
         }
           `}
         onClick={() => {
@@ -33,19 +37,7 @@ export function StepsNavigation({
           onSelectMatchings();
         }}
       >
-        3. Dates
-      </li>
-      <li
-        className={`p-2 btn " + ${
-          selectedTab === 3 ? "border-solid border-2 border-stone-100" : ""
-        }
-          `}
-        onClick={() => {
-          setSelectedTab(3);
-          onSelectMatchings();
-        }}
-      >
-        4. Matchings
+        Matchings
       </li>
     </ol>
   );
