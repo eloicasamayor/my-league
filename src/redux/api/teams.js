@@ -9,7 +9,8 @@ export const teams = apiSlice.injectEndpoints({
       providesTags: ["teams"],
     }),
     insertTeam: builder.mutation({
-      queryFn: async (post) => await supabase.from("teams").insert(post).select,
+      queryFn: async (post) =>
+        await supabase.from("teams").insert(post).select(),
       invalidatesTags: ["teams"],
     }),
     updateTeam: builder.mutation({

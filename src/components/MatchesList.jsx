@@ -3,6 +3,7 @@ import { useState } from "react";
 import { EditMatchForm } from "./EditMatchForm";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
+import { format } from "date-fns";
 
 export function MatchesList({
   teams,
@@ -64,7 +65,7 @@ export function MatchesList({
                     <td>{match.local_goals}</td>
                     <td>{match.visitor_goals}</td>
                     <td>{getTeamNameWithId(match.visitor_team)}</td>
-                    <td>{match.date}</td>
+                    <td>{format(new Date(match.date), "eeee dd MMM yyyy")}</td>
                     <td>{match.played.toString()}</td>
                     {isOwner && !selectedTeam && (
                       <td>
