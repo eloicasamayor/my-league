@@ -28,9 +28,9 @@ export function NewLeagueForm() {
           />
           <button
             type={"button"}
-            onClick={async (e) => {
+            onClick={(e) => {
               e.preventDefault();
-              await insertLeague({
+              insertLeague({
                 name: nameRef.current.value,
                 urlname: nameToUrlName(nameRef.current.value),
                 description: descriptionRef.current.value,

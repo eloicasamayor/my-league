@@ -9,7 +9,10 @@ export const leagues = apiSlice.injectEndpoints({
     }),
     insertLeague: builder.mutation({
       queryFn: async (post) =>
-        await supabase.from("leagues").insert([{ ...post }]),
+        await supabase
+          .from("leagues")
+          .insert([{ ...post }])
+          .select(),
       invalidatesTags: ["leagues"],
     }),
     updateLeague: builder.mutation({

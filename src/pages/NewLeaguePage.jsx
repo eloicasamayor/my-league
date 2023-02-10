@@ -1,4 +1,6 @@
-import { useRef } from "react";
+// Dependencies
+import { useSelector } from "react-redux";
+import { useInsertLeagueMutation, useInsertTeamMutation } from "../redux";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { useState } from "react";
 
@@ -8,12 +10,13 @@ import { LeagueDay } from "../components/LeagueDay";
 import { WeekDaySelect } from "../components/WeekDaySelect";
 import { ArrowBackIcon } from "../components/icons/ArrowBackIcon";
 import { TrashIcon } from "../components/icons/TrashIcon";
+import { UpdateIcon } from "../components/icons/UpdateIcon";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
 import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
 import { shuffle } from "../helpers/shuffle";
-import { UpdateIcon } from "../components/icons/UpdateIcon";
+import { nameToUrlName } from "../helpers/nameToUrlName";
 import { addDays, format, endOfDay } from "date-fns";
 
 // Constants
@@ -21,7 +24,11 @@ import { WEEK_DAYS } from "../components/constants/dates";
 import { UploadIcon } from "../components/icons/ArrowBackIcon copy";
 
 export function NewLeaguePage() {
-  const [leagueName, setLeagueName] = useState("New league");
+  const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
+  const [insertTeam, newTeamReqResult] = useInsertTeamMutation();
+  const authData = useSelector((state) => state.auth);
+
+  const [leagueName, setLeagueName] = useState(() => nowDate());
   const [leagueDescription, setLeagueDescription] = useState(
     "New league description"
   );
@@ -35,6 +42,35 @@ export function NewLeaguePage() {
 
   // objecte jornadas [{date: <>, matches: [<>, <>]}]
   const [matchings, setMatchings] = useState([]);
+
+  async function saveNewLeague() {
+    const insertLeagueReqRes = await insertLeague({
+      name: leagueName,
+      urlname: nameToUrlName(leagueName),
+      description: leagueDescription,
+      owner: authData?.user?.id,
+    });
+
+    if (insertLeagueReqRes.error) {
+      console.log(
+        `Error ${insertLeagueReqRes.error.code} : ${insertLeagueReqRes.error.message}`
+      );
+      return;
+    }
+    const leagueId = insertLeagueReqRes.data[0].id;
+    const teamsReq = teams.map((team) => ({
+      name: team,
+      urlname: nameToUrlName(team),
+      league: leagueId,
+    }));
+    debugger;
+    const insertTeamsReqRes = await insertTeam(teamsReq);
+  }
+
+  function nowDate() {
+    const now = new Date();
+    return `New league ${format(now, "yyyy-MM-dd hh:mm")}`;
+  }
 
   function addDatesToMatchings(matchings) {
     let firstDay = getFirstMatchDay({
@@ -216,7 +252,7 @@ export function NewLeaguePage() {
               Reset dates
             </button>
             <div className="grow"></div>
-            <button>
+            <button onClick={() => saveNewLeague()}>
               <UploadIcon />
               Save
             </button>

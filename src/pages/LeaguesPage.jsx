@@ -26,16 +26,13 @@ function LeaguesPage() {
     <div>
       <header className="flex justify-between align-middle py-2">
         <h1>Leagues</h1>
-
-        <button
-          className="aspect-square rounded-full"
-          onClick={() => setShowModal(true)}
-        >
-          <PlusIcon />
-        </button>
         <button
           className="rounded-full"
-          onClick={() => navigate("/new-league")}
+          onClick={() =>
+            authData?.user?.id && authData?.session
+              ? navigate("/new-league")
+              : setShowModal(true)
+          }
         >
           <PlusIcon />
           Create league
@@ -48,15 +45,9 @@ function LeaguesPage() {
       />
       {showModal && (
         <Modal onCloseModal={setShowModal}>
-          {authData?.user?.id && authData?.session ? (
-            <NewLeagueForm />
-          ) : (
-            <>
-              <p className="text-center	">
-                <Link to={"/login"}>login</Link> to create a league
-              </p>
-            </>
-          )}
+          <p className="text-center	">
+            <Link to={"/login"}>login</Link> to create a league
+          </p>
         </Modal>
       )}
     </div>

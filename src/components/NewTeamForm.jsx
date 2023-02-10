@@ -5,7 +5,7 @@ import { useRef } from "react";
 // Helpers
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function NewTeamForm({ teamsRefetch, currentLeague }) {
+export function NewTeamForm({ currentLeague }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();
   const nameRef = useRef();
   const { id } = currentLeague;
@@ -18,14 +18,13 @@ export function NewTeamForm({ teamsRefetch, currentLeague }) {
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />
         <button
-          onClick={async (e) => {
+          onClick={(e) => {
             e.preventDefault();
-            await insertTeam({
+            insertTeam({
               name: nameRef.current.value,
               urlname: nameToUrlName(nameRef.current.value),
               league: id,
             });
-            teamsRefetch();
           }}
         >
           submit
