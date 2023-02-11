@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 
 // Components
 import {
-  MatchesList,
+  MatchesCalendar,
   Classification,
   PlayersList,
   NewTeamForm,
@@ -137,7 +137,7 @@ export function LeaguePage() {
       {selectedTab === 1 && (
         <>
           <h2>Matches List</h2>
-          <MatchesList
+          <MatchesCalendar
             teams={teamsData}
             matchesData={matchesData}
             matchesIsLoading={matchesIsLoading}

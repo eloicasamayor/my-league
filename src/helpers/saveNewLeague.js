@@ -47,13 +47,14 @@ export async function saveNewLeague({
   const insertedTeams = insertTeamsReqRes.data;
 
   const matchesReq = [];
-  matchings.forEach((jornada) => {
+  matchings.forEach((jornada, numJornada) => {
     jornada.matches.forEach((match) => {
       matchesReq.push({
         date: jornada.date,
         local_team: insertedTeams.find((team) => team.name === match[0]).id,
         visitor_team: insertedTeams.find((team) => team.name === match[1]).id,
         league: leagueId,
+        match_day: numJornada + 1,
       });
     });
   });

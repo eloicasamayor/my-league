@@ -1,4 +1,6 @@
 export { MatchesList } from "./MatchesList";
+export { MatchesCalendar } from "./MatchesCalendar";
+
 export { Classification } from "./Classification";
 export { PlayersList } from "./PlayersList";
 export { LeaguesList } from "./LeaguesList";

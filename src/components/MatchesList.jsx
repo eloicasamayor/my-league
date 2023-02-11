@@ -54,6 +54,7 @@ export function MatchesList({
                   <th></th>
                   <th>visitor team</th>
                   <th>date</th>
+                  <th>match day</th>
                   <th>played</th>
                   {isOwner && !selectedTeam && <th></th>}
                 </tr>
@@ -66,6 +67,7 @@ export function MatchesList({
                     <td>{match.visitor_goals}</td>
                     <td>{getTeamNameWithId(match.visitor_team)}</td>
                     <td>{format(new Date(match.date), "eeee dd MMM yyyy")}</td>
+                    <td>{match.match_day}</td>
                     <td>{match.played.toString()}</td>
                     {isOwner && !selectedTeam && (
                       <td>
