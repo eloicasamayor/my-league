@@ -27,6 +27,11 @@ export const players = apiSlice.injectEndpoints({
         await supabase.from("players").delete().eq("id", body.id),
       invalidatesTags: ["players"],
     }),
+    deleteAllLeaguePlayers: builder.mutation({
+      queryFn: async (body) =>
+        await supabase.from("players").delete().eq("league", body.id),
+      invalidatesTags: ["players"],
+    }),
   }),
 });
 
@@ -35,4 +40,5 @@ export const {
   useInsertPlayerMutation,
   useUpdatePlayerMutation,
   useDeletePlayerMutation,
+  useDeleteAllLeaguePlayersMutation,
 } = players;

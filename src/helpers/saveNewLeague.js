@@ -12,8 +12,15 @@ export async function saveNewLeague({
   insertMatch,
   setAlertMessage,
 }) {
+  if (!leagueName) {
+    setAlertMessage("Missing league name");
+    return;
+  }
+
+  debugger;
   if (teams.length < 2) {
-    return { message: "Need more teams to create the league" };
+    setAlertMessage("Need more teams to create the league");
+    return;
   }
   const insertLeagueReqRes = await insertLeague({
     name: leagueName,
@@ -23,11 +30,7 @@ export async function saveNewLeague({
   });
 
   if (insertLeagueReqRes.error) {
-    /* console.log(
-      `Error ${insertLeagueReqRes.error.code} : ${insertLeagueReqRes.error.message}`
-    ); */
-    setAlertMessage(insertLeagueReqRes.error.message);
-    return insertLeagueReqRes.error;
+    return;
   }
   const leagueId = insertLeagueReqRes.data[0].id;
   const teamsReq = teams.map((team) => ({
@@ -38,11 +41,7 @@ export async function saveNewLeague({
 
   const insertTeamsReqRes = await insertTeam(teamsReq);
   if (insertTeamsReqRes.error) {
-    /* console.log(
-      `Error ${insertTeamsReqRes.error.code} : ${insertTeamsReqRes.error.message}`
-    ); */
-    setAlertMessage(insertTeamsReqRes.error.message);
-    return insertTeamsReqRes.error;
+    return;
   }
 
   const insertedTeams = insertTeamsReqRes.data;
@@ -60,12 +59,7 @@ export async function saveNewLeague({
   });
   const insertMatchesReqRes = await insertMatch(matchesReq);
   if (insertMatchesReqRes.error) {
-    /* console.log(
-      `Error ${insertMatchesReqRes.error.code} : ${insertMatchesReqRes.error.message}`
-    ); */
-    setAlertMessage(insertMatchesReqRes.error.message);
-    return insertMatchesReqRes.error;
+    return;
   }
-  setAlertMessage("League created correctly");
   return { success: true, message: "League created correctly" };
 }

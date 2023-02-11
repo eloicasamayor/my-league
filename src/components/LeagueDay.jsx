@@ -36,7 +36,10 @@ export function LeagueDay({
       </div>
 
       {jornada.matches.map((match) => (
-        <div className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2">{`${match[0]} - ${match[1]}`}</div>
+        <div
+          className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2"
+          key={`${match[0]}vs${match[1]}`}
+        >{`${match[0]} - ${match[1]}`}</div>
       ))}
       {!!equiposQueDescansan.length && (
         <div className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2">

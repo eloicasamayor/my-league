@@ -16,30 +16,30 @@ import { ArrowBackIcon } from "../components/icons/ArrowBackIcon";
 import { TrashIcon } from "../components/icons/TrashIcon";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
 import { Alert } from "../components/Alert";
+import { UploadIcon } from "../components/icons/UploadIcon";
+import { CircleCheckIcon } from "../components/icons/CircleCheckIcon";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
 import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
 import { shuffle } from "../helpers/shuffle";
-import { nameToUrlName } from "../helpers/nameToUrlName";
 import { saveNewLeague } from "../helpers/saveNewLeague";
 import { addDays, format, endOfDay } from "date-fns";
+import { nameToUrlName } from "../helpers/nameToUrlName";
 
 // Constants
 import { WEEK_DAYS } from "../components/constants/dates";
-import { UploadIcon } from "../components/icons/ArrowBackIcon copy";
+import { Link } from "react-router-dom";
 
 export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
   const [insertTeam, newTeamReqResult] = useInsertTeamMutation();
-  const [insertMatch, newMatchreqResult] = useInsertMatchMutation();
+  const [insertMatch, newMatchReqResult] = useInsertMatchMutation();
 
   const authData = useSelector((state) => state.auth);
 
-  const [leagueName, setLeagueName] = useState(() => nowDate());
-  const [leagueDescription, setLeagueDescription] = useState(
-    "New league description"
-  );
+  const [leagueName, setLeagueName] = useState("");
+  const [leagueDescription, setLeagueDescription] = useState("");
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [startingDateValue, setStartingDateValue] = useState(
@@ -80,14 +80,62 @@ export function NewLeaguePage() {
     return matchings.map((m, i) => ({ ...m, matches: teamsCopy[i] }));
   }
 
-  useEffect(() => {
+  function setMessage() {
     if (newLeagueReqResult.isError) {
-      setAlertMessage(JSON.stringify(newLeagueReqResult.error));
+      return (
+        <>
+          <h2>{`Error creating the league`}</h2>
+          <p>{`Error code: ${newLeagueReqResult.error.code}`}</p>
+          <p>{`${newLeagueReqResult.error.message}`}</p>
+        </>
+      );
     }
-    if (newLeagueReqResult.isSuccess) {
-      setAlertMessage("league created successfully");
+    if (newTeamReqResult.isError) {
+      return (
+        <>
+          <h2>{`Error creating the teams ${newTeamReqResult.error.code}`}</h2>
+          <p>{`${newTeamReqResult.error.message}`}</p>
+        </>
+      );
     }
-  }, [JSON.stringify(newLeagueReqResult)]);
+    if (newMatchReqResult.isError) {
+      return (
+        <>
+          <h2>{`Error creating the teams ${newMatchReqResult.error.code}`}</h2>
+          <p>{`${newMatchReqResult.error.message}`}</p>
+        </>
+      );
+    }
+    if (
+      newLeagueReqResult.isSuccess &&
+      newTeamReqResult.isSuccess &&
+      newMatchReqResult.isSuccess
+    )
+      return (
+        <>
+          <p>
+            <CircleCheckIcon svgClassName={"inline"} /> League created
+          </p>
+          <p>
+            <CircleCheckIcon svgClassName={"inline"} /> Teams created
+          </p>
+          <p>
+            <CircleCheckIcon svgClassName={"inline"} /> Matches created
+          </p>
+          <hr />
+          <Link to={nameToUrlName(`../${leagueName}`)}>
+            {"Go to the league page"}
+          </Link>
+        </>
+      );
+  }
+  useEffect(() => {
+    setAlertMessage(setMessage());
+  }, [
+    JSON.stringify(newLeagueReqResult),
+    JSON.stringify(newTeamReqResult),
+    JSON.stringify(newMatchReqResult),
+  ]);
 
   function onSelectMatchings() {
     setMatchings(addDatesToMatchings(getMatchings(teams)));
@@ -114,9 +162,7 @@ export function NewLeaguePage() {
   return (
     <div className="pt-2">
       {alertMessage && (
-        <Alert onCloseAlert={setAlertMessage}>
-          <p>{alertMessage}</p>
-        </Alert>
+        <Alert onCloseAlert={setAlertMessage}>{alertMessage}</Alert>
       )}
       <form className="flex flex-col sm:flex-row">
         <div className="relative w-full">
@@ -128,6 +174,7 @@ export function NewLeaguePage() {
             type={"text"}
             id={"name"}
             name={"name"}
+            placeholder={"League Name"}
             value={leagueName}
             onChange={(e) => setLeagueName(e.target.value)}
           />
@@ -140,6 +187,7 @@ export function NewLeaguePage() {
             className="text-lg special-input leading-9"
             type={"text"}
             id={"description"}
+            placeholder={"League Description"}
             name={"description"}
             value={leagueDescription}
             onChange={(e) => setLeagueDescription(e.target.value)}
@@ -156,8 +204,8 @@ export function NewLeaguePage() {
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
-                <div className="flex">
-                  <div className="relative w-full">
+                <div className="flex" key={"parent" + i}>
+                  <div className="relative w-full" key={"div" + i}>
                     <input
                       className="special-input text-xl p-2 text-center"
                       key={"-" + i}
@@ -276,6 +324,7 @@ export function NewLeaguePage() {
               {matchings.map((jornada, indexJornada) => {
                 return (
                   <LeagueDay
+                    key={indexJornada}
                     indexJornada={indexJornada}
                     teams={teams}
                     jornada={jornada}

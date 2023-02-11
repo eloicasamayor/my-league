@@ -88,7 +88,7 @@
 
 @layer utilities {
   input[type="text"].special-input {
-    @apply bg-transparent w-full hover:bg-zinc-600/75 focus:bg-zinc-600/75;
+    @apply bg-zinc-800/95 w-full hover:bg-zinc-600/75 focus:bg-zinc-600/75;
   }
   .special-label {
     @apply text-xs text-zinc-500 leading-none flex flex-col pl-3 absolute top-0;
