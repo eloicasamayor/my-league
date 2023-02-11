@@ -6,7 +6,7 @@ import {
   useInsertMatchMutation,
 } from "../redux";
 import { PlusIcon } from "../components/icons/PlusIcon";
-import { useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 // Components
 import { StepsNavigation } from "../components/StepsNavigation";
@@ -15,6 +15,7 @@ import { WeekDaySelect } from "../components/WeekDaySelect";
 import { ArrowBackIcon } from "../components/icons/ArrowBackIcon";
 import { TrashIcon } from "../components/icons/TrashIcon";
 import { UpdateIcon } from "../components/icons/UpdateIcon";
+import { Alert } from "../components/Alert";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
@@ -31,7 +32,7 @@ import { UploadIcon } from "../components/icons/ArrowBackIcon copy";
 export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
   const [insertTeam, newTeamReqResult] = useInsertTeamMutation();
-  const [insertMatch, requestResult] = useInsertMatchMutation();
+  const [insertMatch, newMatchreqResult] = useInsertMatchMutation();
 
   const authData = useSelector((state) => state.auth);
 
@@ -49,6 +50,8 @@ export function NewLeaguePage() {
 
   // objecte jornadas [{date: <>, matches: [<>, <>]}]
   const [matchings, setMatchings] = useState([]);
+
+  const [alertMessage, setAlertMessage] = useState("");
 
   function nowDate() {
     const now = new Date();
@@ -77,6 +80,15 @@ export function NewLeaguePage() {
     return matchings.map((m, i) => ({ ...m, matches: teamsCopy[i] }));
   }
 
+  useEffect(() => {
+    if (newLeagueReqResult.isError) {
+      setAlertMessage(JSON.stringify(newLeagueReqResult.error));
+    }
+    if (newLeagueReqResult.isSuccess) {
+      setAlertMessage("league created successfully");
+    }
+  }, [JSON.stringify(newLeagueReqResult)]);
+
   function onSelectMatchings() {
     setMatchings(addDatesToMatchings(getMatchings(teams)));
   }
@@ -101,6 +113,11 @@ export function NewLeaguePage() {
 
   return (
     <div className="pt-2">
+      {alertMessage && (
+        <Alert onCloseAlert={setAlertMessage}>
+          <p>{alertMessage}</p>
+        </Alert>
+      )}
       <form className="flex flex-col sm:flex-row">
         <div className="relative w-full">
           <label className="special-label" htmlFor={"name"}>
@@ -236,7 +253,7 @@ export function NewLeaguePage() {
             </button>
             <div className="grow"></div>
             <button
-              onClick={() =>
+              onClick={() => {
                 saveNewLeague({
                   leagueName,
                   leagueDescription,
@@ -246,8 +263,9 @@ export function NewLeaguePage() {
                   insertLeague,
                   insertTeam,
                   insertMatch,
-                })
-              }
+                  setAlertMessage,
+                });
+              }}
             >
               <UploadIcon />
               Save
