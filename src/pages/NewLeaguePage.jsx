@@ -47,6 +47,7 @@ export function NewLeaguePage() {
   );
   const [weekDayValue, setWeekDayValue] = useState("6");
   const [teams, setTeams] = useState([]);
+  const [players, setPlayers] = useState([]);
 
   // objecte jornadas [{date: <>, matches: [<>, <>]}]
   const [matchings, setMatchings] = useState([]);
@@ -204,7 +205,7 @@ export function NewLeaguePage() {
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
-                <div className="flex" key={"parent" + i}>
+                <div className="flex w-full" key={"parent" + i}>
                   <div className="relative w-full" key={"div" + i}>
                     <input
                       className="special-input text-xl p-2 text-center"
@@ -226,6 +227,9 @@ export function NewLeaguePage() {
                         const teamsCopy = [...teams];
                         teamsCopy.splice(i, 1);
                         setTeams(teamsCopy);
+                        const playersCopy = [...players];
+                        playersCopy.splice(i, 1);
+                        setPlayers(playersCopy);
                       }}
                     >
                       <TrashIcon />
@@ -242,6 +246,9 @@ export function NewLeaguePage() {
                   let varTeams = [...teams];
                   varTeams.push(`New team ${teams.length + 1}`);
                   setTeams(varTeams);
+                  let varPlayers = [...players];
+                  varPlayers.push([]);
+                  setPlayers(varPlayers);
                   setMatchings([]);
                 }}
               >
@@ -252,6 +259,61 @@ export function NewLeaguePage() {
         </section>
       )}
       {selectedTab === 1 && (
+        <section className="bg-zinc-900 px-2 py-4">
+          {teams.map((team, teamIndex) => (
+            <div className="flex flex-col gap-1 pb-5">
+              <h2 className="w-full">{team}</h2>
+              {players[teamIndex].map((player, i) => (
+                <div className="relative w-full">
+                  <input
+                    type={"text"}
+                    value={player}
+                    className="special-input text-xl p-2 text-center w-full"
+                    onChange={(e) => {
+                      e.preventDefault();
+                      const playersCopy = [...players];
+                      const thisTeamCopy = [...playersCopy[teamIndex]];
+                      thisTeamCopy[i] = e.target.value;
+                      playersCopy[teamIndex] = thisTeamCopy;
+                      setPlayers(playersCopy);
+                    }}
+                  />
+                  <button
+                    className="absolute right-0 top-0"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const playersCopy = [...players];
+                      const thisTeamCopy = [...playersCopy[teamIndex]];
+                      thisTeamCopy.splice(i, 1);
+                      playersCopy[teamIndex] = thisTeamCopy;
+                      setPlayers(playersCopy);
+                    }}
+                  >
+                    <TrashIcon />
+                  </button>
+                </div>
+              ))}
+              <button
+                className="w-full"
+                onClick={(e) => {
+                  debugger;
+                  e.preventDefault();
+                  const varPlayers = [...players];
+                  let playersThisTeam = [...(players?.[teamIndex] ?? [])];
+                  playersThisTeam.push(
+                    `New player ${playersThisTeam.length + 1}`
+                  );
+                  varPlayers[teamIndex] = playersThisTeam;
+                  setPlayers(varPlayers);
+                }}
+              >
+                <PlusIcon /> Add player
+              </button>
+            </div>
+          ))}
+        </section>
+      )}
+      {selectedTab === 2 && (
         <section className="bg-zinc-900 px-2 py-4">
           <form className="flex flex-col">
             <label htmlFor="starting-day">The league will start</label>
@@ -271,13 +333,9 @@ export function NewLeaguePage() {
               onChange={(e) => setWeekDayValue(e)}
             />
           </form>
-
-          {/* <button>
-            <PlusIcon />
-          </button> */}
         </section>
       )}
-      {selectedTab === 2 && (
+      {selectedTab === 3 && (
         <section className="flex flex-col bg-zinc-900 px-2 py-4">
           <div className="flex gap-2 pb-2">
             <button
