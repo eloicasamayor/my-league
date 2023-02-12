@@ -5,7 +5,7 @@ import { useRef } from "react";
 // Helpers
 import { nameToUrlName } from "../helpers/nameToUrlName";
 
-export function NewTeamForm({ currentLeague }) {
+export function NewTeamForm({ currentLeague, closeModal }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();
   const nameRef = useRef();
   const { id } = currentLeague;
@@ -25,6 +25,7 @@ export function NewTeamForm({ currentLeague }) {
               urlname: nameToUrlName(nameRef.current.value),
               league: id,
             });
+            closeModal();
           }}
         >
           submit

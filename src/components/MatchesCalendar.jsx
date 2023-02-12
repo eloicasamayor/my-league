@@ -31,44 +31,28 @@ export function MatchesCalendar({
   }
 
   function renderMatch(match, i) {
-    if (match.played) {
-      return (
-        <div key={match.date + i} className={"flex justify-center gap-5"}>
-          <div>{getTeamNameWithId(match.local_team)}</div>
-          <div>{match.local_goals}</div>
-          <div>{match.visitor_goals}</div>
-          <div>{getTeamNameWithId(match.visitor_team)}</div>
-          <div>{format(new Date(match.date), "eeee dd MMM yyyy")}</div>
-          {isOwner && !selectedTeam && (
-            <div>
-              <button
-                onClick={() =>
-                  setMatchToEdit({
-                    id: match.id,
-                    localTeam: match.local_team,
-                    visitorTeam: match.visitor_team,
-                    played: match.played,
-                    localGoals: match.local_goals,
-                    visitorGoals: match.visitor_goals,
-                    localScorers: match.local_scorers,
-                    visitorScorers: match.visitor_scorers,
-                  })
-                }
-              >
-                <PencilIcon />
-              </button>
-            </div>
-          )}
-        </div>
-      );
-    }
     return (
-      <div key={match.date + i} className={"flex justify-center gap-5"}>
-        <div>{getTeamNameWithId(match.local_team)}</div>
-        <div>VS</div>
-        <div>{getTeamNameWithId(match.visitor_team)}</div>
-        <div>{format(new Date(match.date), "eeee dd MMM yyyy")}</div>
-        {isOwner && !selectedTeam && (
+      <div
+        key={match.date + i}
+        className="grid  grid-cols-[minmax(50px,_1fr)_80px_minmax(50px,_1fr)] h-8 items-center bg-zinc-600 p-2"
+      >
+        <span className="text-right">
+          {getTeamNameWithId(match.local_team)}
+        </span>
+        <span className={`text-center ${match.played ? "text-xl" : "text-sm"}`}>
+          {match.played
+            ? `${match.local_goals} - ${match.visitor_goals}`
+            : format(new Date(match.date), " hh:mm")}
+        </span>
+        <span className="text-left">
+          {getTeamNameWithId(match.visitor_team)}
+        </span>
+      </div>
+    );
+  }
+
+  {
+    /*isOwner && !selectedTeam && (
           <div>
             <button
               onClick={() =>
@@ -87,9 +71,7 @@ export function MatchesCalendar({
               <PencilIcon />
             </button>
           </div>
-        )}
-      </div>
-    );
+            ) */
   }
 
   if (selectedTeam) {
@@ -111,7 +93,7 @@ export function MatchesCalendar({
     return;
   }
   const groupedMatchesData = _.groupBy(matchesData, (match) => match.match_day);
-  debugger;
+
   return (
     <section>
       {Object.values(groupedMatchesData).map((groupMatches, i) => (

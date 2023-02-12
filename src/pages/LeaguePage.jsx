@@ -131,7 +131,10 @@ export function LeaguePage() {
       )}
       {isOwner && showNewTeamModal && (
         <Modal onCloseModal={() => setShowNewTeamModal(false)}>
-          <NewTeamForm currentLeague={currentLeague} />
+          <NewTeamForm
+            currentLeague={currentLeague}
+            closeModal={() => setShowNewTeamModal(false)}
+          />
         </Modal>
       )}
       {selectedTab === 1 && (
@@ -149,7 +152,11 @@ export function LeaguePage() {
       )}
       {isOwner && showNewMatchModal && (
         <Modal onCloseModal={() => setShowNewMatchModal(false)}>
-          <NewMatchForm teams={teamsData} currentLeague={currentLeague} />
+          <NewMatchForm
+            teams={teamsData}
+            currentLeague={currentLeague}
+            closeModal={() => setShowNewMatchModal(false)}
+          />
         </Modal>
       )}
       {selectedTab === 2 && (

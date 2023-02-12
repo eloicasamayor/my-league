@@ -2,8 +2,8 @@
 import { useInsertMatchMutation } from "../redux";
 import { useRef } from "react";
 
-export function NewMatchForm({ teams, currentLeague }) {
-  const [insertMatch, requestResult] = useInsertMatchMutation();
+export function NewMatchForm({ teams, currentLeague, closeModal }) {
+  const [insertMatch, insertMatchReqResult] = useInsertMatchMutation();
   const dateRef = useRef();
   const localTeamRef = useRef();
   const visitorTeamRef = useRef();
@@ -47,19 +47,20 @@ export function NewMatchForm({ teams, currentLeague }) {
         <br />
         <button
           type={"button"}
-          onClick={async (e) => {
+          onClick={(e) => {
             e.preventDefault();
-            await insertMatch({
+            insertMatch({
               date: dateRef.current.value,
               local_team: localTeamRef.current.value,
               visitor_team: visitorTeamRef.current.value,
               league: currentLeague.id,
             });
+            closeModal();
           }}
         >
           submit
         </button>
-        <span>{requestResult.error?.data?.message || ""}</span>
+        <span>{NewMatchForm.error?.data?.message || ""}</span>
       </form>
     </>
   );
