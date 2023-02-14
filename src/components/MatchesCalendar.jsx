@@ -4,6 +4,7 @@ import { EditMatchForm } from "./EditMatchForm";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
 import { format } from "date-fns";
+import { Table } from "flowbite-react";
 
 export function MatchesCalendar({
   teams,
@@ -32,19 +33,19 @@ export function MatchesCalendar({
 
   function renderMatch(match, i) {
     return (
-      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <td className="px-6 py-2 text-right">
+      <Table.Row class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <Table.Cell className="px-6 py-2 text-right">
           {getTeamNameWithId(match.local_team)}
-        </td>
-        <td className={`px-6 py-2 text-center`}>
+        </Table.Cell>
+        <Table.Cell className={`px-6 py-2 text-center`}>
           {match.played
             ? `${match.local_goals} - ${match.visitor_goals}`
             : format(new Date(match.date), " hh:mm")}
-        </td>
-        <td className="px-6 py-2 text-left">
+        </Table.Cell>
+        <Table.Cell className="px-6 py-2 text-left">
           {getTeamNameWithId(match.visitor_team)}
-        </td>
-      </tr>
+        </Table.Cell>
+      </Table.Row>
     );
   }
 
@@ -96,33 +97,31 @@ export function MatchesCalendar({
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <>
           <h3>{"Match day" + i + 1}</h3>
-          <div class="relative overflow-x-auto" /*  key={match.date + i} */>
-            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <th
-                  scope="row"
-                  class="text-right px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Local team
-                </th>
-                <th
-                  scope="row"
-                  class=" w-7 text-center px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Result / date
-                </th>
-                <th
-                  scope="row"
-                  class="text-left px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                >
-                  Visitor team
-                </th>
-              </thead>
-              <tbody>
-                {groupMatches.map((match, i) => renderMatch(match, i))}
-              </tbody>
-            </table>
-          </div>
+          <Table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <Table.HeadCell
+                scope="row"
+                class="text-right px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                Local team
+              </Table.HeadCell>
+              <Table.HeadCell
+                scope="row"
+                class=" w-7 text-center px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                Result / date
+              </Table.HeadCell>
+              <Table.HeadCell
+                scope="row"
+                class="text-left px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                Visitor team
+              </Table.HeadCell>
+            </Table.Head>
+            <Table.Body>
+              {groupMatches.map((match, i) => renderMatch(match, i))}
+            </Table.Body>
+          </Table>
         </>
       ))}
 

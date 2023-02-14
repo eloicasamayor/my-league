@@ -4,6 +4,7 @@ import { EditMatchForm } from "./EditMatchForm";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
 import { format } from "date-fns";
+import { Table } from "flowbite-react";
 
 export function MatchesList({
   teams,
@@ -46,31 +47,39 @@ export function MatchesList({
       ) : (
         <>
           {matchesData.length ? (
-            <table>
-              <thead>
-                <tr>
-                  <th>local team</th>
-                  <th></th>
-                  <th></th>
-                  <th>visitor team</th>
-                  <th>date</th>
-                  <th>match day</th>
-                  <th>played</th>
-                  {isOwner && !selectedTeam && <th></th>}
-                </tr>
-              </thead>
+            <Table>
+              <Table.Head>
+                <Table.Row>
+                  <Table.HeadCell>local team</Table.HeadCell>
+                  <Table.HeadCell></Table.HeadCell>
+                  <Table.HeadCell></Table.HeadCell>
+                  <Table.HeadCell>visitor team</Table.HeadCell>
+                  <Table.HeadCell>date</Table.HeadCell>
+                  <Table.HeadCell>match day</Table.HeadCell>
+                  <Table.HeadCell>played</Table.HeadCell>
+                  {isOwner && !selectedTeam && (
+                    <Table.HeadCell></Table.HeadCell>
+                  )}
+                </Table.Row>
+              </Table.Head>
               <tbody>
                 {matchesData.map((match, i) => (
-                  <tr key={match.date + i}>
-                    <td>{getTeamNameWithId(match.local_team)}</td>
-                    <td>{match.local_goals}</td>
-                    <td>{match.visitor_goals}</td>
-                    <td>{getTeamNameWithId(match.visitor_team)}</td>
-                    <td>{format(new Date(match.date), "eeee dd MMM yyyy")}</td>
-                    <td>{match.match_day}</td>
-                    <td>{match.played.toString()}</td>
+                  <Table.Row key={match.date + i}>
+                    <Table.Cell>
+                      {getTeamNameWithId(match.local_team)}
+                    </Table.Cell>
+                    <Table.Cell>{match.local_goals}</Table.Cell>
+                    <Table.Cell>{match.visitor_goals}</Table.Cell>
+                    <Table.Cell>
+                      {getTeamNameWithId(match.visitor_team)}
+                    </Table.Cell>
+                    <Table.Cell>
+                      {format(new Date(match.date), "eeee dd MMM yyyy")}
+                    </Table.Cell>
+                    <Table.Cell>{match.match_day}</Table.Cell>
+                    <Table.Cell>{match.played.toString()}</Table.Cell>
                     {isOwner && !selectedTeam && (
-                      <td>
+                      <Table.Cell>
                         <button
                           onClick={() =>
                             setMatchToEdit({
@@ -87,12 +96,12 @@ export function MatchesList({
                         >
                           <PencilIcon />
                         </button>
-                      </td>
+                      </Table.Cell>
                     )}
-                  </tr>
+                  </Table.Row>
                 ))}
               </tbody>
-            </table>
+            </Table>
           ) : (
             "No matches found for this team"
           )}

@@ -5,6 +5,7 @@ import { useState } from "react";
 import { EditPlayerForm } from "./EditPlayerForm";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
+import { Table } from "flowbite-react";
 
 export function PlayersList({
   teamsData,
@@ -32,48 +33,38 @@ export function PlayersList({
 
   return (
     <section>
-      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-            <th scope="col" class="px-6 py-3">
-              {"player name"}
-            </th>
-            <th scope="col" class="px-6 py-3">
-              {"team"}
-            </th>
-            <th scope="col" class="px-6 py-3">
-              {"scored goals"}
-            </th>
-            <th scope="col" class="px-6 py-3">
-              {"scored goals home"}
-            </th>
-            <th scope="col" class="px-6 py-3">
-              {"scored goals away"}
-            </th>
-            {isOwner && <th scope="col" class="px-6 py-3"></th>}
-          </tr>
-        </thead>
-        <tbody>
+      <Table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <Table.Row>
+            <Table.HeadCell>{"player name"}</Table.HeadCell>
+            <Table.HeadCell>{"team"}</Table.HeadCell>
+            <Table.HeadCell>{"scored goals"}</Table.HeadCell>
+            <Table.HeadCell>{"scored goals home"}</Table.HeadCell>
+            <Table.HeadCell>{"scored goals away"}</Table.HeadCell>
+            {isOwner && <Table.HeadCell></Table.HeadCell>}
+          </Table.Row>
+        </Table.Head>
+        <Table.Body>
           {playersData.map((player) => (
-            <tr
+            <Table.Row
               class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               key={player.id}
             >
-              <th
+              <Table.HeadCell
                 scope="row"
                 class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {player.name}
-              </th>
-              <td class="px-6 py-2">
+              </Table.HeadCell>
+              <Table.Cell>
                 {teamsData.find((team) => team.id === player.team).name ||
                   player.team}
-              </td>
-              <td class="px-6 py-2">{player.scored_goals}</td>
-              <td class="px-6 py-2">{player.scored_goals_home}</td>
-              <td class="px-6 py-2">{player.scored_goals_away}</td>
+              </Table.Cell>
+              <Table.Cell>{player.scored_goals}</Table.Cell>
+              <Table.Cell>{player.scored_goals_home}</Table.Cell>
+              <Table.Cell>{player.scored_goals_away}</Table.Cell>
               {isOwner && (
-                <td class="px-6 py-2">
+                <Table.Cell>
                   <button
                     onClick={() => {
                       setEditingPlayer(player);
@@ -81,12 +72,12 @@ export function PlayersList({
                   >
                     <PencilIcon />
                   </button>
-                </td>
+                </Table.Cell>
               )}
-            </tr>
+            </Table.Row>
           ))}
-        </tbody>
-      </table>
+        </Table.Body>
+      </Table>
       {isOwner && editingPlayer && (
         <Modal onCloseModal={() => setEditingPlayer(null)}>
           <EditPlayerForm player={editingPlayer} teamsData={teamsData} />

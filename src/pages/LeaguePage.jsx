@@ -22,6 +22,7 @@ import {
 } from "../components";
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
+import { Tabs } from "flowbite-react";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -38,7 +39,6 @@ export function LeaguePage() {
   const [showNewTeamModal, setShowNewTeamModal] = useState(false);
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
-  const [selectedTab, setSelectedTab] = useState(0);
 
   if (
     teamsIsLoading ||
@@ -105,40 +105,15 @@ export function LeaguePage() {
           </>
         )}
       </header>
-      <ul className="h-8 flex gap-2 m-2">
-        <li className=" p-2 btn" onClick={() => setSelectedTab(0)}>
-          Classification
-        </li>
-        <li className=" p-2 btn" onClick={() => setSelectedTab(1)}>
-          Matches
-        </li>
-        <li className=" p-2 btn" onClick={() => setSelectedTab(2)}>
-          Players
-        </li>
-      </ul>
-
-      {showEditLeagueModal && (
-        <Modal onCloseModal={() => setShowEditLeagueModal(false)}>
-          <EditLeagueForm leagueToEdit={currentLeague} />
-        </Modal>
-      )}
-      {selectedTab === 0 && (
-        <Classification
-          data={teamsData}
-          isLoading={teamsIsLoading}
-          isOwner={isOwner}
-        />
-      )}
-      {isOwner && showNewTeamModal && (
-        <Modal onCloseModal={() => setShowNewTeamModal(false)}>
-          <NewTeamForm
-            currentLeague={currentLeague}
-            closeModal={() => setShowNewTeamModal(false)}
+      <Tabs.Group aria-label="Tabs with underline" style="underline">
+        <Tabs.Item title="Classification" active={true}>
+          <Classification
+            data={teamsData}
+            isLoading={teamsIsLoading}
+            isOwner={isOwner}
           />
-        </Modal>
-      )}
-      {selectedTab === 1 && (
-        <>
+        </Tabs.Item>
+        <Tabs.Item title="Matches">
           <h2>Matches List</h2>
           <MatchesCalendar
             teams={teamsData}
@@ -148,7 +123,32 @@ export function LeaguePage() {
             teamsData={teamsData}
             isOwner={isOwner}
           />
-        </>
+        </Tabs.Item>
+        <Tabs.Item title="Players">
+          <h2>Players</h2>
+          <PlayersList
+            teamsData={teamsData}
+            teamsIsLoading={teamsIsLoading}
+            playersData={playersData}
+            playersIsLoading={playersIsLoading}
+            isOwner={isOwner}
+          />
+        </Tabs.Item>
+      </Tabs.Group>
+
+      {showEditLeagueModal && (
+        <Modal onCloseModal={() => setShowEditLeagueModal(false)}>
+          <EditLeagueForm leagueToEdit={currentLeague} />
+        </Modal>
+      )}
+
+      {isOwner && showNewTeamModal && (
+        <Modal onCloseModal={() => setShowNewTeamModal(false)}>
+          <NewTeamForm
+            currentLeague={currentLeague}
+            closeModal={() => setShowNewTeamModal(false)}
+          />
+        </Modal>
       )}
       {isOwner && showNewMatchModal && (
         <Modal onCloseModal={() => setShowNewMatchModal(false)}>
@@ -158,18 +158,6 @@ export function LeaguePage() {
             closeModal={() => setShowNewMatchModal(false)}
           />
         </Modal>
-      )}
-      {selectedTab === 2 && (
-        <>
-          <h2>Players</h2>
-          <PlayersList
-            teamsData={teamsData}
-            teamsIsLoading={teamsIsLoading}
-            playersData={playersData}
-            playersIsLoading={playersIsLoading}
-            isOwner={isOwner}
-          />
-        </>
       )}
       {isOwner && showNewPlayerModal && (
         <Modal onCloseModal={() => setShowNewPlayerModal(false)}>

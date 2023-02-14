@@ -7,10 +7,11 @@ import { EditTeamForm } from "./EditTeamForm";
 import { Modal } from "./modal";
 import { PencilIcon } from "./icons/PencilIcon";
 import { MoreIcon } from "./icons/MoreIcon";
+import { Table } from "flowbite-react";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
-  const [seeAllStats, setSeeAllStats] = useState(true);
+  const [seeAllStats, setSeeAllStats] = useState(Table.Headue);
 
   if (isLoading) {
     return "loading...";
@@ -21,94 +22,78 @@ export function Classification({ data, isLoading, isOwner }) {
   return (
     <section>
       <h2>Classification</h2>
-      <div class="relative overflow-x-auto">
-        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" class="px-6 py-3">
-                <input
-                  type="checkbox"
-                  id="see-all-stats-checkbox"
-                  name="see all stats"
-                  checked={seeAllStats}
-                  onChange={() => setSeeAllStats(!seeAllStats)}
-                  className={"hidden"}
-                />
-                <label
-                  htmlFor="see-all-stats-checkbox"
-                  className={`cursor-pointer`}
-                >
-                  <MoreIcon
-                    pathClassName={
-                      seeAllStats ? "stroke-white" : "stroke-violet-600"
-                    }
-                  />
-                </label>
-              </th>
-              <th scope="col" class="px-6 py-3"></th>
-              <th scope="col" class="px-6 py-3">
-                Points
-              </th>
-              <th scope="col" class="px-6 py-3">
-                Played
-              </th>
+      <Table>
+        <Table.Head>
+          <Table.HeadCell>
+            <input
+              type="checkbox"
+              id="see-all-stats-checkbox"
+              name="see all stats"
+              checked={seeAllStats}
+              onChange={() => setSeeAllStats(!seeAllStats)}
+              className={"hidden"}
+            />
+            <label
+              htmlFor="see-all-stats-checkbox"
+              className={`cursor-pointer`}
+            >
+              <MoreIcon
+                ClassName={
+                  seeAllStats
+                    ? "sTable.Headoke-white"
+                    : "sTable.Headoke-violet-600"
+                }
+              />
+            </label>
+          </Table.HeadCell>
+          <Table.HeadCell></Table.HeadCell>
+          <Table.HeadCell>Points</Table.HeadCell>
+          <Table.HeadCell>Played</Table.HeadCell>
+          {seeAllStats && (
+            <>
+              <Table.HeadCell>Wins</Table.HeadCell>
+              <Table.HeadCell>Draws</Table.HeadCell>
+              <Table.HeadCell>Defeats</Table.HeadCell>
+              <Table.HeadCell>Scored Goals</Table.HeadCell>
+              <Table.HeadCell>Conceded Goals</Table.HeadCell>
+            </>
+          )}
+          {isOwner && <Table.HeadCell></Table.HeadCell>}
+        </Table.Head>
+        <Table.Body>
+          {data.map((team) => (
+            <Table.Row
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              key={team.id}
+            >
+              <Table.Cell>
+                <img src={team.img} className={"w-4"} />
+              </Table.Cell>
+              <Table.Cell>
+                <Link to={"./" + team.urlname}>{team.name}</Link>
+              </Table.Cell>
+              <Table.Cell>{team.points}</Table.Cell>
+              <Table.Cell>{team.played_matches}</Table.Cell>
               {seeAllStats && (
                 <>
-                  <th scope="col" class="px-6 py-3">
-                    Wins
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Draws
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Defeats
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Scored Goals
-                  </th>
-                  <th scope="col" class="px-6 py-3">
-                    Conceded Goals
-                  </th>
+                  <Table.Cell>{team.wins}</Table.Cell>
+                  <Table.Cell>{team.draws}</Table.Cell>
+                  <Table.Cell>{team.defeats}</Table.Cell>
+                  <Table.Cell>{team.goals_scored}</Table.Cell>
+                  <Table.Cell>{team.goals_conceded}</Table.Cell>
                 </>
               )}
-              {isOwner && <th scope="col" class="px-6 py-3"></th>}
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((team) => (
-              <tr
-                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
-                key={team.id}
-              >
-                <td class="px-6 py-2">
-                  <img src={team.img} className={"w-4"} />
-                </td>
-                <td class="px-6 py-2">
-                  <Link to={"./" + team.urlname}>{team.name}</Link>
-                </td>
-                <td class="px-6 py-2">{team.points}</td>
-                <td class="px-6 py-2">{team.played_matches}</td>
-                {seeAllStats && (
-                  <>
-                    <td class="px-6 py-2">{team.wins}</td>
-                    <td class="px-6 py-2">{team.draws}</td>
-                    <td class="px-6 py-2">{team.defeats}</td>
-                    <td class="px-6 py-2">{team.goals_scored}</td>
-                    <td class="px-6 py-2">{team.goals_conceded}</td>
-                  </>
-                )}
-                {isOwner && (
-                  <td class="px-6 py-2">
-                    <button onClick={() => setTeamToEdit(team)}>
-                      <PencilIcon />
-                    </button>
-                  </td>
-                )}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+              {isOwner && (
+                <Table.Cell>
+                  <button onClick={() => setTeamToEdit(team)}>
+                    <PencilIcon />
+                  </button>
+                </Table.Cell>
+              )}
+            </Table.Row>
+          ))}
+        </Table.Body>
+      </Table>
       {isOwner && !_.isEmpty(teamToEdit) && (
         <Modal onCloseModal={setTeamToEdit}>
           <EditTeamForm team={teamToEdit} />
