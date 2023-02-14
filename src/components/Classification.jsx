@@ -21,76 +21,94 @@ export function Classification({ data, isLoading, isOwner }) {
   return (
     <section>
       <h2>Classification</h2>
-
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <input
-                type="checkbox"
-                id="see-all-stats-checkbox"
-                name="see all stats"
-                checked={seeAllStats}
-                onChange={() => setSeeAllStats(!seeAllStats)}
-                className={"hidden"}
-              />
-              <label
-                htmlFor="see-all-stats-checkbox"
-                className={`cursor-pointer`}
-              >
-                <MoreIcon
-                  pathClassName={
-                    seeAllStats ? "stroke-white" : "stroke-violet-600"
-                  }
+      <div class="relative overflow-x-auto">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+              <th scope="col" class="px-6 py-3">
+                <input
+                  type="checkbox"
+                  id="see-all-stats-checkbox"
+                  name="see all stats"
+                  checked={seeAllStats}
+                  onChange={() => setSeeAllStats(!seeAllStats)}
+                  className={"hidden"}
                 />
-              </label>
-            </th>
-            <th></th>
-            <th>Points</th>
-            <th>Played</th>
-            {seeAllStats && (
-              <>
-                <th>Wins</th>
-                <th>Draws</th>
-                <th>Defeats</th>
-                <th>Scored Goals</th>
-                <th>Conceded Goals</th>
-              </>
-            )}
-            {isOwner && <th></th>}
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((team) => (
-            <tr key={team.id}>
-              <td>
-                <img src={team.img} className={"w-4"} />
-              </td>
-              <td>
-                <Link to={"./" + team.urlname}>{team.name}</Link>
-              </td>
-              <td>{team.points}</td>
-              <td>{team.played_matches}</td>
+                <label
+                  htmlFor="see-all-stats-checkbox"
+                  className={`cursor-pointer`}
+                >
+                  <MoreIcon
+                    pathClassName={
+                      seeAllStats ? "stroke-white" : "stroke-violet-600"
+                    }
+                  />
+                </label>
+              </th>
+              <th scope="col" class="px-6 py-3"></th>
+              <th scope="col" class="px-6 py-3">
+                Points
+              </th>
+              <th scope="col" class="px-6 py-3">
+                Played
+              </th>
               {seeAllStats && (
                 <>
-                  <td>{team.wins}</td>
-                  <td>{team.draws}</td>
-                  <td>{team.defeats}</td>
-                  <td>{team.goals_scored}</td>
-                  <td>{team.goals_conceded}</td>
+                  <th scope="col" class="px-6 py-3">
+                    Wins
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Draws
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Defeats
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Scored Goals
+                  </th>
+                  <th scope="col" class="px-6 py-3">
+                    Conceded Goals
+                  </th>
                 </>
               )}
-              {isOwner && (
-                <td>
-                  <button onClick={() => setTeamToEdit(team)}>
-                    <PencilIcon />
-                  </button>
-                </td>
-              )}
+              {isOwner && <th scope="col" class="px-6 py-3"></th>}
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {data.map((team) => (
+              <tr
+                className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+                key={team.id}
+              >
+                <td class="px-6 py-2">
+                  <img src={team.img} className={"w-4"} />
+                </td>
+                <td class="px-6 py-2">
+                  <Link to={"./" + team.urlname}>{team.name}</Link>
+                </td>
+                <td class="px-6 py-2">{team.points}</td>
+                <td class="px-6 py-2">{team.played_matches}</td>
+                {seeAllStats && (
+                  <>
+                    <td class="px-6 py-2">{team.wins}</td>
+                    <td class="px-6 py-2">{team.draws}</td>
+                    <td class="px-6 py-2">{team.defeats}</td>
+                    <td class="px-6 py-2">{team.goals_scored}</td>
+                    <td class="px-6 py-2">{team.goals_conceded}</td>
+                  </>
+                )}
+                {isOwner && (
+                  <td class="px-6 py-2">
+                    <button onClick={() => setTeamToEdit(team)}>
+                      <PencilIcon />
+                    </button>
+                  </td>
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
       {isOwner && !_.isEmpty(teamToEdit) && (
         <Modal onCloseModal={setTeamToEdit}>
           <EditTeamForm team={teamToEdit} />

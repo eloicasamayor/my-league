@@ -27,7 +27,7 @@
   header button {
     @apply px-2 py-1 rounded-2xl mx-1;
   }
-  table {
+  /* table {
     @apply w-full rounded-md bg-zinc-700/75 block overflow-x-auto whitespace-nowrap sm:table;
   }
   table tr {
@@ -44,12 +44,13 @@
   }
   table thead tr {
     @apply text-left bg-zinc-800 hover:bg-zinc-800 rounded-t-xl;
-  }
+  } */
   .btn {
     @apply bg-violet-400/75 rounded-xl p-2;
   }
   input[type="button"],
-  button[type="button"],
+
+  /*button[type="button"], */
   input[type="submit"],
   input[type="file"],
   input[type="reset"] {
@@ -72,7 +73,7 @@
   input[type="button"]:hover,
   input[type="submit"]:hover,
   input[type="reset"]:hover,
-  button:hover,
+  /* button:hover, */
   .btn:hover {
     @apply bg-violet-700 cursor-pointer;
   }

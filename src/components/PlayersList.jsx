@@ -32,28 +32,48 @@ export function PlayersList({
 
   return (
     <section>
-      <table>
-        <tbody>
+      <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th>{"player name"}</th>
-            <th>{"team"}</th>
-            <th>{"scored goals"}</th>
-            <th>{"scored goals home"}</th>
-            <th>{"scored goals away"}</th>
-            {isOwner && <th></th>}
+            <th scope="col" class="px-6 py-3">
+              {"player name"}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {"team"}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {"scored goals"}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {"scored goals home"}
+            </th>
+            <th scope="col" class="px-6 py-3">
+              {"scored goals away"}
+            </th>
+            {isOwner && <th scope="col" class="px-6 py-3"></th>}
           </tr>
+        </thead>
+        <tbody>
           {playersData.map((player) => (
-            <tr key={player.id}>
-              <td>{player.name}</td>
-              <td>
+            <tr
+              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              key={player.id}
+            >
+              <th
+                scope="row"
+                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+              >
+                {player.name}
+              </th>
+              <td class="px-6 py-2">
                 {teamsData.find((team) => team.id === player.team).name ||
                   player.team}
               </td>
-              <td>{player.scored_goals}</td>
-              <td>{player.scored_goals_home}</td>
-              <td>{player.scored_goals_away}</td>
+              <td class="px-6 py-2">{player.scored_goals}</td>
+              <td class="px-6 py-2">{player.scored_goals_home}</td>
+              <td class="px-6 py-2">{player.scored_goals_away}</td>
               {isOwner && (
-                <td>
+                <td class="px-6 py-2">
                   <button
                     onClick={() => {
                       setEditingPlayer(player);

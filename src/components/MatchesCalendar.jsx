@@ -32,22 +32,19 @@ export function MatchesCalendar({
 
   function renderMatch(match, i) {
     return (
-      <div
-        key={match.date + i}
-        className="grid  grid-cols-[minmax(50px,_1fr)_80px_minmax(50px,_1fr)] h-8 items-center bg-zinc-600 p-2"
-      >
-        <span className="text-right">
+      <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+        <td className="px-6 py-2 text-right">
           {getTeamNameWithId(match.local_team)}
-        </span>
-        <span className={`text-center ${match.played ? "text-xl" : "text-sm"}`}>
+        </td>
+        <td className={`px-6 py-2 text-center`}>
           {match.played
             ? `${match.local_goals} - ${match.visitor_goals}`
             : format(new Date(match.date), " hh:mm")}
-        </span>
-        <span className="text-left">
+        </td>
+        <td className="px-6 py-2 text-left">
           {getTeamNameWithId(match.visitor_team)}
-        </span>
-      </div>
+        </td>
+      </tr>
     );
   }
 
@@ -99,7 +96,33 @@ export function MatchesCalendar({
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <>
           <h3>{"Match day" + i + 1}</h3>
-          {groupMatches.map((match, i) => renderMatch(match, i))}
+          <div class="relative overflow-x-auto" /*  key={match.date + i} */>
+            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <th
+                  scope="row"
+                  class="text-right px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  Local team
+                </th>
+                <th
+                  scope="row"
+                  class=" w-7 text-center px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  Result / date
+                </th>
+                <th
+                  scope="row"
+                  class="text-left px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  Visitor team
+                </th>
+              </thead>
+              <tbody>
+                {groupMatches.map((match, i) => renderMatch(match, i))}
+              </tbody>
+            </table>
+          </div>
         </>
       ))}
 
