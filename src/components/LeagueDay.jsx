@@ -1,6 +1,8 @@
+import { Button } from "flowbite-react";
 // Helpers
 import { addDays, format } from "date-fns";
 import { ArrowDownDoble } from "./icons/ArrowDownDoble";
+import { Card } from "flowbite-react";
 
 export function LeagueDay({
   teams,
@@ -26,26 +28,26 @@ export function LeagueDay({
     (t) => !equiposQueJuegan.find((e) => e === t)
   );
   return (
-    <li className="w-full rounded-md bg-zinc-700/75 block p-1">
+    <Card className="w-full rounded-md  block p-1">
       <div className="flex justify-between">
         <p>{format(jornada.date, "EEEE dd MMM yyyy")}</p>
-        <button onClick={() => skipThisWeek(indexJornada)}>
+        <Button color="light" onClick={() => skipThisWeek(indexJornada)}>
           <ArrowDownDoble />
           skip week
-        </button>
+        </Button>
       </div>
 
       {jornada.matches.map((match) => (
         <div
-          className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2"
+          className="inline-block rounded-full bg-zinc-300 py-1 px-2 mr-2"
           key={`${match[0]}vs${match[1]}`}
         >{`${match[0]} - ${match[1]}`}</div>
       ))}
       {!!equiposQueDescansan.length && (
-        <div className="inline-block rounded-full bg-zinc-900 py-1 px-2 mr-2">
+        <div className="inline-block rounded-full bg-zinc-300 py-1 px-2 mr-2">
           {`${equiposQueDescansan} rests`}
         </div>
       )}
-    </li>
+    </Card>
   );
 }

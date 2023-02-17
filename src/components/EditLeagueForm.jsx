@@ -18,6 +18,7 @@ import { nameToUrlName } from "../helpers/nameToUrlName";
 import { TrashIcon } from "./icons/TrashIcon";
 import { EditPhotoForm } from "./EditPhotoForm";
 import { Navigate } from "react-router-dom";
+import { Button, TextInput } from "flowbite-react";
 
 export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   const [updateLeague, updateLeagueReqResult] = useUpdateLeagueMutation();
@@ -59,7 +60,7 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
             });
           }}
         >
-          <input
+          <TextInput
             className="hidden"
             type={"text"}
             id={"id"}
@@ -69,7 +70,7 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
           />
 
           <label htmlFor={"name"}>Name:</label>
-          <input
+          <TextInput
             type={"text"}
             id={"name"}
             name={"name"}
@@ -78,7 +79,7 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
           />
 
           <label htmlFor={"description"}>description:</label>
-          <input
+          <TextInput
             type={"text"}
             id={"description"}
             name={"description"}
@@ -86,10 +87,11 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
             defaultValue={leagueToEdit.description}
           />
 
-          <input type={"submit"}></input>
+          <Button type={"submit"}>{"Submit"}</Button>
         </form>
         <div>
-          <button
+          <Button
+            color={"failure"}
             className="bg-rose-700 hover:bg-rose-800"
             onClick={() => {
               deleteAllLeagueMatches(leagueToEdit);
@@ -101,7 +103,7 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
           >
             <TrashIcon />
             {"Delete league (including its TEAMS, MATCHES and PLAYERS)"}
-          </button>
+          </Button>
         </div>
       </div>
     </>

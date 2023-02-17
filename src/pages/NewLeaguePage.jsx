@@ -18,6 +18,7 @@ import { UpdateIcon } from "../components/icons/UpdateIcon";
 import { Alert } from "../components/Alert";
 import { UploadIcon } from "../components/icons/UploadIcon";
 import { CircleCheckIcon } from "../components/icons/CircleCheckIcon";
+import { TextInput, Button } from "flowbite-react";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
@@ -167,12 +168,10 @@ export function NewLeaguePage() {
       )}
       <form className="flex flex-col sm:flex-row">
         <div className="relative w-full">
-          <label className="special-label" htmlFor={"name"}>
-            League name
-          </label>
-          <input
-            className="text-xl special-input leading-9"
-            type={"text"}
+          <label htmlFor={"name"}>League name</label>
+          <TextInput
+            // className="text-xl special-input leading-9"
+            // type={"text"}
             id={"name"}
             name={"name"}
             placeholder={"League Name"}
@@ -181,10 +180,8 @@ export function NewLeaguePage() {
           />
         </div>
         <div className="relative w-full">
-          <label className="special-label" htmlFor={"description"}>
-            Description
-          </label>
-          <input
+          <label htmlFor={"description"}>Description</label>
+          <TextInput
             className="text-lg special-input leading-9"
             type={"text"}
             id={"description"}
@@ -201,14 +198,13 @@ export function NewLeaguePage() {
         onSelectMatchings={onSelectMatchings}
       />
       {selectedTab === 0 && (
-        <section className="bg-zinc-900 px-2 py-4">
+        <section className=" px-2 py-4">
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
                 <div className="flex w-full" key={"parent" + i}>
                   <div className="relative w-full" key={"div" + i}>
-                    <input
-                      className="special-input text-xl p-2 text-center"
+                    <TextInput
                       key={"-" + i}
                       type={"text"}
                       value={team}
@@ -220,7 +216,7 @@ export function NewLeaguePage() {
                         setMatchings([]);
                       }}
                     />
-                    <button
+                    <Button
                       className="absolute right-0 top-0"
                       onClick={(e) => {
                         e.preventDefault();
@@ -233,13 +229,14 @@ export function NewLeaguePage() {
                       }}
                     >
                       <TrashIcon />
-                    </button>
+                    </Button>
                   </div>
                 </div>
               );
             })}
             <div>
-              <button
+              <Button
+                pill={true}
                 className="w-full"
                 onClick={(e) => {
                   e.preventDefault();
@@ -253,22 +250,21 @@ export function NewLeaguePage() {
                 }}
               >
                 <PlusIcon /> Add team
-              </button>
+              </Button>
             </div>
           </form>
         </section>
       )}
       {selectedTab === 1 && (
-        <section className="bg-zinc-900 px-2 py-4">
+        <section className=" px-2 py-4">
           {teams.map((team, teamIndex) => (
             <div className="flex flex-col gap-1 pb-5">
               <h2 className="w-full">{team}</h2>
               {players[teamIndex].map((player, i) => (
                 <div className="relative w-full">
-                  <input
-                    type={"text"}
+                  <TextInput
                     value={player}
-                    className="special-input text-xl p-2 text-center w-full"
+                    className=" text-xl p-2 text-center w-full"
                     onChange={(e) => {
                       e.preventDefault();
                       const playersCopy = [...players];
@@ -278,7 +274,7 @@ export function NewLeaguePage() {
                       setPlayers(playersCopy);
                     }}
                   />
-                  <button
+                  <Button
                     className="absolute right-0 top-0"
                     onClick={(e) => {
                       e.preventDefault();
@@ -290,10 +286,10 @@ export function NewLeaguePage() {
                     }}
                   >
                     <TrashIcon />
-                  </button>
+                  </Button>
                 </div>
               ))}
-              <button
+              <Button
                 className="w-full"
                 onClick={(e) => {
                   debugger;
@@ -308,13 +304,13 @@ export function NewLeaguePage() {
                 }}
               >
                 <PlusIcon /> Add player
-              </button>
+              </Button>
             </div>
           ))}
         </section>
       )}
       {selectedTab === 2 && (
-        <section className="bg-zinc-900 px-2 py-4">
+        <section className=" px-2 py-4">
           <form className="flex flex-col">
             <label htmlFor="starting-day">The league will start</label>
             <input
@@ -336,9 +332,9 @@ export function NewLeaguePage() {
         </section>
       )}
       {selectedTab === 3 && (
-        <section className="flex flex-col bg-zinc-900 px-2 py-4">
+        <section className="flex flex-col  px-2 py-4">
           <div className="flex gap-2 pb-2">
-            <button
+            <Button
               onClick={() => {
                 const teamsCopy = [...teams];
                 shuffle(teamsCopy);
@@ -350,15 +346,15 @@ export function NewLeaguePage() {
             >
               <UpdateIcon />
               Shulffle
-            </button>
-            <button
+            </Button>
+            <Button
               onClick={() => setMatchings(resetMatchingsDates(matchings))}
             >
               <ArrowBackIcon />
               Reset dates
-            </button>
+            </Button>
             <div className="grow"></div>
-            <button
+            <Button
               onClick={() => {
                 saveNewLeague({
                   leagueName,
@@ -375,7 +371,7 @@ export function NewLeaguePage() {
             >
               <UploadIcon />
               Save
-            </button>
+            </Button>
           </div>
           <div>
             <ul className="flex flex-col gap-2">

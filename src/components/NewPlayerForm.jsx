@@ -2,6 +2,8 @@
 import { useInsertPlayerMutation } from "../redux";
 import { useRef } from "react";
 
+import { Button } from "flowbite-react";
+
 export function NewPlayerForm({ teamsData, teamsIsLoading }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();
   const nameRef = useRef();
@@ -12,7 +14,6 @@ export function NewPlayerForm({ teamsData, teamsIsLoading }) {
   }
   return (
     <>
-      <h2>Create new player</h2>
       <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />
@@ -25,7 +26,7 @@ export function NewPlayerForm({ teamsData, teamsIsLoading }) {
               </option>
             ))}
         </select>
-        <button
+        <Button
           onClick={(e) => {
             e.preventDefault();
             insertPlayer({
@@ -35,7 +36,7 @@ export function NewPlayerForm({ teamsData, teamsIsLoading }) {
           }}
         >
           submit
-        </button>
+        </Button>
         <span>{requestResult.error?.data?.message || ""}</span>
       </form>
     </>

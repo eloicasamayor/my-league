@@ -47,7 +47,7 @@ export function MatchesList({
       ) : (
         <>
           {matchesData.length ? (
-            <Table>
+            <Table hoverable={true}>
               <Table.Head>
                 <Table.Row>
                   <Table.HeadCell>local team</Table.HeadCell>

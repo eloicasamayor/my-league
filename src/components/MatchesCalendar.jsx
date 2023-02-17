@@ -34,15 +34,15 @@ export function MatchesCalendar({
   function renderMatch(match, i) {
     return (
       <Table.Row class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <Table.Cell className="px-6 py-2 text-right">
+        <Table.Cell className=" text-right">
           {getTeamNameWithId(match.local_team)}
         </Table.Cell>
-        <Table.Cell className={`px-6 py-2 text-center`}>
+        <Table.Cell className={` text-center`}>
           {match.played
             ? `${match.local_goals} - ${match.visitor_goals}`
             : format(new Date(match.date), " hh:mm")}
         </Table.Cell>
-        <Table.Cell className="px-6 py-2 text-left">
+        <Table.Cell className=" text-left">
           {getTeamNameWithId(match.visitor_team)}
         </Table.Cell>
       </Table.Row>
@@ -97,24 +97,18 @@ export function MatchesCalendar({
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <>
           <h3>{"Match day" + i + 1}</h3>
-          <Table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+          <Table
+            hoverable={true}
+            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+          >
             <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <Table.HeadCell
-                scope="row"
-                class="text-right px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
+              <Table.HeadCell class="px-6 py-2 text-right">
                 Local team
               </Table.HeadCell>
-              <Table.HeadCell
-                scope="row"
-                class=" w-7 text-center px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
+              <Table.HeadCell class="px-6 py-2  w-7 text-center">
                 Result / date
               </Table.HeadCell>
-              <Table.HeadCell
-                scope="row"
-                class="text-left px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-              >
+              <Table.HeadCell class="px-6 py-2 text-left">
                 Visitor team
               </Table.HeadCell>
             </Table.Head>

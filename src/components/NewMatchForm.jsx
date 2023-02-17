@@ -2,6 +2,8 @@
 import { useInsertMatchMutation } from "../redux";
 import { useRef } from "react";
 
+import { Button } from "flowbite-react";
+
 export function NewMatchForm({ teams, currentLeague, closeModal }) {
   const [insertMatch, insertMatchReqResult] = useInsertMatchMutation();
   const dateRef = useRef();
@@ -9,7 +11,6 @@ export function NewMatchForm({ teams, currentLeague, closeModal }) {
   const visitorTeamRef = useRef();
   return (
     <>
-      <h2>Create new match</h2>
       <form className="flex flex-col gap-2">
         <label htmlFor={"date"}>Date:</label>
         <input
@@ -45,7 +46,7 @@ export function NewMatchForm({ teams, currentLeague, closeModal }) {
             ))}
         </select>
         <br />
-        <button
+        <Button
           type={"button"}
           onClick={(e) => {
             e.preventDefault();
@@ -59,7 +60,7 @@ export function NewMatchForm({ teams, currentLeague, closeModal }) {
           }}
         >
           submit
-        </button>
+        </Button>
         <span>{NewMatchForm.error?.data?.message || ""}</span>
       </form>
     </>

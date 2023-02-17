@@ -33,16 +33,17 @@ export function PlayersList({
 
   return (
     <section>
-      <Table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+      <Table
+        hoverable={true}
+        class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+      >
         <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <Table.Row>
-            <Table.HeadCell>{"player name"}</Table.HeadCell>
-            <Table.HeadCell>{"team"}</Table.HeadCell>
-            <Table.HeadCell>{"scored goals"}</Table.HeadCell>
-            <Table.HeadCell>{"scored goals home"}</Table.HeadCell>
-            <Table.HeadCell>{"scored goals away"}</Table.HeadCell>
-            {isOwner && <Table.HeadCell></Table.HeadCell>}
-          </Table.Row>
+          <Table.HeadCell>{"player name"}</Table.HeadCell>
+          <Table.HeadCell>{"team"}</Table.HeadCell>
+          <Table.HeadCell>{"scored goals"}</Table.HeadCell>
+          <Table.HeadCell>{"scored goals home"}</Table.HeadCell>
+          <Table.HeadCell>{"scored goals away"}</Table.HeadCell>
+          {isOwner && <Table.HeadCell></Table.HeadCell>}
         </Table.Head>
         <Table.Body>
           {playersData.map((player) => (

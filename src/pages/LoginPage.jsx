@@ -4,6 +4,8 @@ import { supabase } from "../supabase";
 import { setAuth } from "../redux/auth/slice";
 import { useRef } from "react";
 
+import { TextInput, Button, Label } from "flowbite-react";
+
 export function LoginPage() {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
@@ -39,55 +41,56 @@ export function LoginPage() {
 
   return (
     <>
-      <h1>Login</h1>
       {authData?.user ? (
         <>
           {authData.user.email}
 
-          <button
+          <Button
             onClick={async () => {
               const { error } = await supabase.auth.signOut();
               !error && dispatch(setAuth({}));
             }}
           >
             Log out
-          </button>
+          </Button>
         </>
       ) : (
         <div className="w-11/12 mx-auto lg:w-2/4">
-          {/* <button onClick={(e) => signInWithGoogle(e)}>
+          {/* <Button onClick={(e) => signInWithGoogle(e)}>
             Log in with Google
-          </button> */}
+          </Button> */}
           <form
             onSubmit={(e) => login(e)}
-            className={
-              "flex flex-col py-10 px-5 gap-4 bg-violet-400 rounded-2xl"
-            }
+            className={"flex flex-col py-10 px-5 gap-2"}
           >
-            <label htmlFor="emailAddress">Email</label>
-            <input
+            <Label htmlFor="emailAddress">Email</Label>
+            <TextInput
               ref={emailRef}
               id={"emailAddress"}
               type={"email"}
               required
-            ></input>
-            <label htmlFor="password">Password</label>
+            ></TextInput>
+            <Label htmlFor="password">Password</Label>
 
-            <input
+            <TextInput
               ref={passwordRef}
               id={"password"}
               type={"password"}
               minLength={"6"}
               required
-            ></input>
+            ></TextInput>
             <div className="flex justify-center">
-              <input type={"submit"} value={"login"} />
+              <Button type={"submit"} value={"login"}>
+                {"Log in"}
+              </Button>
 
-              <input
+              <Button
                 type={"submit"}
                 onClick={(e) => signup(e)}
                 value={"signup"}
-              />
+              >
+                {"Sign up"}
+              </Button>
             </div>
           </form>
         </div>

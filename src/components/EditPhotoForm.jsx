@@ -4,6 +4,7 @@ import { supabase } from "../supabase";
 
 // Components
 import { PhotoIcon } from "./icons/PhotoIcon";
+import { FileInput, Label, Button } from "flowbite-react";
 export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
   const fileRef = useRef();
   return (
@@ -11,7 +12,7 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
       {itemToEdit.img ? (
         <>
           <img src={itemToEdit.img} width={300}></img>
-          <button
+          <Button
             onClick={async (e) => {
               e.preventDefault();
               const { data, error } = await supabase.storage
@@ -26,8 +27,8 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
             }}
             className={"mt-"}
           >
-            Remove
-          </button>
+            Remove photo
+          </Button>
         </>
       ) : (
         <form
@@ -53,8 +54,18 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
           }}
         >
           <PhotoIcon />
-          <input ref={fileRef} type={"file"}></input>
-          <input type={"submit"}></input>
+          {/* <input ref={fileRef} type={"file"}></input> */}
+          <div id="fileUpload">
+            <div className="mb-2 block">
+              <Label htmlFor="file" value="Upload file" />
+            </div>
+            <FileInput
+              id="file"
+              helperText="The photo will be public to all"
+              ref={fileRef}
+            />
+          </div>
+          <Button type={"submit"}>Submit</Button>
         </form>
       )}
     </div>

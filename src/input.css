@@ -7,84 +7,25 @@
     @apply text-zinc-50;
   } */
   h1 {
-    @apply text-4xl py-2 text-stone-100;
+    @apply text-4xl py-2;
   }
   h2 {
-    @apply text-2xl text-stone-100;
+    @apply text-2xl;
   }
   h3 {
-    @apply text-lg text-stone-100;
+    @apply text-lg;
   }
   a {
     @apply underline;
   }
-  /* button {
-    @apply bg-zinc-600/75 rounded-3xl p-2 flex gap-2 items-center align-middle justify-center;
-  } */
-  button svg {
-    @apply stroke-white;
-  }
-  header button {
-    @apply px-2 py-1 rounded-2xl mx-1;
-  }
-  /* table {
-    @apply w-full rounded-md bg-zinc-700/75 block overflow-x-auto whitespace-nowrap sm:table;
-  }
-  table tr {
-    @apply h-8 w-full;
-  }
-  table tr:hover {
-    @apply bg-zinc-700;
-  }
-  table tr td {
-    @apply p-1;
-  }
-  table button {
-    @apply p-1;
-  }
-  table thead tr {
-    @apply text-left bg-zinc-800 hover:bg-zinc-800 rounded-t-xl;
-  } */
-  .btn {
-    @apply bg-violet-400/75 rounded-xl p-2;
-  }
-  input[type="button"],
-
-  /*button[type="button"], */
-  input[type="submit"],
-  input[type="file"],
-  input[type="reset"] {
-    @apply bg-violet-400/75 rounded-3xl p-2;
-  }
-  input[type="number"],
-  select {
-    @apply text-stone-800;
-  }
-  input[type="text"],
-  input[type="password"],
-  input[type="date"],
-  select,
-  input[type="email"] {
-    @apply rounded-3xl px-3 py-1 bg-zinc-600/75 text-stone-100;
-  }
-  header .btn {
-    @apply px-2 py-1;
-  }
-  input[type="button"]:hover,
-  input[type="submit"]:hover,
-  input[type="reset"]:hover,
-  /* button:hover, */
-  .btn:hover {
-    @apply bg-violet-700 cursor-pointer;
-  }
 }
 
 @layer components {
-  .bg-pattern {
+  /*.bg-pattern {
     background-color: #1d2329;
     /* background-image: url("data:image/svg+xml,%3Csvg width='64' height='64' viewBox='0 0 64 64' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M8 16c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zm33.414-6l5.95-5.95L45.95.636 40 6.586 34.05.636 32.636 2.05 38.586 8l-5.95 5.95 1.414 1.414L40 9.414l5.95 5.95 1.414-1.414L41.414 8zM40 48c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm0-2c3.314 0 6-2.686 6-6s-2.686-6-6-6-6 2.686-6 6 2.686 6 6 6zM9.414 40l5.95-5.95-1.414-1.414L8 38.586l-5.95-5.95L.636 34.05 6.586 40l-5.95 5.95 1.414 1.414L8 41.414l5.95 5.95 1.414-1.414L9.414 40z' fill='%239C92AC' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
-  */
-  }
+  
+  }*/
 }
 
 @layer utilities {

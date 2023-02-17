@@ -8,6 +8,10 @@ import { ArrowLeft } from "./icons/ArrowLeft";
 import { HomeIcon } from "./icons/HomeIcon";
 import { UserIcon } from "./icons/UserIcon";
 
+// Components
+import { Button } from "flowbite-react";
+import { Flowbite, DarkThemeToggle } from "flowbite-react";
+
 export function PageLayout() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -37,12 +41,12 @@ export function PageLayout() {
       <header className="h-14 w-full flex justify-between items-center px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
         {location.pathname !== "/" ? (
           <div className="flex">
-            <button onClick={() => navigate(-1)}>
+            <Button pill={true} onClick={() => navigate(-1)}>
               <ArrowLeft />
-            </button>
-            <button onClick={() => navigate("/")}>
+            </Button>
+            <Button pill={true} onClick={() => navigate("/")}>
               <HomeIcon />
-            </button>
+            </Button>
           </div>
         ) : (
           <div></div>
@@ -56,6 +60,9 @@ export function PageLayout() {
               "(pending email verification)"}
           </Link>
         )}
+        <Flowbite>
+          <DarkThemeToggle />
+        </Flowbite>
       </header>
       <main className={"pb-12"}>
         <Outlet />

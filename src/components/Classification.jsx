@@ -7,7 +7,7 @@ import { EditTeamForm } from "./EditTeamForm";
 import { Modal } from "./modal";
 import { PencilIcon } from "./icons/PencilIcon";
 import { MoreIcon } from "./icons/MoreIcon";
-import { Table } from "flowbite-react";
+import { Table, Button } from "flowbite-react";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
@@ -21,8 +21,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
   return (
     <section>
-      <h2>Classification</h2>
-      <Table>
+      <Table hoverable={true}>
         <Table.Head>
           <Table.HeadCell>
             <input
@@ -85,9 +84,9 @@ export function Classification({ data, isLoading, isOwner }) {
               )}
               {isOwner && (
                 <Table.Cell>
-                  <button onClick={() => setTeamToEdit(team)}>
+                  <Button color={"light"} onClick={() => setTeamToEdit(team)}>
                     <PencilIcon />
-                  </button>
+                  </Button>
                 </Table.Cell>
               )}
             </Table.Row>

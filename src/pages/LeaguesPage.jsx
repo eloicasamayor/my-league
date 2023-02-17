@@ -10,8 +10,11 @@ import { useGetLeaguesQuery } from "../redux";
 import { EditLeagueForm, LeaguesList, NewLeagueForm } from "../components";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { MoreIcon } from "../components/icons/MoreIcon";
-
+import { Button } from "flowbite-react";
+{
+}
 import { Modal } from "../components/modal";
+import { LoginPage } from "./LoginPage";
 
 function LeaguesPage() {
   const navigate = useNavigate();
@@ -26,7 +29,8 @@ function LeaguesPage() {
     <div>
       <header className="flex justify-between align-middle py-2">
         <h1>Leagues</h1>
-        <button
+        <Button
+          pill={true}
           className="rounded-full"
           onClick={() =>
             authData?.user?.id && authData?.session
@@ -36,7 +40,7 @@ function LeaguesPage() {
         >
           <PlusIcon />
           Create league
-        </button>
+        </Button>
       </header>
 
       <LeaguesList
@@ -44,10 +48,14 @@ function LeaguesPage() {
         leaguesIsLoading={leaguesIsLoading}
       />
       {showModal && (
-        <Modal onCloseModal={setShowModal}>
-          <p className="text-center	">
+        <Modal
+          onCloseModal={setShowModal}
+          title={"You have to login to create a league"}
+        >
+          {/* <p className="text-center	">
             <Link to={"/login"}>login</Link> to create a league
-          </p>
+          </p> */}
+          <LoginPage />
         </Modal>
       )}
     </div>

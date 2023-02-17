@@ -22,7 +22,7 @@ import {
 } from "../components";
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
-import { Tabs } from "flowbite-react";
+import { Tabs, Button } from "flowbite-react";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -65,7 +65,7 @@ export function LeaguePage() {
 
   return (
     <div>
-      <header className="flex gap-0 lg:gap-2">
+      <header className="flex">
         <img src={currentLeague.img} className={"w-20 aspect-square"} />
         <div className="grow">
           <h1>{currentLeague.name}</h1>
@@ -73,36 +73,40 @@ export function LeaguePage() {
         </div>
 
         {isOwner && (
-          <>
-            <button
+          <Button.Group>
+            <Button
+              color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
               name={"Edit league info"}
             >
               <PencilIcon />
               {"Edit info"}
-            </button>
-            <button
+            </Button>
+            <Button
+              color={"light"}
               onClick={() => setShowNewTeamModal(true)}
               name={"Add new team"}
             >
               <PlusIcon />
               {"New Team"}
-            </button>
-            <button
+            </Button>
+            <Button
+              color={"light"}
               onClick={() => setShowNewMatchModal(true)}
               name={"Add new match"}
             >
               <PlusIcon />
               {"New Match"}
-            </button>
-            <button
+            </Button>
+            <Button
+              color={"light"}
               onClick={() => setShowNewPlayerModal(true)}
               name={"Add new Player"}
             >
               <PlusIcon />
               {"New Player"}
-            </button>
-          </>
+            </Button>
+          </Button.Group>
         )}
       </header>
       <Tabs.Group aria-label="Tabs with underline" style="underline">
@@ -114,7 +118,6 @@ export function LeaguePage() {
           />
         </Tabs.Item>
         <Tabs.Item title="Matches">
-          <h2>Matches List</h2>
           <MatchesCalendar
             teams={teamsData}
             matchesData={matchesData}
@@ -125,7 +128,6 @@ export function LeaguePage() {
           />
         </Tabs.Item>
         <Tabs.Item title="Players">
-          <h2>Players</h2>
           <PlayersList
             teamsData={teamsData}
             teamsIsLoading={teamsIsLoading}
@@ -137,13 +139,19 @@ export function LeaguePage() {
       </Tabs.Group>
 
       {showEditLeagueModal && (
-        <Modal onCloseModal={() => setShowEditLeagueModal(false)}>
+        <Modal
+          onCloseModal={() => setShowEditLeagueModal(false)}
+          title={"Edit League"}
+        >
           <EditLeagueForm leagueToEdit={currentLeague} />
         </Modal>
       )}
 
       {isOwner && showNewTeamModal && (
-        <Modal onCloseModal={() => setShowNewTeamModal(false)}>
+        <Modal
+          onCloseModal={() => setShowNewTeamModal(false)}
+          title={"New Team"}
+        >
           <NewTeamForm
             currentLeague={currentLeague}
             closeModal={() => setShowNewTeamModal(false)}
@@ -151,7 +159,10 @@ export function LeaguePage() {
         </Modal>
       )}
       {isOwner && showNewMatchModal && (
-        <Modal onCloseModal={() => setShowNewMatchModal(false)}>
+        <Modal
+          onCloseModal={() => setShowNewMatchModal(false)}
+          title={"New Match"}
+        >
           <NewMatchForm
             teams={teamsData}
             currentLeague={currentLeague}
@@ -160,7 +171,10 @@ export function LeaguePage() {
         </Modal>
       )}
       {isOwner && showNewPlayerModal && (
-        <Modal onCloseModal={() => setShowNewPlayerModal(false)}>
+        <Modal
+          onCloseModal={() => setShowNewPlayerModal(false)}
+          title={"New Player"}
+        >
           <NewPlayerForm
             teamsData={teamsData}
             teamsIsLoading={teamsIsLoading}
