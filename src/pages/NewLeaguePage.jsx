@@ -4,6 +4,7 @@ import {
   useInsertLeagueMutation,
   useInsertTeamMutation,
   useInsertMatchMutation,
+  useInsertPlayerMutation,
 } from "../redux";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { useRef, useState, useEffect } from "react";
@@ -18,7 +19,7 @@ import { UpdateIcon } from "../components/icons/UpdateIcon";
 import { Alert } from "../components/Alert";
 import { UploadIcon } from "../components/icons/UploadIcon";
 import { CircleCheckIcon } from "../components/icons/CircleCheckIcon";
-import { TextInput, Button } from "flowbite-react";
+import { TextInput, Button, Card } from "flowbite-react";
 
 // Helpers
 import { getMatchings } from "../helpers/getMatchings";
@@ -36,6 +37,7 @@ export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
   const [insertTeam, newTeamReqResult] = useInsertTeamMutation();
   const [insertMatch, newMatchReqResult] = useInsertMatchMutation();
+  const [insertPlayer, newPlayerReqResult] = useInsertPlayerMutation();
 
   const authData = useSelector((state) => state.auth);
 
@@ -108,10 +110,19 @@ export function NewLeaguePage() {
         </>
       );
     }
+    if (newPlayerReqResult.isError) {
+      return (
+        <>
+          <h2>{`Error creating the players ${newPlayerReqResult.error.code}`}</h2>
+          <p>{`${newPlayerReqResult.error.message}`}</p>
+        </>
+      );
+    }
     if (
       newLeagueReqResult.isSuccess &&
       newTeamReqResult.isSuccess &&
-      newMatchReqResult.isSuccess
+      newMatchReqResult.isSuccess &&
+      newPlayerReqResult.isSuccess
     )
       return (
         <>
@@ -123,6 +134,9 @@ export function NewLeaguePage() {
           </p>
           <p>
             <CircleCheckIcon svgClassName={"inline"} /> Matches created
+          </p>
+          <p>
+            <CircleCheckIcon svgClassName={"inline"} /> Players created
           </p>
           <hr />
           <Link to={nameToUrlName(`../${leagueName}`)}>
@@ -137,6 +151,7 @@ export function NewLeaguePage() {
     JSON.stringify(newLeagueReqResult),
     JSON.stringify(newTeamReqResult),
     JSON.stringify(newMatchReqResult),
+    JSON.stringify(newPlayerReqResult),
   ]);
 
   function onSelectMatchings() {
@@ -197,6 +212,7 @@ export function NewLeaguePage() {
         setSelectedTab={setSelectedTab}
         onSelectMatchings={onSelectMatchings}
       />
+      {/* ---- Teams ---- */}
       {selectedTab === 0 && (
         <section className=" px-2 py-4">
           <form className="flex flex-col gap-2">
@@ -217,6 +233,7 @@ export function NewLeaguePage() {
                       }}
                     />
                     <Button
+                      size="sm"
                       className="absolute right-0 top-0"
                       onClick={(e) => {
                         e.preventDefault();
@@ -255,16 +272,18 @@ export function NewLeaguePage() {
           </form>
         </section>
       )}
+      {/* ---- PLAYERS ---- */}
       {selectedTab === 1 && (
         <section className=" px-2 py-4">
           {teams.map((team, teamIndex) => (
-            <div className="flex flex-col gap-1 pb-5">
+            <div className="w-full flex flex-col gap-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
               <h2 className="w-full">{team}</h2>
               {players[teamIndex].map((player, i) => (
-                <div className="relative w-full">
+                <div className="relative w-full p-0">
                   <TextInput
+                    id={`team${teamIndex}_player${player}`}
                     value={player}
-                    className=" text-xl p-2 text-center w-full"
+                    className=" text-xl p-0 text-center w-full"
                     onChange={(e) => {
                       e.preventDefault();
                       const playersCopy = [...players];
@@ -275,6 +294,7 @@ export function NewLeaguePage() {
                     }}
                   />
                   <Button
+                    size={"sm"}
                     className="absolute right-0 top-0"
                     onClick={(e) => {
                       e.preventDefault();
@@ -292,7 +312,6 @@ export function NewLeaguePage() {
               <Button
                 className="w-full"
                 onClick={(e) => {
-                  debugger;
                   e.preventDefault();
                   const varPlayers = [...players];
                   let playersThisTeam = [...(players?.[teamIndex] ?? [])];
@@ -309,6 +328,7 @@ export function NewLeaguePage() {
           ))}
         </section>
       )}
+      {/* ---- DATES ---- */}
       {selectedTab === 2 && (
         <section className=" px-2 py-4">
           <form className="flex flex-col">
@@ -331,6 +351,7 @@ export function NewLeaguePage() {
           </form>
         </section>
       )}
+      {/* ---- MATCHINGS ---- */}
       {selectedTab === 3 && (
         <section className="flex flex-col  px-2 py-4">
           <div className="flex gap-2 pb-2">
@@ -362,9 +383,11 @@ export function NewLeaguePage() {
                   ownerId: authData?.user?.id,
                   teams,
                   matchings,
+                  players,
                   insertLeague,
                   insertTeam,
                   insertMatch,
+                  insertPlayer,
                   setAlertMessage,
                 });
               }}

@@ -7,9 +7,11 @@ export async function saveNewLeague({
   ownerId,
   teams,
   matchings,
+  players,
   insertLeague,
   insertTeam,
   insertMatch,
+  insertPlayer,
   setAlertMessage,
 }) {
   if (!leagueName) {
@@ -17,9 +19,12 @@ export async function saveNewLeague({
     return;
   }
 
-  debugger;
   if (teams.length < 2) {
     setAlertMessage("Need more teams to create the league");
+    return;
+  }
+  if (players.some((team) => team.length < 1)) {
+    setAlertMessage("There is a team with no players");
     return;
   }
   const insertLeagueReqRes = await insertLeague({
@@ -59,6 +64,21 @@ export async function saveNewLeague({
     });
   });
   const insertMatchesReqRes = await insertMatch(matchesReq);
+  if (insertMatchesReqRes.error) {
+    return;
+  }
+
+  // insert players
+  const playersReq = [];
+  let teamIndex = 0;
+  players.forEach((teamPlayers) => {
+    teamPlayers.forEach((player) => {
+      playersReq.push({ name: player, team: insertedTeams[teamIndex].id });
+    });
+    teamIndex = teamIndex + 1;
+  });
+
+  const insertPlayersReqRes = await insertPlayer(playersReq);
   if (insertMatchesReqRes.error) {
     return;
   }

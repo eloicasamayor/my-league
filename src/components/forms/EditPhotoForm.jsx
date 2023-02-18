@@ -5,6 +5,7 @@ import { supabase } from "../../supabase";
 // Components
 import { PhotoIcon } from "../icons";
 import { FileInput, Label, Button } from "flowbite-react";
+
 export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
   const fileRef = useRef();
   return (

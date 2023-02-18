@@ -99,7 +99,7 @@ export function MatchesCalendar({
           <h3>{"Match day" + i + 1}</h3>
           <Table
             hoverable={true}
-            class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            class="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
           >
             <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <Table.HeadCell class="px-6 py-2 text-right">
