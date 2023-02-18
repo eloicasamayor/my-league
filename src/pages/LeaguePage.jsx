@@ -65,7 +65,7 @@ export function LeaguePage() {
 
   return (
     <div>
-      <header className="flex">
+      <header className="flex flex-col md:flex-row items-center gap-1">
         <img src={currentLeague.img} className={"w-20 aspect-square"} />
         <div className="grow">
           <h1>{currentLeague.name}</h1>
@@ -75,6 +75,7 @@ export function LeaguePage() {
         {isOwner && (
           <Button.Group>
             <Button
+              size="sm"
               color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
               name={"Edit league info"}
@@ -83,6 +84,7 @@ export function LeaguePage() {
               {"Edit info"}
             </Button>
             <Button
+              size="sm"
               color={"light"}
               onClick={() => setShowNewTeamModal(true)}
               name={"Add new team"}
@@ -91,6 +93,7 @@ export function LeaguePage() {
               {"New Team"}
             </Button>
             <Button
+              size="sm"
               color={"light"}
               onClick={() => setShowNewMatchModal(true)}
               name={"Add new match"}
@@ -99,6 +102,7 @@ export function LeaguePage() {
               {"New Match"}
             </Button>
             <Button
+              size="sm"
               color={"light"}
               onClick={() => setShowNewPlayerModal(true)}
               name={"Add new Player"}
@@ -109,7 +113,7 @@ export function LeaguePage() {
           </Button.Group>
         )}
       </header>
-      <Tabs.Group aria-label="Tabs with underline" style="underline">
+      <Tabs.Group style="underline" className="justify-center">
         <Tabs.Item title="Classification" active={true}>
           <Classification
             data={teamsData}

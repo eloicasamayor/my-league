@@ -7,7 +7,7 @@ export function Modal({ title = "", children, onCloseModal }) {
       className={"absolute top-0 w-full h-full bg-zinc-900/75 z-50"}
       onClick={() => onCloseModal(null)}
     >
-      <div className="sticky top-16 mx-auto w-11/12 bg-zinc-500 rounded-xl lg:w-3/4">
+      <div className="sticky top-16 mx-auto w-11/12 bg-violet-300 dark: bg-violet-900 rounded-xl lg:w-3/4">
         <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
             {title}
@@ -33,7 +33,10 @@ export function Modal({ title = "", children, onCloseModal }) {
             <span class="sr-only">Close modal</span>
           </button>
         </div>
-        <div onClick={(e) => e.stopPropagation()} className={"py-8 px-6"}>
+        <div
+          onClick={(e) => e.stopPropagation()}
+          className={"py-8 px-2 md:px-6"}
+        >
           {children}
         </div>
       </div>

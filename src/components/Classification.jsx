@@ -2,6 +2,8 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { _ } from "lodash";
+import { useNavigate } from "react-router-dom";
+
 // Components
 import { EditTeamForm } from "./EditTeamForm";
 import { Modal } from "./modal";
@@ -13,6 +15,8 @@ export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
   const [seeAllStats, setSeeAllStats] = useState(Table.Headue);
 
+  const navigate = useNavigate();
+
   if (isLoading) {
     return "loading...";
   }
@@ -21,7 +25,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
   return (
     <section>
-      <Table hoverable={true}>
+      <Table hoverable={true} className={"text-sm md:text-base"}>
         <Table.Head>
           <Table.HeadCell>
             <input
@@ -62,15 +66,14 @@ export function Classification({ data, isLoading, isOwner }) {
         <Table.Body>
           {data.map((team) => (
             <Table.Row
-              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
               key={team.id}
+              onClick={() => navigate("./" + team.urlname)}
             >
-              <Table.Cell>
+              <Table.Cell className="px-2">
                 <img src={team.img} className={"w-4"} />
               </Table.Cell>
-              <Table.Cell>
-                <Link to={"./" + team.urlname}>{team.name}</Link>
-              </Table.Cell>
+              <Table.Cell>{team.name}</Table.Cell>
               <Table.Cell>{team.points}</Table.Cell>
               <Table.Cell>{team.played_matches}</Table.Cell>
               {seeAllStats && (
@@ -84,7 +87,11 @@ export function Classification({ data, isLoading, isOwner }) {
               )}
               {isOwner && (
                 <Table.Cell>
-                  <Button color={"light"} onClick={() => setTeamToEdit(team)}>
+                  <Button
+                    size={"xs"}
+                    color={"light"}
+                    onClick={() => setTeamToEdit(team)}
+                  >
                     <PencilIcon />
                   </Button>
                 </Table.Cell>
