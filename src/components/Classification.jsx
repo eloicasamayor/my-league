@@ -5,7 +5,7 @@ import { _ } from "lodash";
 import { useNavigate } from "react-router-dom";
 
 // Components
-import { EditTeamForm } from "./EditTeamForm";
+import { EditTeamForm } from "./forms";
 import { Modal } from "./modal";
 import { PencilIcon } from "./icons/PencilIcon";
 import { MoreIcon } from "./icons/MoreIcon";
@@ -25,7 +25,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
   return (
     <section>
-      <Table hoverable={true} className={"text-sm md:text-base"}>
+      <Table hoverable={true} className={"styled-table text-sm md:text-base"}>
         <Table.Head>
           <Table.HeadCell>
             <input
@@ -70,7 +70,7 @@ export function Classification({ data, isLoading, isOwner }) {
               key={team.id}
               onClick={() => navigate("./" + team.urlname)}
             >
-              <Table.Cell className="px-2">
+              <Table.Cell>
                 <img src={team.img} className={"w-4"} />
               </Table.Cell>
               <Table.Cell>{team.name}</Table.Cell>
@@ -92,7 +92,7 @@ export function Classification({ data, isLoading, isOwner }) {
                     color={"light"}
                     onClick={() => setTeamToEdit(team)}
                   >
-                    <PencilIcon />
+                    <PencilIcon svgClassName={"w-4 h-4"} />
                   </Button>
                 </Table.Cell>
               )}

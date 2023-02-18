@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 // Components
-import { EditPlayerForm } from "./EditPlayerForm";
+import { EditPlayerForm } from "./forms";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
 import { Table } from "flowbite-react";

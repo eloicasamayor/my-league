@@ -1,11 +1,12 @@
 // Dependencies
-import { useInsertTeamMutation } from "../redux";
+import { useInsertTeamMutation } from "../../redux";
 import { useRef } from "react";
 
+// Components
 import { Button, TextInput } from "flowbite-react";
 
 // Helpers
-import { nameToUrlName } from "../helpers/nameToUrlName";
+import { nameToUrlName } from "../../helpers";
 
 export function NewTeamForm({ currentLeague, closeModal }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();

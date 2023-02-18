@@ -1,10 +1,10 @@
 // Dependencies
-import { useInsertLeagueMutation } from "../redux";
+import { useInsertLeagueMutation } from "../../redux";
 import { useRef } from "react";
 import { useSelector } from "react-redux";
 
 // helpers
-import { nameToUrlName } from "../helpers/nameToUrlName";
+import { nameToUrlName } from "../../helpers";
 
 export function NewLeagueForm() {
   const [insertLeague, requestResult] = useInsertLeagueMutation();
@@ -14,7 +14,6 @@ export function NewLeagueForm() {
 
   return (
     <>
-      <h2>Create new league</h2>
       {authData?.user?.id ? (
         <form className="flex flex-col gap-2">
           <label htmlFor={"name"}>League name:</label>

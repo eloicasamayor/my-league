@@ -2,8 +2,8 @@
 import { useState, useEffect, useRef } from "react";
 
 // Api
-import { useUpdateMatchMutation, useDeleteMatchMutation } from "../redux";
-import { TrashIcon } from "./icons/TrashIcon";
+import { useUpdateMatchMutation, useDeleteMatchMutation } from "../../redux";
+import { TrashIcon } from "../icons";
 
 export function EditMatchForm({ matchToEdit, playersData, teamsData }) {
   const {

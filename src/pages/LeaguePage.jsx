@@ -22,6 +22,7 @@ import {
 } from "../components";
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
+import { SettingsIcon } from "../components/icons/SettingsIcon";
 import { Tabs, Button } from "flowbite-react";
 
 export function LeaguePage() {
@@ -36,6 +37,7 @@ export function LeaguePage() {
   const authData = useSelector((state) => state.auth);
 
   const [showEditLeagueModal, setShowEditLeagueModal] = useState(false);
+  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showNewTeamModal, setShowNewTeamModal] = useState(false);
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
@@ -65,22 +67,25 @@ export function LeaguePage() {
 
   return (
     <div>
-      <header className="flex flex-col md:flex-row items-center gap-1">
-        <img src={currentLeague.img} className={"w-20 aspect-square"} />
-        <div className="grow">
-          <h1>{currentLeague.name}</h1>
-          <h2>{currentLeague.description}</h2>
-        </div>
+      {isOwner && (
+        <button
+          className="absolute rounded-full right-0 flex justify-center items-center w-12 h-12 md:w-16 md:h-16 bg-transparent hover:bg-violet-400"
+          onClick={() => setShowSettingsMenu(!showSettingsMenu)}
+        >
+          <SettingsIcon svgClassName={"w-6 h-6 md:w-8 md:h-8"} />
+        </button>
+      )}
 
-        {isOwner && (
-          <Button.Group>
+      <header className="flex flex-col md:flex-row items-center gap-1">
+        {isOwner && showSettingsMenu && (
+          <Button.Group className="mt-2">
             <Button
               size="sm"
               color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
               name={"Edit league info"}
             >
-              <PencilIcon />
+              <PencilIcon svgClassName={"w-6 h-6"} />
               {"Edit info"}
             </Button>
             <Button
@@ -112,7 +117,13 @@ export function LeaguePage() {
             </Button>
           </Button.Group>
         )}
+        <img src={currentLeague.img} className={"w-20 aspect-square"} />
+        <div className="grow">
+          <h1>{currentLeague.name}</h1>
+          <h2>{currentLeague.description}</h2>
+        </div>
       </header>
+
       <Tabs.Group style="underline" className="justify-center">
         <Tabs.Item title="Classification" active={true}>
           <Classification

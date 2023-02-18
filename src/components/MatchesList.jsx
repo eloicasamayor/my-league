@@ -1,6 +1,6 @@
 import _ from "lodash";
 import { useState } from "react";
-import { EditMatchForm } from "./EditMatchForm";
+import { EditMatchForm } from "./forms";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
 import { format } from "date-fns";

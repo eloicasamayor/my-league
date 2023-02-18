@@ -35,4 +35,8 @@
   .special-label {
     @apply text-xs text-zinc-500 leading-none flex flex-col pl-3 absolute top-0;
   }
+  .styled-table tr td,
+  .styled-table tr > th {
+    @apply p-1 md:py-3 md:px-4;
+  }
 }

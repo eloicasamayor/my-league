@@ -1,7 +1,8 @@
 // Dependencies
-import { useInsertPlayerMutation } from "../redux";
+import { useInsertPlayerMutation } from "../../redux";
 import { useRef } from "react";
 
+// Components
 import { Button } from "flowbite-react";
 
 export function NewPlayerForm({ teamsData, teamsIsLoading }) {

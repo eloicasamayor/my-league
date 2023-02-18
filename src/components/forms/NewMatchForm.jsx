@@ -1,5 +1,5 @@
 // Dependencies
-import { useInsertMatchMutation } from "../redux";
+import { useInsertMatchMutation } from "../../redux";
 import { useRef } from "react";
 
 import { Button } from "flowbite-react";

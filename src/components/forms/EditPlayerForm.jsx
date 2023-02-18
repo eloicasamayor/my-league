@@ -6,10 +6,10 @@ import {
   useUpdatePlayerMutation,
   useGetTeamsQuery,
   useDeletePlayerMutation,
-} from "../redux";
+} from "../../redux";
 
 // Components
-import { TrashIcon } from "./icons/TrashIcon";
+import { TrashIcon } from "../icons";
 
 export function EditPlayerForm({ player = {}, teamsData }) {
   const [editPlayer, requestResult] = useUpdatePlayerMutation();

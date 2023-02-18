@@ -1,9 +1,9 @@
 // Dependencies
 import { useRef } from "react";
-import { supabase } from "../supabase";
+import { supabase } from "../../supabase";
 
 // Components
-import { PhotoIcon } from "./icons/PhotoIcon";
+import { PhotoIcon } from "../icons";
 import { FileInput, Label, Button } from "flowbite-react";
 export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
   const fileRef = useRef();

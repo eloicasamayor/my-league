@@ -2,7 +2,7 @@
 import { useRef } from "react";
 
 // Api
-import { useUpdateTeamMutation, useDeleteTeamMutation } from "../redux";
+import { useUpdateTeamMutation, useDeleteTeamMutation } from "../../redux";
 import { EditPhotoForm } from "./EditPhotoForm";
 
 export function EditTeamForm({ team = {} }) {

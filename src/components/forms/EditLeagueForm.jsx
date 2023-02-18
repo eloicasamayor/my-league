@@ -3,19 +3,19 @@ import { useRef } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Api
-import { useUpdateLeagueMutation } from "../redux";
-import { useDeleteLeagueMutation } from "../redux";
+import { useUpdateLeagueMutation } from "../../redux";
+import { useDeleteLeagueMutation } from "../../redux";
 import {
   useDeleteAllLeagueMatchesMutation,
   useDeleteAllLeaguePlayersMutation,
   useDeleteAllLeagueTeamsMutation,
-} from "../redux";
+} from "../../redux";
 
 // Helpers
-import { nameToUrlName } from "../helpers/nameToUrlName";
+import { nameToUrlName } from "../../helpers";
 
 // Components
-import { TrashIcon } from "./icons/TrashIcon";
+import { TrashIcon } from "../icons";
 import { EditPhotoForm } from "./EditPhotoForm";
 import { Navigate } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
@@ -34,7 +34,6 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
 
   const nameRef = useRef();
   const descriptionRef = useRef();
-  debugger;
   if (!leagueToEdit.id) {
     return "";
   }
