@@ -48,10 +48,7 @@ function LeaguesPage() {
         leaguesIsLoading={leaguesIsLoading}
       />
       {showModal && (
-        <Modal
-          onCloseModal={setShowModal}
-          title={"You have to login to create a league"}
-        >
+        <Modal onCloseModal={setShowModal} title={"Login to create a league"}>
           {/* <p className="text-center	">
             <Link to={"/login"}>login</Link> to create a league
           </p> */}

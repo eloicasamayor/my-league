@@ -7,7 +7,7 @@ export function Modal({ title = "", children, onCloseModal }) {
       className={"absolute top-0 w-full h-full bg-zinc-900/75 z-50"}
       onClick={() => onCloseModal(null)}
     >
-      <div className="sticky top-16 mx-auto w-11/12 bg-violet-300 dark:bg-violet-900 rounded-xl lg:w-3/4">
+      <div className="sticky top-16 mx-auto w-11/12 bg-violet-100 dark:bg-violet-900 rounded-xl lg:w-3/4">
         <div class="flex items-start justify-between p-4 border-b rounded-t dark:border-gray-600">
           <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
             {title}
@@ -17,7 +17,7 @@ export function Modal({ title = "", children, onCloseModal }) {
             class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white"
             onClick={() => onCloseModal(null)}
           >
-            <PlusIcon className={"rotate-45"} />
+            <PlusIcon svgClassName={"w-6 h-6 rotate-45"} />
             <span class="sr-only">Close modal</span>
           </button>
         </div>

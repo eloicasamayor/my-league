@@ -76,7 +76,7 @@ export function LeaguePage() {
         </button>
       )}
 
-      <header className="flex flex-col md:flex-row items-center gap-1">
+      <header className="flex items-center md:items-end gap-1">
         {isOwner && showSettingsMenu && (
           <Button.Group className="mt-2">
             <Button
@@ -118,8 +118,8 @@ export function LeaguePage() {
           </Button.Group>
         )}
         <img src={currentLeague.img} className={"w-20 aspect-square"} />
-        <div className="grow">
-          <h1>{currentLeague.name}</h1>
+        <div className="flex flex-col md:flex-row grow items-baseline gap-0 md:gap-3">
+          <h1 className="p-0">{currentLeague.name}</h1>
           <h2>{currentLeague.description}</h2>
         </div>
       </header>

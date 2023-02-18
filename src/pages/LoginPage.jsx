@@ -79,7 +79,7 @@ export function LoginPage() {
               minLength={"6"}
               required
             ></TextInput>
-            <div className="flex justify-center">
+            <div className="flex justify-center gap-2">
               <Button type={"submit"} value={"login"}>
                 {"Log in"}
               </Button>

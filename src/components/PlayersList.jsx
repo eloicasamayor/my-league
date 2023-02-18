@@ -35,7 +35,7 @@ export function PlayersList({
     <section>
       <Table
         hoverable={true}
-        class="w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        class="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
       >
         <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <Table.HeadCell>{"player name"}</Table.HeadCell>
