@@ -5,7 +5,7 @@ export function StepsNavigation({
   onSelectMatchings,
 }) {
   return (
-    <ol className="h-8 flex mx-2 my-2 items-center gap-1 justify-center sm:gap-6 lg:gap-20">
+    <ol className="h-8 flex my-2 items-center gap-1 justify-center sm:gap-6 lg:gap-20">
       <li
         className={`flex items-center p-0 text-2xl cursor-pointer " + ${
           selectedTab === 0 ? "text-violet-500" : "text-zinc-500"

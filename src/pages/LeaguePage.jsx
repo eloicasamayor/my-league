@@ -23,7 +23,7 @@ import {
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
 import { SettingsIcon } from "../components/icons/SettingsIcon";
-import { Tabs, Button } from "flowbite-react";
+import { Tabs, Button, Dropdown } from "flowbite-react";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -67,19 +67,15 @@ export function LeaguePage() {
 
   return (
     <div>
-      {isOwner && (
-        <button
-          className="absolute rounded-full right-0 flex justify-center items-center w-12 h-12 md:w-16 md:h-16 bg-transparent hover:bg-violet-400"
-          onClick={() => setShowSettingsMenu(!showSettingsMenu)}
-        >
-          <SettingsIcon svgClassName={"w-6 h-6 md:w-8 md:h-8"} />
-        </button>
-      )}
-
       <header className="flex items-center md:items-end gap-1">
-        {isOwner && showSettingsMenu && (
-          <Button.Group className="mt-2">
-            <Button
+        <img src={currentLeague.img} className={"w-20 aspect-square"} />
+        <div className="flex flex-col md:flex-row grow items-baseline gap-0 md:gap-3">
+          <h1 className="p-0">{currentLeague.name}</h1>
+          <h2>{currentLeague.description}</h2>
+        </div>
+        {isOwner && (
+          <Dropdown label="Edit" dismissOnClick={false}>
+            <Dropdown.Item
               size="sm"
               color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
@@ -87,8 +83,8 @@ export function LeaguePage() {
             >
               <PencilIcon svgClassName={"w-6 h-6"} />
               {"Edit info"}
-            </Button>
-            <Button
+            </Dropdown.Item>
+            <Dropdown.Item
               size="sm"
               color={"light"}
               onClick={() => setShowNewTeamModal(true)}
@@ -96,8 +92,8 @@ export function LeaguePage() {
             >
               <PlusIcon />
               {"New Team"}
-            </Button>
-            <Button
+            </Dropdown.Item>
+            <Dropdown.Item
               size="sm"
               color={"light"}
               onClick={() => setShowNewMatchModal(true)}
@@ -105,8 +101,8 @@ export function LeaguePage() {
             >
               <PlusIcon />
               {"New Match"}
-            </Button>
-            <Button
+            </Dropdown.Item>
+            <Dropdown.Item
               size="sm"
               color={"light"}
               onClick={() => setShowNewPlayerModal(true)}
@@ -114,14 +110,9 @@ export function LeaguePage() {
             >
               <PlusIcon />
               {"New Player"}
-            </Button>
-          </Button.Group>
+            </Dropdown.Item>
+          </Dropdown>
         )}
-        <img src={currentLeague.img} className={"w-20 aspect-square"} />
-        <div className="flex flex-col md:flex-row grow items-baseline gap-0 md:gap-3">
-          <h1 className="p-0">{currentLeague.name}</h1>
-          <h2>{currentLeague.description}</h2>
-        </div>
       </header>
 
       <Tabs.Group style="underline" className="justify-center">

@@ -275,6 +275,11 @@ export function NewLeaguePage() {
       {/* ---- PLAYERS ---- */}
       {selectedTab === 1 && (
         <section className=" px-2 py-4">
+          {teams.length === 0 && (
+            <p className="text-sm text-center">
+              {"You have to add teams before adding players"}
+            </p>
+          )}
           {teams.map((team, teamIndex) => (
             <div className="w-full flex flex-col gap-1 p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
               <h2 className="w-full">{team}</h2>
@@ -332,7 +337,9 @@ export function NewLeaguePage() {
       {selectedTab === 2 && (
         <section className=" px-2 py-4">
           <form className="flex flex-col">
-            <label htmlFor="starting-day">The league will start</label>
+            <label className="text-sm" htmlFor="starting-day">
+              The league will start
+            </label>
             <input
               value={startingDateValue}
               type={"date"}
@@ -340,8 +347,6 @@ export function NewLeaguePage() {
               id="starting-day"
               onChange={(e) => setStartingDateValue(e.target.value)}
             ></input>
-
-            <label htmlFor="day-of-the-week">There will be matches on </label>
 
             <WeekDaySelect
               value={weekDayValue}
@@ -354,64 +359,73 @@ export function NewLeaguePage() {
       {/* ---- MATCHINGS ---- */}
       {selectedTab === 3 && (
         <section className="flex flex-col  px-2 py-4">
-          <div className="flex gap-2 pb-2">
-            <Button
-              onClick={() => {
-                const teamsCopy = [...teams];
-                shuffle(teamsCopy);
-                setMatchings(
-                  shuffleMatchings(matchings, getMatchings(teamsCopy))
-                );
-              }}
-              className={"flex items-center justify-center"}
-            >
-              <UpdateIcon />
-              Shulffle
-            </Button>
-            <Button
-              onClick={() => setMatchings(resetMatchingsDates(matchings))}
-            >
-              <ArrowBackIcon />
-              Reset dates
-            </Button>
-            <div className="grow"></div>
-            <Button
-              onClick={() => {
-                saveNewLeague({
-                  leagueName,
-                  leagueDescription,
-                  ownerId: authData?.user?.id,
-                  teams,
-                  matchings,
-                  players,
-                  insertLeague,
-                  insertTeam,
-                  insertMatch,
-                  insertPlayer,
-                  setAlertMessage,
-                });
-              }}
-            >
-              <UploadIcon />
-              Save
-            </Button>
-          </div>
-          <div>
-            <ul className="flex flex-col gap-2">
-              {matchings.map((jornada, indexJornada) => {
-                return (
-                  <LeagueDay
-                    key={indexJornada}
-                    indexJornada={indexJornada}
-                    teams={teams}
-                    jornada={jornada}
-                    matchings={matchings}
-                    setMatchings={setMatchings}
-                  />
-                );
-              })}
-            </ul>
-          </div>
+          {matchings.length === 0 ? (
+            <p className="text-sm text-center">
+              {"You have to add teams so matchings can be generated"}
+            </p>
+          ) : (
+            <>
+              <div className="flex gap-2 pb-2">
+                <Button
+                  onClick={() => {
+                    const teamsCopy = [...teams];
+                    shuffle(teamsCopy);
+                    setMatchings(
+                      shuffleMatchings(matchings, getMatchings(teamsCopy))
+                    );
+                  }}
+                  className={"flex items-center justify-center"}
+                >
+                  <UpdateIcon />
+                  Shulffle
+                </Button>
+                <Button
+                  onClick={() => setMatchings(resetMatchingsDates(matchings))}
+                >
+                  <ArrowBackIcon />
+                  Reset dates
+                </Button>
+                <div className="grow"></div>
+                <Button
+                  onClick={() => {
+                    saveNewLeague({
+                      leagueName,
+                      leagueDescription,
+                      ownerId: authData?.user?.id,
+                      teams,
+                      matchings,
+                      players,
+                      insertLeague,
+                      insertTeam,
+                      insertMatch,
+                      insertPlayer,
+                      setAlertMessage,
+                    });
+                  }}
+                >
+                  <UploadIcon />
+                  Save
+                </Button>
+              </div>
+
+              <div>
+                <ul className="flex flex-col gap-2">
+                  {matchings.map((jornada, indexJornada) => {
+                    return (
+                      <LeagueDay
+                        key={indexJornada}
+                        indexJornada={indexJornada}
+                        teams={teams}
+                        jornada={jornada}
+                        matchings={matchings}
+                        setMatchings={setMatchings}
+                      />
+                    );
+                  })}
+                </ul>
+              </div>
+            </>
+          )}
         </section>
       )}
     </div>
