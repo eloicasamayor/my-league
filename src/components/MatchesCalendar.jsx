@@ -4,7 +4,8 @@ import { EditMatchForm } from "./forms";
 import { PencilIcon } from "./icons/PencilIcon";
 import { Modal } from "./modal";
 import { format } from "date-fns";
-import { Table } from "flowbite-react";
+import { Table, Button } from "flowbite-react";
+import { Alert } from "./Alert";
 
 export function MatchesCalendar({
   teams,
@@ -16,6 +17,7 @@ export function MatchesCalendar({
   isOwner,
 }) {
   const [matchToEdit, setMatchToEdit] = useState({});
+  const [alertMessage, setAlertMessage] = useState("");
 
   if (matchesIsLoading) {
     return "loading...";
@@ -45,14 +47,9 @@ export function MatchesCalendar({
         <Table.Cell className=" text-left">
           {getTeamNameWithId(match.visitor_team)}
         </Table.Cell>
-      </Table.Row>
-    );
-  }
-
-  {
-    /*isOwner && !selectedTeam && (
-          <div>
-            <button
+        {isOwner && (
+          <Table.Cell>
+            <Button
               onClick={() =>
                 setMatchToEdit({
                   id: match.id,
@@ -66,10 +63,12 @@ export function MatchesCalendar({
                 })
               }
             >
-              <PencilIcon />
-            </button>
-          </div>
-            ) */
+              <PencilIcon svgClassName={"h-4 w-4"} />
+            </Button>
+          </Table.Cell>
+        )}
+      </Table.Row>
+    );
   }
 
   if (selectedTeam) {
@@ -94,9 +93,12 @@ export function MatchesCalendar({
 
   return (
     <section>
+      {alertMessage && (
+        <Alert onCloseAlert={setAlertMessage}>{alertMessage}</Alert>
+      )}
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <>
-          <h3>{"Match day" + i + 1}</h3>
+          <h3>{`Match day ${i + 1}`}</h3>
           <Table
             hoverable={true}
             class="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -111,6 +113,11 @@ export function MatchesCalendar({
               <Table.HeadCell class="px-6 py-2 text-left">
                 Visitor team
               </Table.HeadCell>
+              {isOwner && (
+                <Table.HeadCell class="px-6 py-2 text-left">
+                  actions
+                </Table.HeadCell>
+              )}
             </Table.Head>
             <Table.Body>
               {groupMatches.map((match, i) => renderMatch(match, i))}
@@ -120,11 +127,13 @@ export function MatchesCalendar({
       ))}
 
       {isOwner && !selectedTeam && !_.isEmpty(matchToEdit) && (
-        <Modal onCloseModal={() => setMatchToEdit(null)}>
+        <Modal title="Edit Match" onCloseModal={() => setMatchToEdit(null)}>
           <EditMatchForm
             matchToEdit={matchToEdit}
             playersData={playersData}
             teamsData={teamsData}
+            setAlertMessage={setAlertMessage}
+            closeModal={() => setMatchToEdit(null)}
           />
         </Modal>
       )}
