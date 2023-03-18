@@ -37,7 +37,6 @@ export function LeaguePage() {
   const authData = useSelector((state) => state.auth);
 
   const [showEditLeagueModal, setShowEditLeagueModal] = useState(false);
-  const [showSettingsMenu, setShowSettingsMenu] = useState(false);
   const [showNewTeamModal, setShowNewTeamModal] = useState(false);
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);

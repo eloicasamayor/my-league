@@ -40,25 +40,13 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
 
   return (
     <>
-      <h2>Edit League</h2>
       <div className="flex flex-col gap-4 lg:flex-row items-center">
         <EditPhotoForm
           itemToEdit={leagueToEdit}
           bucketName={"leagues-img"}
           updateItem={updateLeague}
         />
-        <form
-          className="flex flex-col w-full gap-2"
-          onSubmit={(e) => {
-            e.preventDefault();
-            updateLeague({
-              id,
-              name: nameRef.current.value,
-              description: descriptionRef.current.value,
-              urlname: nameToUrlName(nameRef.current.value),
-            });
-          }}
-        >
+        <form className="flex flex-col w-full gap-2">
           <TextInput
             className="hidden"
             type={"text"}
@@ -86,7 +74,20 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
             defaultValue={leagueToEdit.description}
           />
 
-          <Button type={"submit"}>{"Submit"}</Button>
+          <Button
+            onClick={async (e) => {
+              e.preventDefault();
+              const patch = {
+                id: leagueToEdit.id,
+                name: nameRef.current.value,
+                description: descriptionRef.current.value,
+                urlname: nameToUrlName(nameRef.current.value),
+              };
+              updateLeague(patch);
+            }}
+          >
+            {"enviar"}
+          </Button>
         </form>
         <div>
           <Button
