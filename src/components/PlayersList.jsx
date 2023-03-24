@@ -57,15 +57,21 @@ export function PlayersList({
               >
                 {player.name}
               </Table.HeadCell>
-              <Table.Cell>
+              <Table.Cell className="text-base">
                 {teamsData.find((team) => team.id === player.team).name ||
                   player.team}
               </Table.Cell>
-              <Table.Cell>{player.scored_goals}</Table.Cell>
-              <Table.Cell>{player.scored_goals_home}</Table.Cell>
-              <Table.Cell>{player.scored_goals_away}</Table.Cell>
+              <Table.Cell className="text-base">
+                {player.scored_goals}
+              </Table.Cell>
+              <Table.Cell className="text-base">
+                {player.scored_goals_home}
+              </Table.Cell>
+              <Table.Cell className="text-base">
+                {player.scored_goals_away}
+              </Table.Cell>
               {isOwner && (
-                <Table.Cell>
+                <Table.Cell className="text-base">
                   <button
                     onClick={() => {
                       setEditingPlayer(player);

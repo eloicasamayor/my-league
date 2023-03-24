@@ -18,9 +18,11 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
   return (
     <Table hoverable={true}>
       <Table.Head>
-        <Table.HeadCell className="px-6 py-3"></Table.HeadCell>
-        <Table.HeadCell className="px-6 py-3">name</Table.HeadCell>
-        <Table.HeadCell className="px-6 py-3">description</Table.HeadCell>
+        <Table.HeadCell className="px-6 py-3 text-base"></Table.HeadCell>
+        <Table.HeadCell className="px-6 py-3 text-base">name</Table.HeadCell>
+        <Table.HeadCell className="px-6 py-3 text-base">
+          description
+        </Table.HeadCell>
       </Table.Head>
       <Table.Body>
         {leaguesData.map((league) => (
@@ -46,10 +48,10 @@ export function LeaguesList({ leaguesData, leaguesIsLoading }) {
                 </div>
               )}
             </Table.Cell>
-            <Table.Cell className="px-1 md:px-6 py-2 md:py-4">
+            <Table.Cell className="px-1 md:px-6 py-2 md:py-4 text-base">
               {league.name}
             </Table.Cell>
-            <Table.Cell className="px-1 md:px-6 py-2 md:py-4">
+            <Table.Cell className="px-1 md:px-6 py-2 md:py-4 text-base">
               {league.description}
             </Table.Cell>
           </Table.Row>

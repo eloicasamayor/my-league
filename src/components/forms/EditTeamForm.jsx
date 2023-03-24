@@ -1,6 +1,9 @@
 // Dependencies
 import { useRef } from "react";
 
+// Components
+import { Button } from "flowbite-react";
+
 // Api
 import { useUpdateTeamMutation, useDeleteTeamMutation } from "../../redux";
 import { EditPhotoForm } from "./EditPhotoForm";
@@ -13,7 +16,6 @@ export function EditTeamForm({ team = {} }) {
 
   return (
     <>
-      <h2>{team.name ? `Editing "${team.name}"` : "Edit team"}</h2>
       <div className="flex flex-col gap-4 lg:flex-row items-center">
         <EditPhotoForm
           itemToEdit={team}
@@ -30,7 +32,7 @@ export function EditTeamForm({ team = {} }) {
             defaultValue={team.name}
             required
           />
-          <button
+          <Button
             onClick={(e) => {
               e.preventDefault();
               editTeam({
@@ -40,11 +42,13 @@ export function EditTeamForm({ team = {} }) {
             }}
           >
             submit
-          </button>
+          </Button>
         </form>
       </div>
 
-      <button onClick={() => deleteTeam({ id: team.id })}>delete</button>
+      <Button color={"failure"} onClick={() => deleteTeam({ id: team.id })}>
+        delete
+      </Button>
     </>
   );
 }

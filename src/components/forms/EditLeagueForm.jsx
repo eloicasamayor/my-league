@@ -1,5 +1,5 @@
 // Dependencies
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Api
@@ -17,8 +17,8 @@ import { nameToUrlName } from "../../helpers";
 // Components
 import { TrashIcon } from "../icons";
 import { EditPhotoForm } from "./EditPhotoForm";
-import { Navigate } from "react-router-dom";
 import { Button, TextInput } from "flowbite-react";
+import { Alert } from "../Alert";
 
 export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   const [updateLeague, updateLeagueReqResult] = useUpdateLeagueMutation();
@@ -34,6 +34,9 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
 
   const nameRef = useRef();
   const descriptionRef = useRef();
+
+  const [alertMessage, setAlertMessage] = useState("");
+
   if (!leagueToEdit.id) {
     return "";
   }
@@ -41,6 +44,11 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row items-center">
+        {alertMessage && (
+          <Alert onCloseAlert={() => setAlertMessage("")} isError={true}>
+            {alertMessage}
+          </Alert>
+        )}
         <EditPhotoForm
           itemToEdit={leagueToEdit}
           bucketName={"leagues-img"}
@@ -83,7 +91,16 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
                 description: descriptionRef.current.value,
                 urlname: nameToUrlName(nameRef.current.value),
               };
-              updateLeague(patch);
+              const updateLeagueReqRes = await updateLeague(patch);
+              if (updateLeagueReqRes.error) {
+                debugger;
+                setAlertMessage(updateLeagueReqRes.error.message);
+                nameRef.current.value = leagueToEdit.name;
+                descriptionRef.current.value = leagueToEdit.description;
+              } else {
+                debugger;
+                navigate(nameToUrlName("../" + nameRef.current.value));
+              }
             }}
           >
             {"enviar"}

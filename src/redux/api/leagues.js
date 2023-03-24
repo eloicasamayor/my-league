@@ -34,7 +34,7 @@ export const leagues = apiSlice.injectEndpoints({
           .eq("id", patch.id);
         if (res.status !== 204) {
           debugger;
-          // return { error: res.error };
+          return { error: res.error };
         }
         debugger;
         return { data: res.data };

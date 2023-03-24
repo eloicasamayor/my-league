@@ -13,7 +13,7 @@ import { Table, Button } from "flowbite-react";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [teamToEdit, setTeamToEdit] = useState({});
-  const [seeAllStats, setSeeAllStats] = useState(Table.Headue);
+  const [seeAllStats, setSeeAllStats] = useState(true);
 
   const navigate = useNavigate();
 
@@ -68,7 +68,11 @@ export function Classification({ data, isLoading, isOwner }) {
             <Table.Row
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
               key={team.id}
-              onClick={() => navigate("./" + team.urlname)}
+              id="teamRow"
+              onClick={(e) => {
+                navigate("./" + team.urlname);
+                e.stopPropagation();
+              }}
             >
               <Table.Cell>
                 <img src={team.img} className={"w-4"} />
@@ -88,9 +92,13 @@ export function Classification({ data, isLoading, isOwner }) {
               {isOwner && (
                 <Table.Cell>
                   <Button
+                    id="editingTeam"
                     size={"xs"}
                     color={"light"}
-                    onClick={() => setTeamToEdit(team)}
+                    onClick={(e) => {
+                      setTeamToEdit(team);
+                      e.stopPropagation();
+                    }}
                   >
                     <PencilIcon svgClassName={"w-4 h-4"} />
                   </Button>
@@ -101,7 +109,10 @@ export function Classification({ data, isLoading, isOwner }) {
         </Table.Body>
       </Table>
       {isOwner && !_.isEmpty(teamToEdit) && (
-        <Modal onCloseModal={setTeamToEdit}>
+        <Modal
+          onCloseModal={setTeamToEdit}
+          title={"Editing " + teamToEdit.name ?? "team"}
+        >
           <EditTeamForm team={teamToEdit} />
         </Modal>
       )}

@@ -36,15 +36,15 @@ export function MatchesCalendar({
   function renderMatch(match, i) {
     return (
       <Table.Row class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-        <Table.Cell className=" text-right">
+        <Table.Cell className=" text-right text-base">
           {getTeamNameWithId(match.local_team)}
         </Table.Cell>
-        <Table.Cell className={` text-center`}>
+        <Table.Cell className={` text-center text-base`}>
           {match.played
             ? `${match.local_goals} - ${match.visitor_goals}`
             : format(new Date(match.date), " hh:mm")}
         </Table.Cell>
-        <Table.Cell className=" text-left">
+        <Table.Cell className=" text-left text-base">
           {getTeamNameWithId(match.visitor_team)}
         </Table.Cell>
         {isOwner && (
