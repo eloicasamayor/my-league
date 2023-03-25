@@ -35,9 +35,9 @@ export function PlayersList({
     <section>
       <Table
         hoverable={true}
-        class="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
       >
-        <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+        <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <Table.HeadCell>{"player name"}</Table.HeadCell>
           <Table.HeadCell>{"team"}</Table.HeadCell>
           <Table.HeadCell>{"scored goals"}</Table.HeadCell>
@@ -48,12 +48,12 @@ export function PlayersList({
         <Table.Body>
           {playersData.map((player) => (
             <Table.Row
-              class="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+              className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               key={player.id}
             >
               <Table.HeadCell
                 scope="row"
-                class="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
                 {player.name}
               </Table.HeadCell>

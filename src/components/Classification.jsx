@@ -7,8 +7,7 @@ import { useNavigate } from "react-router-dom";
 // Components
 import { EditTeamForm } from "./forms";
 import { Modal } from "./modal";
-import { PencilIcon } from "./icons/PencilIcon";
-import { MoreIcon } from "./icons/MoreIcon";
+import { PencilIcon, TeamIcon, MoreIcon } from "./icons";
 import { Table, Button } from "flowbite-react";
 
 export function Classification({ data, isLoading, isOwner }) {
@@ -75,7 +74,13 @@ export function Classification({ data, isLoading, isOwner }) {
               }}
             >
               <Table.Cell>
-                <img src={team.img} className={"w-4"} />
+                <div className="flex items-center justify-center h-9 w-9 rounded-xl ring-2 ring-white bg-violet-100 p-1">
+                  {team.img ? (
+                    <img src={team.img} className={"w-4"} />
+                  ) : (
+                    <TeamIcon pathClassName={"stroke-violet-400"} />
+                  )}
+                </div>
               </Table.Cell>
               <Table.Cell>{team.name}</Table.Cell>
               <Table.Cell>{team.points}</Table.Cell>

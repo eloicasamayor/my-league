@@ -35,7 +35,10 @@ export function MatchesCalendar({
 
   function renderMatch(match, i) {
     return (
-      <Table.Row class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <Table.Row
+        key={`${i}_${match.id}`}
+        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
+      >
         <Table.Cell className=" text-right text-base">
           {getTeamNameWithId(match.local_team)}
         </Table.Cell>
@@ -101,20 +104,20 @@ export function MatchesCalendar({
           <h3>{`Match day ${i + 1}`}</h3>
           <Table
             hoverable={true}
-            class="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
           >
-            <Table.Head class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <Table.HeadCell class="px-6 py-2 text-right">
+            <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+              <Table.HeadCell className="px-6 py-2 text-right">
                 Local team
               </Table.HeadCell>
-              <Table.HeadCell class="px-6 py-2  w-7 text-center">
+              <Table.HeadCell className="px-6 py-2  w-7 text-center">
                 Result / date
               </Table.HeadCell>
-              <Table.HeadCell class="px-6 py-2 text-left">
+              <Table.HeadCell className="px-6 py-2 text-left">
                 Visitor team
               </Table.HeadCell>
               {isOwner && (
-                <Table.HeadCell class="px-6 py-2 text-left">
+                <Table.HeadCell className="px-6 py-2 text-left">
                   actions
                 </Table.HeadCell>
               )}

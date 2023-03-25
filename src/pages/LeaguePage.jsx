@@ -19,6 +19,7 @@ import {
   NewMatchForm,
   Modal,
   EditLeagueForm,
+  StepsNavigation,
 } from "../components";
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
@@ -40,6 +41,7 @@ export function LeaguePage() {
   const [showNewTeamModal, setShowNewTeamModal] = useState(false);
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
+  const [selectedTab, setSelectedTab] = useState(0);
 
   if (
     teamsIsLoading ||
@@ -114,34 +116,37 @@ export function LeaguePage() {
         )}
       </header>
 
-      <Tabs.Group style="underline" className="justify-center">
-        <Tabs.Item title="Classification" active={true}>
-          <Classification
-            data={teamsData}
-            isLoading={teamsIsLoading}
-            isOwner={isOwner}
-          />
-        </Tabs.Item>
-        <Tabs.Item title="Matches">
-          <MatchesCalendar
-            teams={teamsData}
-            matchesData={matchesData}
-            matchesIsLoading={matchesIsLoading}
-            playersData={playersData}
-            teamsData={teamsData}
-            isOwner={isOwner}
-          />
-        </Tabs.Item>
-        <Tabs.Item title="Players">
-          <PlayersList
-            teamsData={teamsData}
-            teamsIsLoading={teamsIsLoading}
-            playersData={playersData}
-            playersIsLoading={playersIsLoading}
-            isOwner={isOwner}
-          />
-        </Tabs.Item>
-      </Tabs.Group>
+      <StepsNavigation
+        selectedTab={selectedTab}
+        setSelectedTab={setSelectedTab}
+        steps={["Classification", "Matches", "Players"]}
+      />
+      {selectedTab === 0 && (
+        <Classification
+          data={teamsData}
+          isLoading={teamsIsLoading}
+          isOwner={isOwner}
+        />
+      )}
+      {selectedTab === 1 && (
+        <MatchesCalendar
+          teams={teamsData}
+          matchesData={matchesData}
+          matchesIsLoading={matchesIsLoading}
+          playersData={playersData}
+          teamsData={teamsData}
+          isOwner={isOwner}
+        />
+      )}
+      {selectedTab === 2 && (
+        <PlayersList
+          teamsData={teamsData}
+          teamsIsLoading={teamsIsLoading}
+          playersData={playersData}
+          playersIsLoading={playersIsLoading}
+          isOwner={isOwner}
+        />
+      )}
 
       {showEditLeagueModal && (
         <Modal

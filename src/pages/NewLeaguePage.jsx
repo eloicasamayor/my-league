@@ -10,15 +10,15 @@ import { PlusIcon } from "../components/icons/PlusIcon";
 import { useRef, useState, useEffect } from "react";
 
 // Components
-import { StepsNavigation } from "../components/StepsNavigation";
-import { LeagueDay } from "../components/LeagueDay";
-import { WeekDaySelect } from "../components/WeekDaySelect";
-import { ArrowBackIcon } from "../components/icons/ArrowBackIcon";
-import { TrashIcon } from "../components/icons/TrashIcon";
-import { UpdateIcon } from "../components/icons/UpdateIcon";
-import { Alert } from "../components/Alert";
-import { UploadIcon } from "../components/icons/UploadIcon";
-import { CircleCheckIcon } from "../components/icons/CircleCheckIcon";
+import { StepsNavigation } from "../components";
+import { LeagueDay } from "../components";
+import { WeekDaySelect } from "../components";
+import { ArrowBackIcon } from "../components/icons";
+import { TrashIcon } from "../components/icons";
+import { UpdateIcon } from "../components/icons";
+import { Alert } from "../components";
+import { UploadIcon } from "../components/icons";
+import { CircleCheckIcon } from "../components/icons";
 import { TextInput, Button, Card } from "flowbite-react";
 
 // Helpers
@@ -221,6 +221,7 @@ export function NewLeaguePage() {
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         onSelectMatchings={onSelectMatchings}
+        steps={["Teams", "Players", "Dates", "Matchings"]}
       />
       {/* ---- Teams ---- */}
       {selectedTab === 0 && (

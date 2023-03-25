@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setAuth } from "../redux/auth/slice";
 import { supabase } from "../supabase";
-import { ArrowLeft } from "./icons/ArrowLeft";
-import { HomeIcon } from "./icons/HomeIcon";
-import { UserIcon } from "./icons/UserIcon";
+import { ArrowLeft, HomeIcon, UserIcon } from "./icons";
 
 // Components
 import { Button } from "flowbite-react";
@@ -76,15 +74,15 @@ export function PageLayout() {
               "(pending verification)"}
           </button>
         )}
-        <Flowbite>
-          <DarkThemeToggle />
-        </Flowbite>
       </header>
       <main className={"pb-12"}>
         <Outlet />
       </main>
-      <footer className="absolute bottom-0 p h-14 w-full px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
+      <footer className="flex justify-between absolute bottom-0 p h-14 w-full px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
         <span>{"© Eloi Productions 2023"}</span>
+        <Flowbite>
+          <DarkThemeToggle />
+        </Flowbite>
       </footer>
     </>
   );
