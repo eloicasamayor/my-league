@@ -42,10 +42,14 @@ export function LoginPage() {
   return (
     <>
       {authData?.user ? (
-        <>
-          {authData.user.email}
+        <div className="p-8 text-center flex flex-col items-center gap-9">
+          <p>
+            {"Loged in as "}
+            <span className="font-semibold">{authData.user.email}</span>{" "}
+          </p>
 
           <Button
+            className="w-72 "
             onClick={async () => {
               const { error } = await supabase.auth.signOut();
               !error && dispatch(setAuth({}));
@@ -53,7 +57,7 @@ export function LoginPage() {
           >
             Log out
           </Button>
-        </>
+        </div>
       ) : (
         <div className="w-11/12 mx-auto lg:w-2/4">
           {/* <Button onClick={(e) => signInWithGoogle(e)}>

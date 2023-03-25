@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { setAuth } from "../redux/auth/slice";
 import { supabase } from "../supabase";
-import { ArrowLeft, HomeIcon, UserIcon } from "./icons";
+import { ArrowLeft, HomeIcon, UserIcon, Logo } from "./icons";
 
 // Components
 import { Button } from "flowbite-react";
@@ -41,7 +41,7 @@ export function PageLayout() {
           <div className="flex">
             <button
               className={
-                "w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400"
+                "w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400 stroke-violet-50"
               }
               onClick={() => navigate(-1)}
             >
@@ -57,7 +57,13 @@ export function PageLayout() {
             </button>
           </div>
         ) : (
-          <div></div>
+          <div className="flex items-center gap-4 ml-2">
+            <Logo
+              svgClassName={"stroke-violet-50"}
+              pathClassName={"stroke-violet-50"}
+            />
+            <h1 className={"text-white font-light text-xl"}>My League</h1>
+          </div>
         )}
         {location.pathname !== "/login" && (
           <button

@@ -15,3 +15,4 @@ export { UpdateIcon } from "./UpdateIcon";
 export { UploadIcon } from "./UploadIcon";
 export { UserIcon } from "./UserIcon";
 export { TeamIcon } from "./TeamIcon";
+export { Logo } from "./Logo";

@@ -7,6 +7,7 @@ import { Button } from "flowbite-react";
 // Api
 import { useUpdateTeamMutation, useDeleteTeamMutation } from "../../redux";
 import { EditPhotoForm } from "./EditPhotoForm";
+import { TrashIcon } from "../icons";
 
 export function EditTeamForm({ team = {} }) {
   const [editTeam, requestResult] = useUpdateTeamMutation();
@@ -47,7 +48,8 @@ export function EditTeamForm({ team = {} }) {
       </div>
 
       <Button color={"failure"} onClick={() => deleteTeam({ id: team.id })}>
-        delete
+        <TrashIcon />
+        {"delete team"}
       </Button>
     </>
   );
