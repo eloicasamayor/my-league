@@ -15,16 +15,22 @@ export async function saveNewLeague({
   setAlertMessage,
 }) {
   if (!leagueName) {
-    setAlertMessage("Missing league name");
+    setAlertMessage({ message: "Missing league name", isError: true });
     return;
   }
 
   if (teams.length < 2) {
-    setAlertMessage("Need more teams to create the league");
+    setAlertMessage({
+      message: "Need more teams to create the league",
+      isError: true,
+    });
     return;
   }
   if (players.some((team) => team.length < 1)) {
-    setAlertMessage("There is a team with no players");
+    setAlertMessage({
+      message: "There is a team with no players",
+      isError: true,
+    });
     return;
   }
   const insertLeagueReqRes = await insertLeague({

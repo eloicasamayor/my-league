@@ -55,7 +55,10 @@ export function NewLeaguePage() {
   // objecte jornadas [{date: <>, matches: [<>, <>]}]
   const [matchings, setMatchings] = useState([]);
 
-  const [alertMessage, setAlertMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    isError: false,
+  });
 
   function nowDate() {
     const now = new Date();
@@ -119,34 +122,39 @@ export function NewLeaguePage() {
       );
     }
     if (
-      newLeagueReqResult.isSuccess &&
-      newTeamReqResult.isSuccess &&
-      newMatchReqResult.isSuccess &&
-      newPlayerReqResult.isSuccess
+      !newLeagueReqResult.isError &&
+      !newTeamReqResult.isError &&
+      !newMatchReqResult.isError &&
+      !newPlayerReqResult.isError
     )
       return (
         <>
+          <h2>{`Created league ${leagueName}`}</h2>
           <p>
-            <CircleCheckIcon svgClassName={"inline"} /> League created
+            <CircleCheckIcon svgClassName={"inline"} /> Teams
           </p>
           <p>
-            <CircleCheckIcon svgClassName={"inline"} /> Teams created
+            <CircleCheckIcon svgClassName={"inline"} /> Matches
           </p>
-          <p>
-            <CircleCheckIcon svgClassName={"inline"} /> Matches created
+          <p className="mb-5">
+            <CircleCheckIcon svgClassName={"inline"} /> Players
           </p>
-          <p>
-            <CircleCheckIcon svgClassName={"inline"} /> Players created
-          </p>
-          <hr />
+
           <Link to={nameToUrlName(`../${leagueName}`)}>
-            {"Go to the league page"}
+            <Button>{"Go to the league page"}</Button>
           </Link>
         </>
       );
   }
   useEffect(() => {
-    setAlertMessage(setMessage());
+    setAlertMessage({
+      message: setMessage(),
+      isError:
+        newLeagueReqResult.isError ||
+        newTeamReqResult.isError ||
+        newMatchReqResult.isError ||
+        newPlayerReqResult.isError,
+    });
   }, [
     JSON.stringify(newLeagueReqResult),
     JSON.stringify(newTeamReqResult),
@@ -178,8 +186,10 @@ export function NewLeaguePage() {
 
   return (
     <div className="pt-2">
-      {alertMessage && (
-        <Alert onCloseAlert={setAlertMessage}>{alertMessage}</Alert>
+      {alertMessage.message && (
+        <Alert onCloseAlert={setAlertMessage} isError={alertMessage.isError}>
+          {alertMessage.message}
+        </Alert>
       )}
       <form className="flex flex-col sm:flex-row">
         <div className="relative w-full">
