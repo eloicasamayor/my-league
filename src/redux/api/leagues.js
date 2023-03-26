@@ -33,10 +33,8 @@ export const leagues = apiSlice.injectEndpoints({
           .update(patch)
           .eq("id", patch.id);
         if (res.status !== 204) {
-          debugger;
           return { error: res.error };
         }
-        debugger;
         return { data: res.data };
       },
       invalidatesTags: ["leagues"],

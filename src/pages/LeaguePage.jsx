@@ -68,11 +68,16 @@ export function LeaguePage() {
 
   return (
     <div>
-      <header className="flex items-center md:items-end gap-1">
-        <img src={currentLeague.img} className={"w-20 aspect-square"} />
+      <header className="flex items-end gap-1 md:p-5 md:gap-3">
+        <div className="ring-white">
+          <img
+            src={currentLeague.img}
+            className={"w-16 md:w-20 aspect-square p-1 rounded-xl"}
+          />
+        </div>
         <div className="flex flex-col md:flex-row grow items-baseline gap-0 md:gap-3">
           <h1 className="p-0">{currentLeague.name}</h1>
-          <h2>{currentLeague.description}</h2>
+          <h2 className="text-lg md:text-2xl">{currentLeague.description}</h2>
         </div>
         {isOwner && (
           <Dropdown label="Edit" dismissOnClick={false}>

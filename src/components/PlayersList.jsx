@@ -15,7 +15,6 @@ export function PlayersList({
   playersIsLoading,
   isOwner,
 }) {
-  debugger;
   const [editingPlayer, setEditingPlayer] = useState();
 
   if (playersIsLoading || teamsIsLoading) {

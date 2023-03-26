@@ -67,12 +67,14 @@ export function PageLayout() {
         )}
         {location.pathname !== "/login" && (
           <button
-            className={
-              "w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400"
-            }
+            className={`w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400 ${
+              authData?.user?.email ? "bg-violet-900" : ""
+            }`}
             onClick={() => navigate("/login")}
           >
-            <UserIcon />
+            <UserIcon
+              pathClassName={authData?.user?.email ? "stroke-slate-50" : ""}
+            />
             {(false && authData?.user?.email) ?? "login"}
             {false &&
               authData?.user?.id &&
