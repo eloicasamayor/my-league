@@ -47,19 +47,19 @@ export function MatchesCalendar({
     const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
     const localTeamImg = getTeamImgWithId(match.local_team) ? (
       <img
-        className="w-5 inline"
+        className="w-3.5 sm:w-5 inline"
         src={getTeamImgWithId(match.local_team)}
       ></img>
     ) : (
-      <TeamIcon svgClassName={"inline w-5"} />
+      <TeamIcon svgClassName={"inline w-3.5 sm:w-5"} />
     );
     const visitorTeamImg = getTeamImgWithId(match.visitor_team) ? (
       <img
-        className="w-5 inline"
+        className="w-3.5 sm:w-5 inline"
         src={getTeamImgWithId(match.visitor_team)}
       ></img>
     ) : (
-      <TeamIcon svgClassName={"inline w-5"} />
+      <TeamIcon svgClassName={"inline w-3.5 sm:w-5"} />
     );
     return (
       <Table.Row
@@ -67,12 +67,16 @@ export function MatchesCalendar({
         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
       >
         <Table.Cell className=" text-right text-base">
-          <span className="px-2">{getTeamNameWithId(match.local_team)}</span>
+          <span className="px-1 sm:px-2">
+            {getTeamNameWithId(match.local_team)}
+          </span>
           {localTeamImg}
         </Table.Cell>
-        <Table.Cell className={`w-32 px-0 text-center ${resultTextClasses}`}>
+        <Table.Cell
+          className={`w-18 sm:w-32 px-0 text-center ${resultTextClasses}`}
+        >
           {match.played ? (
-            <span className="bg-gray-300 px-5 py-2">
+            <span className="bg-gray-300 px-2 sm:px-5 py-1 sm:py-2">
               {`${match.local_goals}-${match.visitor_goals}`}
             </span>
           ) : (
@@ -81,10 +85,12 @@ export function MatchesCalendar({
         </Table.Cell>
         <Table.Cell className=" text-left text-base">
           {visitorTeamImg}
-          <span className="px-2">{getTeamNameWithId(match.visitor_team)}</span>
+          <span className="px-1 sm:px-2">
+            {getTeamNameWithId(match.visitor_team)}
+          </span>
         </Table.Cell>
         {isOwner && (
-          <Table.Cell className="w-20">
+          <Table.Cell className="w-12">
             <Button
               id="editingTeam"
               size={"xs"}
