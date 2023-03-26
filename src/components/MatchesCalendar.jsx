@@ -6,6 +6,7 @@ import { Modal } from "./modal";
 import { format } from "date-fns";
 import { Table, Button } from "flowbite-react";
 import { Alert } from "./Alert";
+import { TeamIcon } from "./icons";
 
 export function MatchesCalendar({
   teams,
@@ -33,26 +34,61 @@ export function MatchesCalendar({
     }
   }
 
+  function getTeamImgWithId(id) {
+    if (teams) {
+      return teams.find((team) => team.id === id).img;
+    } else {
+      return id;
+    }
+  }
+
   function renderMatch(match, i) {
+    debugger;
+    const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
+    const localTeamImg = getTeamImgWithId(match.local_team) ? (
+      <img
+        className="w-5 inline"
+        src={getTeamImgWithId(match.local_team)}
+      ></img>
+    ) : (
+      <TeamIcon svgClassName={"inline w-5"} />
+    );
+    const visitorTeamImg = getTeamImgWithId(match.visitor_team) ? (
+      <img
+        className="w-5 inline"
+        src={getTeamImgWithId(match.visitor_team)}
+      ></img>
+    ) : (
+      <TeamIcon svgClassName={"inline w-5"} />
+    );
     return (
       <Table.Row
         key={`${i}_${match.id}`}
         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
       >
         <Table.Cell className=" text-right text-base">
-          {getTeamNameWithId(match.local_team)}
+          <span className="px-2">{getTeamNameWithId(match.local_team)}</span>
+          {localTeamImg}
         </Table.Cell>
-        <Table.Cell className={` text-center text-base`}>
-          {match.played
-            ? `${match.local_goals} - ${match.visitor_goals}`
-            : format(new Date(match.date), " hh:mm")}
+        <Table.Cell className={`w-32 px-0 text-center ${resultTextClasses}`}>
+          {match.played ? (
+            <span className="bg-gray-300 px-5 py-2">
+              {`${match.local_goals}-${match.visitor_goals}`}
+            </span>
+          ) : (
+            `${format(new Date(match.date), "dd/MM hh:mm")}`
+          )}
         </Table.Cell>
         <Table.Cell className=" text-left text-base">
-          {getTeamNameWithId(match.visitor_team)}
+          {visitorTeamImg}
+          <span className="px-2">{getTeamNameWithId(match.visitor_team)}</span>
         </Table.Cell>
         {isOwner && (
-          <Table.Cell>
+          <Table.Cell className="w-20">
             <Button
+              id="editingTeam"
+              size={"xs"}
+              color={"light"}
               onClick={() =>
                 setMatchToEdit({
                   id: match.id,
@@ -93,7 +129,7 @@ export function MatchesCalendar({
     return;
   }
   const groupedMatchesData = _.groupBy(matchesData, (match) => match.match_day);
-
+  debugger;
   return (
     <section>
       {alertMessage && (
@@ -101,27 +137,16 @@ export function MatchesCalendar({
       )}
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <>
-          <h3>{`Match day ${i + 1}`}</h3>
           <Table
             hoverable={true}
-            className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
+            className="styled-table mb-6 w-full text-sm text-left text-gray-500 dark:text-gray-400"
           >
             <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <Table.HeadCell className="px-6 py-2 text-right">
-                Local team
+              <Table.HeadCell colspan="4" className="px-6 py-2">
+                {`Match day ${i + 1}`}
               </Table.HeadCell>
-              <Table.HeadCell className="px-6 py-2  w-7 text-center">
-                Result / date
-              </Table.HeadCell>
-              <Table.HeadCell className="px-6 py-2 text-left">
-                Visitor team
-              </Table.HeadCell>
-              {isOwner && (
-                <Table.HeadCell className="px-6 py-2 text-left">
-                  actions
-                </Table.HeadCell>
-              )}
             </Table.Head>
+
             <Table.Body>
               {groupMatches.map((match, i) => renderMatch(match, i))}
             </Table.Body>

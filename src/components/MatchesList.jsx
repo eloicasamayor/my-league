@@ -80,7 +80,10 @@ export function MatchesList({
                     <Table.Cell>{match.played.toString()}</Table.Cell>
                     {isOwner && !selectedTeam && (
                       <Table.Cell>
-                        <button
+                        <Button
+                          id="editingTeam"
+                          size={"xs"}
+                          color={"light"}
                           onClick={() =>
                             setMatchToEdit({
                               id: match.id,
@@ -95,7 +98,7 @@ export function MatchesList({
                           }
                         >
                           <PencilIcon />
-                        </button>
+                        </Button>
                       </Table.Cell>
                     )}
                   </Table.Row>

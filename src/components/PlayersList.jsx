@@ -4,8 +4,8 @@ import { useState } from "react";
 // Components
 import { EditPlayerForm } from "./forms";
 import { PencilIcon } from "./icons/PencilIcon";
-import { Modal } from "./modal";
-import { Table } from "flowbite-react";
+import { Modal } from "../components";
+import { Table, Button } from "flowbite-react";
 
 export function PlayersList({
   teamsData,
@@ -15,6 +15,7 @@ export function PlayersList({
   playersIsLoading,
   isOwner,
 }) {
+  debugger;
   const [editingPlayer, setEditingPlayer] = useState();
 
   if (playersIsLoading || teamsIsLoading) {
@@ -72,13 +73,16 @@ export function PlayersList({
               </Table.Cell>
               {isOwner && (
                 <Table.Cell className="text-base">
-                  <button
-                    onClick={() => {
+                  <Button
+                    id="editingTeam"
+                    size={"xs"}
+                    color={"light"}
+                    onClick={(e) => {
                       setEditingPlayer(player);
                     }}
                   >
-                    <PencilIcon />
-                  </button>
+                    <PencilIcon svgClassName={"w-4 h-4"} />
+                  </Button>
                 </Table.Cell>
               )}
             </Table.Row>
