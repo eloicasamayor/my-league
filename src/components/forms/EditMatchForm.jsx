@@ -65,6 +65,7 @@ export function EditMatchForm({
     }
     return elements;
   }
+
   return (
     <>
       <form className="flex flex-col gap-2">
@@ -196,9 +197,12 @@ export function EditMatchForm({
               ),
             });
             if (updateMatchReqRes.error) {
-              setAlertMessage("Need more teams to create the league");
+              setAlertMessage(
+                "There was an error updating the match: " +
+                  updateMatchReqRes?.message
+              );
             } else {
-              setAlertMessage("Updated match correctly");
+              setAlertMessage("Match updated correctly");
               closeModal();
             }
           }}
@@ -207,7 +211,13 @@ export function EditMatchForm({
         </Button>
         <span>{requestResult.error?.data?.message || ""}</span>
       </form>
-      <Button color={"failure"} onClick={() => deleteMatch({ id: id })}>
+      <Button
+        color={"failure"}
+        onClick={() => {
+          deleteMatch({ id: id });
+          closeModal();
+        }}
+      >
         <TrashIcon /> {"Delete match"}
       </Button>
     </>

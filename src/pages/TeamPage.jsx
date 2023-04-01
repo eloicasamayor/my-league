@@ -16,6 +16,7 @@ import {
   NewPlayerForm,
   PlayersList,
   Modal,
+  MatchesCalendar,
 } from "../components";
 
 export function TeamPage() {
@@ -60,26 +61,14 @@ export function TeamPage() {
         selectedTeam={selectedTeam}
         isOwner={isOwner}
       />
-      {/*       {isOwner && showEditPlayerModal && (
-        <Modal onCloseModal={() => setShowEditPlayerModal(false)}>
-          <EditPlayerForm />
-        </Modal>
-      )}
-      {isOwner && showNewPlayerModal && (
-        <Modal onCloseModal={() => setShowNewPlayerForm(false)}>
-          <NewPlayerForm
-            teamsData={teamsData}
-            teamsIsLoading={teamsIsLoading}
-          />
-        </Modal>
-      )} */}
       <h2>Matches</h2>
-      <MatchesList
+      <MatchesCalendar
         isOwner={isOwner}
         teams={teamsData}
         matchesData={matchesData}
         matchesIsLoading={matchesIsLoading}
         selectedTeam={selectedTeam}
+        teamsData={teamsData}
       />
     </>
   );

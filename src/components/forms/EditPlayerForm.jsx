@@ -10,6 +10,7 @@ import {
 
 // Components
 import { TrashIcon } from "../icons";
+import { Button, TextInput, Select } from "flowbite-react";
 
 export function EditPlayerForm({ player = {}, teamsData }) {
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
@@ -23,11 +24,9 @@ export function EditPlayerForm({ player = {}, teamsData }) {
   }
   return (
     <>
-      <h2>Edit Player</h2>
       <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
-        <input
-          type={"text"}
+        <TextInput
           id={"name"}
           name={"name"}
           ref={nameRef}
@@ -35,7 +34,7 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           required
         />
         <label htmlFor={"team"}>Team:</label>
-        <select
+        <Select
           name="team"
           id="team"
           ref={teamRef}
@@ -48,8 +47,8 @@ export function EditPlayerForm({ player = {}, teamsData }) {
                 {teamData.name}
               </option>
             ))}
-        </select>
-        <button
+        </Select>
+        <Button
           onClick={(e) => {
             e.preventDefault();
             editPlayer({
@@ -60,12 +59,12 @@ export function EditPlayerForm({ player = {}, teamsData }) {
           }}
         >
           submit
-        </button>
+        </Button>
       </form>
-      <button onClick={() => deletePlayer({ id: player.id })}>
+      <Button color="failure" onClick={() => deletePlayer({ id: player.id })}>
         <TrashIcon />
         Delete player
-      </button>
+      </Button>
     </>
   );
 }

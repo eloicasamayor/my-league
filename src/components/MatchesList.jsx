@@ -109,7 +109,7 @@ export function MatchesList({
             "No matches found for this team"
           )}
           {isOwner && !selectedTeam && !_.isEmpty(matchToEdit) && (
-            <Modal onCloseModal={() => setMatchToEdit(null)}>
+            <Modal title="Edit match" onCloseModal={() => setMatchToEdit(null)}>
               <EditMatchForm
                 matchToEdit={matchToEdit}
                 playersData={playersData}

@@ -23,8 +23,8 @@ import {
 } from "../components";
 import { PencilIcon } from "../components/icons/PencilIcon";
 import { PlusIcon } from "../components/icons/PlusIcon";
-import { SettingsIcon } from "../components/icons/SettingsIcon";
-import { Tabs, Button, Dropdown } from "flowbite-react";
+import { Dropdown } from "flowbite-react";
+import { PhotoIcon } from "../components/icons";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -69,11 +69,18 @@ export function LeaguePage() {
   return (
     <div>
       <header className="flex items-end gap-1 md:p-5 md:gap-3">
-        <div className="ring-white">
-          <img
-            src={currentLeague.img}
-            className={"w-16 md:w-20 aspect-square p-1 rounded-xl"}
-          />
+        <div className="ring-white   bg-violet-100 rounded-xl">
+          {currentLeague.img ? (
+            <img
+              src={currentLeague.img}
+              className={"w-16 md:w-20 aspect-square p-1 rounded-xl"}
+            />
+          ) : (
+            <PhotoIcon
+              pathClassName={"stroke-violet-400"}
+              svgClassName={"w-16 md:w-20 aspect-square p-1 rounded-xl"}
+            />
+          )}
         </div>
         <div className="flex flex-col md:flex-row grow items-baseline gap-0 md:gap-3">
           <h1 className="p-0">{currentLeague.name}</h1>

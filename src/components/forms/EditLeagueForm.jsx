@@ -93,12 +93,10 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
               };
               const updateLeagueReqRes = await updateLeague(patch);
               if (updateLeagueReqRes.error) {
-                debugger;
                 setAlertMessage(updateLeagueReqRes.error.message);
                 nameRef.current.value = leagueToEdit.name;
                 descriptionRef.current.value = leagueToEdit.description;
               } else {
-                debugger;
                 navigate(nameToUrlName("../" + nameRef.current.value));
               }
             }}

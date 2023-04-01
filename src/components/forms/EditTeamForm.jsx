@@ -9,7 +9,7 @@ import { useUpdateTeamMutation, useDeleteTeamMutation } from "../../redux";
 import { EditPhotoForm } from "./EditPhotoForm";
 import { TrashIcon } from "../icons";
 
-export function EditTeamForm({ team = {} }) {
+export function EditTeamForm({ team = {}, setAlertMessage }) {
   const [editTeam, requestResult] = useUpdateTeamMutation();
   const [deleteTeam] = useDeleteTeamMutation();
 
@@ -34,12 +34,24 @@ export function EditTeamForm({ team = {} }) {
             required
           />
           <Button
-            onClick={(e) => {
+            onClick={async (e) => {
               e.preventDefault();
-              editTeam({
+              const editTeamReq = await editTeam({
                 id: team.id,
                 name: nameRef.current.value,
               });
+              if (editTeamReq.error) {
+                setAlertMessage({
+                  isError: true,
+                  message: "There was an error updating the team",
+                });
+              } else {
+                setAlertMessage({
+                  isError: false,
+                  message: "Team updated correctly",
+                });
+                closeModal();
+              }
             }}
           >
             submit
@@ -47,7 +59,25 @@ export function EditTeamForm({ team = {} }) {
         </form>
       </div>
 
-      <Button color={"failure"} onClick={() => deleteTeam({ id: team.id })}>
+      <Button
+        color={"failure"}
+        onClick={async () => {
+          const deleteTeamRes = await deleteTeam({ id: team.id });
+          if (deleteTeamRes.error) {
+            setAlertMessage({
+              isError: true,
+              message:
+                "The team couldn't be deleted: " + deleteTeamRes.error.message,
+            });
+          } else {
+            setAlertMessage({
+              isError: false,
+              message: "Team deleted correctly",
+            });
+            closeModal();
+          }
+        }}
+      >
         <TrashIcon />
         {"delete team"}
       </Button>

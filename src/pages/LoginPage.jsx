@@ -14,7 +14,6 @@ export function LoginPage() {
 
   async function signInWithGoogle(e) {
     e.preventDefault();
-    debugger;
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });

@@ -89,7 +89,7 @@ export function PlayersList({
         </Table.Body>
       </Table>
       {isOwner && editingPlayer && (
-        <Modal onCloseModal={() => setEditingPlayer(null)}>
+        <Modal title="Edit player" onCloseModal={() => setEditingPlayer(null)}>
           <EditPlayerForm player={editingPlayer} teamsData={teamsData} />
         </Modal>
       )}

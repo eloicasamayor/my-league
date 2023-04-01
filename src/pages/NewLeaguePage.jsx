@@ -18,20 +18,21 @@ import { TrashIcon } from "../components/icons";
 import { UpdateIcon } from "../components/icons";
 import { Alert } from "../components";
 import { UploadIcon } from "../components/icons";
-import { CircleCheckIcon } from "../components/icons";
 import { TextInput, Button, Card } from "flowbite-react";
 
 // Helpers
-import { getMatchings } from "../helpers/getMatchings";
-import { getFirstMatchDay } from "../helpers/getFirstMatchDay";
-import { shuffle } from "../helpers/shuffle";
-import { saveNewLeague } from "../helpers/saveNewLeague";
+import {
+  saveNewLeague,
+  getFirstMatchDay,
+  shuffle,
+  getMatchings,
+  setMessage,
+  addDatesToMatchings,
+} from "../helpers";
 import { addDays, format, endOfDay } from "date-fns";
-import { nameToUrlName } from "../helpers/nameToUrlName";
 
 // Constants
 import { WEEK_DAYS } from "../components/constants/dates";
-import { Link } from "react-router-dom";
 
 export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
@@ -65,90 +66,15 @@ export function NewLeaguePage() {
     return `New league ${format(now, "yyyy-MM-dd hh-mm")}`;
   }
 
-  function addDatesToMatchings(matchings) {
-    let firstDay = getFirstMatchDay({
-      dayOfTheWeek: weekDayValue,
-      startingDay: startingDateValue,
-    });
-    let day = firstDay;
-
-    const matchingsWithDates = matchings.map((matchs, i) => {
-      if (i !== 0) {
-        day = addDays(day, 7);
-      }
-      return {
-        matches: matchs,
-        date: day,
-      };
-    });
-    return matchingsWithDates;
-  }
-  function shuffleMatchings(matchings, teamsCopy) {
-    return matchings.map((m, i) => ({ ...m, matches: teamsCopy[i] }));
-  }
-
-  function setMessage() {
-    if (newLeagueReqResult.isError) {
-      return (
-        <>
-          <h2>{`Error creating the league`}</h2>
-          <p>{`Error code: ${newLeagueReqResult.error.code}`}</p>
-          <p>{`${newLeagueReqResult.error.message}`}</p>
-        </>
-      );
-    }
-    if (newTeamReqResult.isError) {
-      return (
-        <>
-          <h2>{`Error creating the teams ${newTeamReqResult.error.code}`}</h2>
-          <p>{`${newTeamReqResult.error.message}`}</p>
-        </>
-      );
-    }
-    if (newMatchReqResult.isError) {
-      return (
-        <>
-          <h2>{`Error creating the teams ${newMatchReqResult.error.code}`}</h2>
-          <p>{`${newMatchReqResult.error.message}`}</p>
-        </>
-      );
-    }
-    if (newPlayerReqResult.isError) {
-      return (
-        <>
-          <h2>{`Error creating the players ${newPlayerReqResult.error.code}`}</h2>
-          <p>{`${newPlayerReqResult.error.message}`}</p>
-        </>
-      );
-    }
-    if (
-      !newLeagueReqResult.isError &&
-      !newTeamReqResult.isError &&
-      !newMatchReqResult.isError &&
-      !newPlayerReqResult.isError
-    )
-      return (
-        <>
-          <h2>{`Created league ${leagueName}`}</h2>
-          <p>
-            <CircleCheckIcon svgClassName={"inline"} /> Teams
-          </p>
-          <p>
-            <CircleCheckIcon svgClassName={"inline"} /> Matches
-          </p>
-          <p className="mb-5">
-            <CircleCheckIcon svgClassName={"inline"} /> Players
-          </p>
-
-          <Link to={nameToUrlName(`../${leagueName}`)}>
-            <Button>{"Go to the league page"}</Button>
-          </Link>
-        </>
-      );
-  }
   useEffect(() => {
     setAlertMessage({
-      message: setMessage(),
+      message: setMessage({
+        newLeagueReqResult,
+        newTeamReqResult,
+        newMatchReqResult,
+        newPlayerReqResult,
+        leagueName,
+      }),
       isError:
         newLeagueReqResult.isError ||
         newTeamReqResult.isError ||
@@ -163,7 +89,13 @@ export function NewLeaguePage() {
   ]);
 
   function onSelectMatchings() {
-    setMatchings(addDatesToMatchings(getMatchings(teams)));
+    setMatchings(
+      addDatesToMatchings({
+        matchings: getMatchings(teams),
+        weekDayValue,
+        startingDateValue,
+      })
+    );
   }
   function resetMatchingsDates() {
     let firstDay = getFirstMatchDay({

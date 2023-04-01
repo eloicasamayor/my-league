@@ -15,7 +15,7 @@ import {
   HomePage,
   NewLeaguePage,
 } from "./pages";
-import { PageLayout } from "./components/pageLayout";
+import { PageLayout } from "./components/PageLayout";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

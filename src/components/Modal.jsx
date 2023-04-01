@@ -4,7 +4,7 @@ export function Modal({ title = "", children, onCloseModal }) {
   return (
     <div
       id={"modal-bg"}
-      className={"absolute top-0 w-full h-full bg-zinc-900/75 z-50"}
+      className={"absolute top-0 w-full h-full bg-zinc-900/75 z-20"}
       onClick={() => onCloseModal(null)}
     >
       <div className="sticky top-16 mx-auto w-11/12 bg-violet-100 dark:bg-violet-900 rounded-xl lg:w-3/4">

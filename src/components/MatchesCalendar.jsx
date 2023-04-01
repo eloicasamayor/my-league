@@ -43,7 +43,6 @@ export function MatchesCalendar({
   }
 
   function renderMatch(match, i) {
-    debugger;
     const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
     const localTeamImg = getTeamImgWithId(match.local_team) ? (
       <img
@@ -67,7 +66,13 @@ export function MatchesCalendar({
         className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
       >
         <Table.Cell className=" text-right text-base">
-          <span className="px-1 sm:px-2">
+          <span
+            className={`px-1 sm:px-2 ${
+              selectedTeam &&
+              match.local_team === selectedTeam.id &&
+              "font-bold"
+            }`}
+          >
             {getTeamNameWithId(match.local_team)}
           </span>
           {localTeamImg}
@@ -85,7 +90,13 @@ export function MatchesCalendar({
         </Table.Cell>
         <Table.Cell className=" text-left text-base">
           {visitorTeamImg}
-          <span className="px-1 sm:px-2">
+          <span
+            className={`px-1 sm:px-2 ${
+              selectedTeam &&
+              match.visitor_team === selectedTeam.id &&
+              "font-bold"
+            }`}
+          >
             {getTeamNameWithId(match.visitor_team)}
           </span>
         </Table.Cell>
@@ -160,7 +171,7 @@ export function MatchesCalendar({
         </>
       ))}
 
-      {isOwner && !selectedTeam && !_.isEmpty(matchToEdit) && (
+      {isOwner && !_.isEmpty(matchToEdit) && (
         <Modal title="Edit Match" onCloseModal={() => setMatchToEdit(null)}>
           <EditMatchForm
             matchToEdit={matchToEdit}

@@ -1,18 +1,59 @@
 // Dependencies
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import { _ } from "lodash";
+import { useEffect, useState } from "react";
+import { _, sortBy } from "lodash";
 import { useNavigate } from "react-router-dom";
 
 // Components
 import { EditTeamForm } from "./forms";
 import { Modal } from "./modal";
-import { PencilIcon, TeamIcon, MoreIcon } from "./icons";
+import { PencilIcon, TeamIcon, MoreIcon, ArrowDown } from "./icons";
 import { Table, Button } from "flowbite-react";
+import { Alert } from "./Alert";
 
 export function Classification({ data, isLoading, isOwner }) {
+  const [alertMessage, setAlertMessage] = useState({
+    isError: false,
+    message: "",
+  });
+
   const [teamToEdit, setTeamToEdit] = useState({});
   const [seeAllStats, setSeeAllStats] = useState(true);
+  const [orderBy, setOrderBy] = useState({ param: "name", direction: true });
+
+  const [orderedData, setOrderedData] = useState(data);
+
+  function clickOrderBy(param) {
+    debugger;
+    if (param === orderBy.param) {
+      setOrderBy((oldOrderBy) => ({
+        param: oldOrderBy.param,
+        direction: !oldOrderBy.direction,
+      }));
+    } else {
+      setOrderBy({ param: param, direction: true });
+    }
+  }
+
+  useEffect(() => {
+    if (typeof data[0][orderBy.param] === "string") {
+      setOrderedData((old) =>
+        old.sort((a, b) => {
+          return orderBy.direction
+            ? a[orderBy.param].localeCompare(b[orderBy.param])
+            : b[orderBy.param].localeCompare(a[orderBy.param]);
+        })
+      );
+    } else {
+      setOrderedData((old) =>
+        old.sort(function (a, b) {
+          return orderBy.direction
+            ? b[orderBy.param] - a[orderBy.param]
+            : a[orderBy.param] - b[orderBy.param];
+        })
+      );
+    }
+  }, [orderBy.param, orderBy.direction]);
 
   const navigate = useNavigate();
 
@@ -24,6 +65,11 @@ export function Classification({ data, isLoading, isOwner }) {
   }
   return (
     <section>
+      {!!alertMessage.message && (
+        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+          {alertMessage.message}
+        </Alert>
+      )}
       <Table hoverable={true} className={"styled-table text-sm md:text-base"}>
         <Table.Head>
           <Table.HeadCell>
@@ -48,25 +94,47 @@ export function Classification({ data, isLoading, isOwner }) {
               />
             </label>
           </Table.HeadCell>
-          <Table.HeadCell></Table.HeadCell>
-          <Table.HeadCell>Points</Table.HeadCell>
-          <Table.HeadCell>Played</Table.HeadCell>
+          <Table.HeadCell
+            onClick={() => clickOrderBy("name")}
+            className={orderBy.param === "name" && "text-violet-500"}
+          >
+            Name{" "}
+            {orderBy.param === "name" && (
+              <ArrowDown svgClassName="w-3 inline" />
+            )}
+          </Table.HeadCell>
+          <Table.HeadCell onClick={() => clickOrderBy("points")}>
+            Points
+          </Table.HeadCell>
+          <Table.HeadCell onClick={() => clickOrderBy("played_matches")}>
+            Played
+          </Table.HeadCell>
           {seeAllStats && (
             <>
-              <Table.HeadCell>Wins</Table.HeadCell>
-              <Table.HeadCell>Draws</Table.HeadCell>
-              <Table.HeadCell>Defeats</Table.HeadCell>
-              <Table.HeadCell>Scored Goals</Table.HeadCell>
-              <Table.HeadCell>Conceded Goals</Table.HeadCell>
+              <Table.HeadCell onClick={() => clickOrderBy("wins")}>
+                Wins
+              </Table.HeadCell>
+              <Table.HeadCell onClick={() => clickOrderBy("draws")}>
+                Draws
+              </Table.HeadCell>
+              <Table.HeadCell onClick={() => clickOrderBy("defeats")}>
+                Defeats
+              </Table.HeadCell>
+              <Table.HeadCell onClick={() => clickOrderBy("goals_scored")}>
+                Scored Goals
+              </Table.HeadCell>
+              <Table.HeadCell onClick={() => clickOrderBy("goals_conceded")}>
+                Conceded Goals
+              </Table.HeadCell>
             </>
           )}
           {isOwner && <Table.HeadCell></Table.HeadCell>}
         </Table.Head>
         <Table.Body>
-          {data.map((team) => (
+          {orderedData.map((team, i) => (
             <Table.Row
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 cursor-pointer"
-              key={team.id}
+              key={team.id + team.name + i}
               id="teamRow"
               onClick={(e) => {
                 navigate("./" + team.urlname);
@@ -114,11 +182,12 @@ export function Classification({ data, isLoading, isOwner }) {
         </Table.Body>
       </Table>
       {isOwner && !_.isEmpty(teamToEdit) && (
-        <Modal
-          onCloseModal={setTeamToEdit}
-          title={"Editing " + teamToEdit.name ?? "team"}
-        >
-          <EditTeamForm team={teamToEdit} />
+        <Modal onCloseModal={setTeamToEdit} title={"Edit team "}>
+          <EditTeamForm
+            team={teamToEdit}
+            setAlertMessage={setAlertMessage}
+            closeModal={setTeamToEdit}
+          />
         </Modal>
       )}
     </section>
