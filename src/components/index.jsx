@@ -16,8 +16,10 @@ export { EditMatchForm } from "./forms";
 export { EditPlayerForm } from "./forms";
 
 export { PageLayout } from "./PageLayout";
-export { Modal } from "./Modal";
+export { Modal } from "./modal";
 export { StepsNavigation } from "./StepsNavigation";
 export { Alert } from "./Alert";
 export { LeagueDay } from "./LeagueDay";
 export { WeekDaySelect } from "./WeekDaySelect";
+
+export { SortableHeadCell } from "./SortableHeadCell";

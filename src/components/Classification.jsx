@@ -1,15 +1,13 @@
 // Dependencies
-import { Link } from "react-router-dom";
+import { _ } from "lodash";
 import { useEffect, useState } from "react";
-import { _, sortBy } from "lodash";
 import { useNavigate } from "react-router-dom";
 
 // Components
 import { EditTeamForm } from "./forms";
-import { Modal } from "./modal";
-import { PencilIcon, TeamIcon, MoreIcon, ArrowDown } from "./icons";
+import { PencilIcon, TeamIcon, MoreIcon } from "./icons";
 import { Table, Button } from "flowbite-react";
-import { Alert } from "./Alert";
+import { SortableHeadCell, Alert, Modal } from "../components";
 
 export function Classification({ data, isLoading, isOwner }) {
   const [alertMessage, setAlertMessage] = useState({
@@ -36,22 +34,23 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   useEffect(() => {
+    debugger;
     if (typeof data[0][orderBy.param] === "string") {
-      setOrderedData((old) =>
-        old.sort((a, b) => {
+      setOrderedData((old) => [
+        ...old.sort((a, b) => {
           return orderBy.direction
             ? a[orderBy.param].localeCompare(b[orderBy.param])
             : b[orderBy.param].localeCompare(a[orderBy.param]);
-        })
-      );
+        }),
+      ]);
     } else {
-      setOrderedData((old) =>
-        old.sort(function (a, b) {
+      setOrderedData((old) => [
+        ...old.sort(function (a, b) {
           return orderBy.direction
             ? b[orderBy.param] - a[orderBy.param]
             : a[orderBy.param] - b[orderBy.param];
-        })
-      );
+        }),
+      ]);
     }
   }, [orderBy.param, orderBy.direction]);
 
@@ -63,6 +62,7 @@ export function Classification({ data, isLoading, isOwner }) {
   if (!data.length) {
     return "no teams :(";
   }
+
   return (
     <section>
       {!!alertMessage.message && (
@@ -94,38 +94,49 @@ export function Classification({ data, isLoading, isOwner }) {
               />
             </label>
           </Table.HeadCell>
-          <Table.HeadCell
-            onClick={() => clickOrderBy("name")}
-            className={orderBy.param === "name" && "text-violet-500"}
-          >
-            Name{" "}
-            {orderBy.param === "name" && (
-              <ArrowDown svgClassName="w-3 inline" />
-            )}
-          </Table.HeadCell>
-          <Table.HeadCell onClick={() => clickOrderBy("points")}>
-            Points
-          </Table.HeadCell>
-          <Table.HeadCell onClick={() => clickOrderBy("played_matches")}>
-            Played
-          </Table.HeadCell>
+          <SortableHeadCell
+            param="name"
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
+          <SortableHeadCell
+            param="points"
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
+          <SortableHeadCell
+            param="played_matches"
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
+
           {seeAllStats && (
             <>
-              <Table.HeadCell onClick={() => clickOrderBy("wins")}>
-                Wins
-              </Table.HeadCell>
-              <Table.HeadCell onClick={() => clickOrderBy("draws")}>
-                Draws
-              </Table.HeadCell>
-              <Table.HeadCell onClick={() => clickOrderBy("defeats")}>
-                Defeats
-              </Table.HeadCell>
-              <Table.HeadCell onClick={() => clickOrderBy("goals_scored")}>
-                Scored Goals
-              </Table.HeadCell>
-              <Table.HeadCell onClick={() => clickOrderBy("goals_conceded")}>
-                Conceded Goals
-              </Table.HeadCell>
+              <SortableHeadCell
+                param="wins"
+                orderBy={orderBy}
+                clickOrderBy={clickOrderBy}
+              />
+              <SortableHeadCell
+                param="draws"
+                orderBy={orderBy}
+                clickOrderBy={clickOrderBy}
+              />
+              <SortableHeadCell
+                param="defeats"
+                orderBy={orderBy}
+                clickOrderBy={clickOrderBy}
+              />
+              <SortableHeadCell
+                param="goals_scored"
+                orderBy={orderBy}
+                clickOrderBy={clickOrderBy}
+              />
+              <SortableHeadCell
+                param="goals_conceded"
+                orderBy={orderBy}
+                clickOrderBy={clickOrderBy}
+              />
             </>
           )}
           {isOwner && <Table.HeadCell></Table.HeadCell>}

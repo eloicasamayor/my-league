@@ -44,6 +44,7 @@ function LeaguesPage() {
       </header>
 
       <LeaguesList
+        authData={authData}
         leaguesData={leaguesData}
         leaguesIsLoading={leaguesIsLoading}
       />

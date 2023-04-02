@@ -199,7 +199,7 @@ export function EditMatchForm({
             if (updateMatchReqRes.error) {
               setAlertMessage(
                 "There was an error updating the match: " +
-                  updateMatchReqRes?.message
+                  updateMatchReqRes.error.message
               );
             } else {
               setAlertMessage("Match updated correctly");

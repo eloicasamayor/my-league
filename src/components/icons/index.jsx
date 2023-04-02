@@ -16,4 +16,4 @@ export { UploadIcon } from "./UploadIcon";
 export { UserIcon } from "./UserIcon";
 export { TeamIcon } from "./TeamIcon";
 export { Logo } from "./Logo";
-export { ArrowDown } from "./ArrowDown";
+export { ArrowUpDown } from "./ArrowUpDown";
