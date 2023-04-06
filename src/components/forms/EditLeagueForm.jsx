@@ -44,9 +44,12 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row items-center">
-        {alertMessage && (
-          <Alert onCloseAlert={() => setAlertMessage("")} isError={true}>
-            {alertMessage}
+        {alertMessage.message && (
+          <Alert
+            onCloseAlert={() => setAlertMessage("")}
+            isError={alertMessage.isError}
+          >
+            {alertMessage.message}
           </Alert>
         )}
         <EditPhotoForm
@@ -108,12 +111,36 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
           <Button
             color={"failure"}
             className="bg-rose-700 hover:bg-rose-800"
-            onClick={() => {
-              deleteAllLeagueMatches(leagueToEdit);
-              deleteAllLeagueTeams(leagueToEdit);
-              deleteAllLeaguePlayers(leagueToEdit);
-              deleteLeague(leagueToEdit);
-              navigate("/");
+            onClick={async () => {
+              const deletePlayersReqRes = await deleteAllLeaguePlayers(
+                leagueToEdit
+              );
+              const deleteTeamsReqRes = await deleteAllLeagueTeams(
+                leagueToEdit
+              );
+              const deleteMatchesReqRes = await deleteAllLeagueMatches(
+                leagueToEdit
+              );
+              const deleteLeagueReqRes = await deleteLeague(leagueToEdit);
+
+              if (
+                !deleteMatchesReqRes.error &&
+                !deleteTeamsReqRes.error &&
+                !deletePlayersReqRes.error &&
+                !deleteLeagueReqRes.error
+              ) {
+                console.log({
+                  isError: false,
+                  message: "League deleted correctly",
+                });
+                navigate("/");
+              } else {
+                setAlertMessage({
+                  isError: true,
+                  message:
+                    "There was an error and the league could't be deleted",
+                });
+              }
             }}
           >
             <TrashIcon />

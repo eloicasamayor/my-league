@@ -33,6 +33,7 @@ export function NewPlayerForm({ teamsData, teamsIsLoading }) {
             insertPlayer({
               name: nameRef.current.value,
               team: teamRef.current.value,
+              league: teamsData[0].league,
             });
           }}
         >

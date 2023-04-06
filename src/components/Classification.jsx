@@ -22,7 +22,6 @@ export function Classification({ data, isLoading, isOwner }) {
   const [orderedData, setOrderedData] = useState(data);
 
   function clickOrderBy(param) {
-    debugger;
     if (param === orderBy.param) {
       setOrderBy((oldOrderBy) => ({
         param: oldOrderBy.param,
@@ -34,7 +33,6 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   useEffect(() => {
-    debugger;
     if (typeof data[0][orderBy.param] === "string") {
       setOrderedData((old) => [
         ...old.sort((a, b) => {

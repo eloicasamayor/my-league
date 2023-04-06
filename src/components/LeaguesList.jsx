@@ -5,35 +5,33 @@ import { useNavigate } from "react-router-dom";
 
 // Components
 import { PhotoIcon } from "./icons/PhotoIcon";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function LeaguesList({ authData, leaguesData, leaguesIsLoading }) {
   const navigate = useNavigate();
   const [filteredLeaguesData, setFilteredLeaguesData] = useState(
-    () => leaguesData
+    () => leaguesData?.length && leaguesData
   );
   const [isMyLeagues, setIsMyLeagues] = useState(true);
+
+  useEffect(() => {
+    const filteredLeagues =
+      authData?.user?.id && isMyLeagues && leaguesData?.length
+        ? leaguesData.filter((league) => league.owner === authData?.user?.id)
+        : leaguesData;
+    setFilteredLeaguesData(filteredLeagues);
+  }, [isMyLeagues, JSON.stringify(authData), JSON.stringify(leaguesData)]);
+
   if (leaguesIsLoading) {
     return "loading...";
   }
   if (!leaguesData) {
     return "no data :/";
   }
+  if (!filteredLeaguesData?.length) {
+    return "no data";
+  }
 
-  useState(() => {
-    debugger;
-    const filteredLeagues =
-      authData?.user?.id && isMyLeagues
-        ? [
-            ...leaguesData.filter(
-              (league) => league.owner === authData?.user?.id
-            ),
-          ]
-        : [...leaguesData];
-    debugger;
-    setFilteredLeaguesData([...filteredLeagues]);
-  }, [JSON.stringify(isMyLeagues)]);
-  debugger;
   return (
     <Table hoverable={true}>
       <Table.Head>
