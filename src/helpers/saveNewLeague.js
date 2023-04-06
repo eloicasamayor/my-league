@@ -79,7 +79,11 @@ export async function saveNewLeague({
   let teamIndex = 0;
   players.forEach((teamPlayers) => {
     teamPlayers.forEach((player) => {
-      playersReq.push({ name: player, team: insertedTeams[teamIndex].id });
+      playersReq.push({
+        name: player,
+        team: insertedTeams[teamIndex].id,
+        league: leagueId,
+      });
     });
     teamIndex = teamIndex + 1;
   });
