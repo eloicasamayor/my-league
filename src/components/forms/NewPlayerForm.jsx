@@ -1,20 +1,25 @@
 // Dependencies
 import { useInsertPlayerMutation } from "../../redux";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Components
 import { Button } from "flowbite-react";
 
-export function NewPlayerForm({ teamsData, teamsIsLoading }) {
+export function NewPlayerForm({ teamsData, teamsIsLoading, closeModal }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    isError: false,
+  });
 
   if (teamsIsLoading) {
     return "loading...";
   }
   return (
     <>
+      {alertMessage.message && <Alert>{alertMessage.message}</Alert>}
       <form className="flex flex-col gap-2">
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />
@@ -28,13 +33,24 @@ export function NewPlayerForm({ teamsData, teamsIsLoading }) {
             ))}
         </select>
         <Button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            insertPlayer({
+            const insertPlayerReqRes = await insertPlayer({
               name: nameRef.current.value,
               team: teamRef.current.value,
               league: teamsData[0].league,
             });
+
+            if (insertPlayerReqRes.error) {
+              setAlertMessage({
+                message:
+                  "There was an error creating the player: " +
+                  insertPlayerReqRes.error.message,
+                isError: true,
+              });
+            } else {
+              closeModal();
+            }
           }}
         >
           submit

@@ -112,39 +112,45 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
             color={"failure"}
             className="bg-rose-700 hover:bg-rose-800"
             onClick={async () => {
-              const deletePlayersReqRes = await deleteAllLeaguePlayers(
-                leagueToEdit
-              );
-              const deleteTeamsReqRes = await deleteAllLeagueTeams(
-                leagueToEdit
-              );
-              const deleteMatchesReqRes = await deleteAllLeagueMatches(
-                leagueToEdit
-              );
-              const deleteLeagueReqRes = await deleteLeague(leagueToEdit);
-
               if (
-                !deleteMatchesReqRes.error &&
-                !deleteTeamsReqRes.error &&
-                !deletePlayersReqRes.error &&
-                !deleteLeagueReqRes.error
+                window.confirm(
+                  "Are you shure to delete the league? This action will delete all the league data, including all teams, players and matches. And you cannot undo this action."
+                )
               ) {
-                console.log({
-                  isError: false,
-                  message: "League deleted correctly",
-                });
-                navigate("/");
-              } else {
-                setAlertMessage({
-                  isError: true,
-                  message:
-                    "There was an error and the league could't be deleted",
-                });
+                const deletePlayersReqRes = await deleteAllLeaguePlayers(
+                  leagueToEdit
+                );
+                const deleteTeamsReqRes = await deleteAllLeagueTeams(
+                  leagueToEdit
+                );
+                const deleteMatchesReqRes = await deleteAllLeagueMatches(
+                  leagueToEdit
+                );
+                const deleteLeagueReqRes = await deleteLeague(leagueToEdit);
+
+                if (
+                  !deleteMatchesReqRes.error &&
+                  !deleteTeamsReqRes.error &&
+                  !deletePlayersReqRes.error &&
+                  !deleteLeagueReqRes.error
+                ) {
+                  console.log({
+                    isError: false,
+                    message: "League deleted correctly",
+                  });
+                  navigate("/");
+                } else {
+                  setAlertMessage({
+                    isError: true,
+                    message:
+                      "There was an error and the league could't be deleted",
+                  });
+                }
               }
             }}
           >
             <TrashIcon />
-            {"Delete league (including its TEAMS, MATCHES and PLAYERS)"}
+            {"Delete ALL league data"}
           </Button>
         </div>
       </div>

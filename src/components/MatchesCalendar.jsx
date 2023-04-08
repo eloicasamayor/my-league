@@ -146,7 +146,6 @@ export function MatchesCalendar({
     return;
   }
   const groupedMatchesData = _.groupBy(matchesData, (match) => match.match_day);
-  debugger;
   return (
     <section>
       {alertMessage && (

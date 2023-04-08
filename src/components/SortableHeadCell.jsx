@@ -6,7 +6,9 @@ export function SortableHeadCell({ param, orderBy, clickOrderBy }) {
   return (
     <Table.HeadCell
       onClick={() => clickOrderBy(param)}
-      className={`px-4 ${orderBy.param === param ? "text-violet-500" : ""}`}
+      className={`cursor-pointer px-4 ${
+        orderBy.param === param ? "text-violet-500" : ""
+      }`}
     >
       <div className={`flex ${orderBy.param !== param && "pr-4"}`}>
         {param}

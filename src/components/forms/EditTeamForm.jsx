@@ -1,5 +1,5 @@
 // Dependencies
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Components
 import { Button } from "flowbite-react";
@@ -62,19 +62,22 @@ export function EditTeamForm({ team = {}, setAlertMessage }) {
       <Button
         color={"failure"}
         onClick={async () => {
-          const deleteTeamRes = await deleteTeam({ id: team.id });
-          if (deleteTeamRes.error) {
-            setAlertMessage({
-              isError: true,
-              message:
-                "The team couldn't be deleted: " + deleteTeamRes.error.message,
-            });
-          } else {
-            setAlertMessage({
-              isError: false,
-              message: "Team deleted correctly",
-            });
-            closeModal();
+          if (window.confirm("Are you shure to delete the team?")) {
+            const deleteTeamRes = await deleteTeam({ id: team.id });
+            if (deleteTeamRes.error) {
+              setAlertMessage({
+                isError: true,
+                message:
+                  "The team couldn't be deleted: " +
+                  deleteTeamRes.error.message,
+              });
+            } else {
+              setAlertMessage({
+                isError: false,
+                message: "Team deleted correctly",
+              });
+              closeModal();
+            }
           }
         }}
       >

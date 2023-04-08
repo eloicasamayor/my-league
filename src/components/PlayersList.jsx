@@ -1,10 +1,10 @@
 // Dependencies
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 // Components
 import { EditPlayerForm } from "./forms";
 import { PencilIcon } from "./icons/PencilIcon";
-import { Modal } from "../components";
+import { Modal, SortableHeadCell } from "../components";
 import { Table, Button } from "flowbite-react";
 
 export function PlayersList({
@@ -16,6 +16,40 @@ export function PlayersList({
   isOwner,
 }) {
   const [editingPlayer, setEditingPlayer] = useState();
+
+  const [orderBy, setOrderBy] = useState({ param: "name", direction: true });
+  const [orderedData, setOrderedData] = useState(playersData);
+
+  function clickOrderBy(param) {
+    if (param === orderBy.param) {
+      setOrderBy((oldOrderBy) => ({
+        param: oldOrderBy.param,
+        direction: !oldOrderBy.direction,
+      }));
+    } else {
+      setOrderBy({ param: param, direction: true });
+    }
+  }
+
+  useEffect(() => {
+    if (typeof playersData[0][orderBy.param] === "string") {
+      setOrderedData((old) => [
+        ...old.sort((a, b) => {
+          return orderBy.direction
+            ? a[orderBy.param].localeCompare(b[orderBy.param])
+            : b[orderBy.param].localeCompare(a[orderBy.param]);
+        }),
+      ]);
+    } else {
+      setOrderedData((old) => [
+        ...old.sort(function (a, b) {
+          return orderBy.direction
+            ? b[orderBy.param] - a[orderBy.param]
+            : a[orderBy.param] - b[orderBy.param];
+        }),
+      ]);
+    }
+  }, [orderBy.param, orderBy.direction]);
 
   if (playersIsLoading || teamsIsLoading) {
     return "loading...";
@@ -38,15 +72,31 @@ export function PlayersList({
         className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
       >
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <Table.HeadCell>{"player name"}</Table.HeadCell>
+          <SortableHeadCell
+            param={"name"}
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
           <Table.HeadCell>{"team"}</Table.HeadCell>
-          <Table.HeadCell>{"scored goals"}</Table.HeadCell>
-          <Table.HeadCell>{"scored goals home"}</Table.HeadCell>
-          <Table.HeadCell>{"scored goals away"}</Table.HeadCell>
+          <SortableHeadCell
+            param={"scored_goals"}
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
+          <SortableHeadCell
+            param={"scored_goals_home"}
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
+          <SortableHeadCell
+            param={"scored_goals_away"}
+            orderBy={orderBy}
+            clickOrderBy={clickOrderBy}
+          />
           {isOwner && <Table.HeadCell></Table.HeadCell>}
         </Table.Head>
         <Table.Body>
-          {playersData.map((player) => (
+          {orderedData.map((player) => (
             <Table.Row
               className="bg-white border-b dark:bg-gray-800 dark:border-gray-700"
               key={player.id}

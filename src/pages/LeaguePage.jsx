@@ -200,6 +200,7 @@ export function LeaguePage() {
           <NewPlayerForm
             teamsData={teamsData}
             teamsIsLoading={teamsIsLoading}
+            closeModal={() => setShowNewPlayerModal(false)}
           />
         </Modal>
       )}

@@ -16,6 +16,8 @@ import { WeekDaySelect } from "../components";
 import { ArrowBackIcon } from "../components/icons";
 import { TrashIcon } from "../components/icons";
 import { UpdateIcon } from "../components/icons";
+import { TeamIcon } from "../components/icons";
+import { UserIcon } from "../components/icons";
 import { Alert } from "../components";
 import { UploadIcon } from "../components/icons";
 import { TextInput, Button, Card } from "flowbite-react";
@@ -123,32 +125,33 @@ export function NewLeaguePage() {
           {alertMessage.message}
         </Alert>
       )}
-      <form className="flex flex-col sm:flex-row">
-        <div className="relative w-full">
-          <label htmlFor={"name"}>League name</label>
-          <TextInput
-            // className="text-xl special-input leading-9"
-            // type={"text"}
-            id={"name"}
-            name={"name"}
-            placeholder={"League Name"}
-            value={leagueName}
-            onChange={(e) => setLeagueName(e.target.value)}
-          />
-        </div>
-        <div className="relative w-full">
-          <label htmlFor={"description"}>Description</label>
-          <TextInput
-            className="text-lg special-input leading-9"
-            type={"text"}
-            id={"description"}
-            placeholder={"League Description"}
-            name={"description"}
-            value={leagueDescription}
-            onChange={(e) => setLeagueDescription(e.target.value)}
-          />
-        </div>
-      </form>
+      <div className="mx-2 mb-8 p-1 md:p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+        <form className="flex flex-col sm:flex-row">
+          <div className="relative w-full p-1 md:p-2">
+            <label htmlFor={"name"}>League name</label>
+            <TextInput
+              id={"name"}
+              name={"name"}
+              placeholder={"League Name"}
+              value={leagueName}
+              onChange={(e) => setLeagueName(e.target.value)}
+            />
+          </div>
+          <div className="relative w-full p-1 md:p-2">
+            <label htmlFor={"description"}>Description</label>
+            <TextInput
+              className="text-lg special-input leading-9"
+              type={"text"}
+              id={"description"}
+              placeholder={"League Description"}
+              name={"description"}
+              value={leagueDescription}
+              onChange={(e) => setLeagueDescription(e.target.value)}
+            />
+          </div>
+        </form>
+      </div>
+
       <StepsNavigation
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
@@ -163,9 +166,10 @@ export function NewLeaguePage() {
               return (
                 <div className="flex w-full" key={"parent" + i}>
                   <div className="relative w-full" key={"div" + i}>
-                    <TextInput
+                    <input
+                      type="text"
+                      className="text-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-14 pr-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       key={"-" + i}
-                      type={"text"}
                       value={team}
                       onChange={(e) => {
                         e.preventDefault();
@@ -174,10 +178,19 @@ export function NewLeaguePage() {
                         setTeams(varTeams);
                         setMatchings([]);
                       }}
+                      autoFocus
+                      onFocus={(event) => event.target.select()}
                     />
+                    <div className="absolute left-0.5 top-0.5 flex items-center justify-center h-10 w-10 rounded-lg ring-0 ring-white bg-violet-100 p-1">
+                      {team.img ? (
+                        <img src={team.img} className={"w-4"} />
+                      ) : (
+                        <TeamIcon pathClassName={"stroke-violet-400"} />
+                      )}
+                    </div>
                     <Button
                       size="sm"
-                      className="absolute right-0 top-0"
+                      className="absolute right-0.5 top-0.5"
                       onClick={(e) => {
                         e.preventDefault();
                         const teamsCopy = [...teams];
@@ -201,7 +214,7 @@ export function NewLeaguePage() {
                 onClick={(e) => {
                   e.preventDefault();
                   let varTeams = [...teams];
-                  varTeams.push(`New team ${teams.length + 1}`);
+                  varTeams.push(`Team ${teams.length + 1}`);
                   setTeams(varTeams);
                   let varPlayers = [...players];
                   varPlayers.push([]);
@@ -228,10 +241,12 @@ export function NewLeaguePage() {
               <h2 className="w-full">{team}</h2>
               {players[teamIndex].map((player, i) => (
                 <div className="relative w-full p-0">
-                  <TextInput
+                  <input
+                    type="text"
+                    className="text-md bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-14 pr-2.5 py-3 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required
                     id={`team${teamIndex}_player${player}`}
                     value={player}
-                    className=" text-xl p-0 text-center w-full"
                     onChange={(e) => {
                       e.preventDefault();
                       const playersCopy = [...players];
@@ -240,10 +255,19 @@ export function NewLeaguePage() {
                       playersCopy[teamIndex] = thisTeamCopy;
                       setPlayers(playersCopy);
                     }}
-                  />
+                    autoFocus
+                    onFocus={(event) => event.target.select()}
+                  ></input>
+                  <div className="absolute left-0.5 top-0.5 flex items-center justify-center h-10 w-10 rounded-lg ring-0 ring-white bg-violet-100 p-1">
+                    {team.img ? (
+                      <img src={team.img} className={"w-4"} />
+                    ) : (
+                      <UserIcon pathClassName={"stroke-violet-400"} />
+                    )}
+                  </div>
                   <Button
                     size={"sm"}
-                    className="absolute right-0 top-0"
+                    className="absolute right-0.5 top-0.5"
                     onClick={(e) => {
                       e.preventDefault();
                       const playersCopy = [...players];
@@ -264,7 +288,7 @@ export function NewLeaguePage() {
                   const varPlayers = [...players];
                   let playersThisTeam = [...(players?.[teamIndex] ?? [])];
                   playersThisTeam.push(
-                    `New player ${playersThisTeam.length + 1}`
+                    `${team} Player ${playersThisTeam.length + 1}`
                   );
                   varPlayers[teamIndex] = playersThisTeam;
                   setPlayers(varPlayers);
