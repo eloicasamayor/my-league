@@ -32,7 +32,10 @@ export function PlayersList({
   }
 
   useEffect(() => {
-    if (typeof playersData[0][orderBy.param] === "string") {
+    if (
+      playersData.length &&
+      typeof playersData[0][orderBy.param] === "string"
+    ) {
       setOrderedData((old) => [
         ...old.sort((a, b) => {
           return orderBy.direction
@@ -80,16 +83,19 @@ export function PlayersList({
           <Table.HeadCell>{"team"}</Table.HeadCell>
           <SortableHeadCell
             param={"scored_goals"}
+            label={"scored goals"}
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
           <SortableHeadCell
             param={"scored_goals_home"}
+            label={"scored goals (home)"}
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
           <SortableHeadCell
             param={"scored_goals_away"}
+            label={"scored goals (away)"}
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />

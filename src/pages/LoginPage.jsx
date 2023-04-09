@@ -2,15 +2,20 @@
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { setAuth } from "../redux/auth/slice";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { TextInput, Button, Label } from "flowbite-react";
+import { Alert } from "../components";
 
 export function LoginPage() {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
   const emailRef = useRef();
   const passwordRef = useRef();
+  const [alertMessage, setAlertMessage] = useState({
+    message: "",
+    isError: false,
+  });
 
   async function signInWithGoogle(e) {
     e.preventDefault();
@@ -35,13 +40,29 @@ export function LoginPage() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     });
-    error ? alert("wrong login data") : dispatch(setAuth(data));
+    if (error) {
+      setAlertMessage({
+        message: `${error.message}`,
+        isError: true,
+      });
+    } else {
+      dispatch(setAuth(data));
+      setAlertMessage({
+        message: `logged in as ${data.user.email}`,
+        isError: false,
+      });
+    }
   }
 
   return (
     <>
+      {alertMessage.message && (
+        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+          {alertMessage.message}
+        </Alert>
+      )}
       {authData?.user ? (
-        <div className="p-8 text-center flex flex-col items-center gap-9">
+        <div className="px-8 py-28 text-center flex flex-col items-center gap-9">
           <p>
             {"Loged in as "}
             <span className="font-semibold">{authData.user.email}</span>{" "}
@@ -51,7 +72,10 @@ export function LoginPage() {
             className="w-72 "
             onClick={async () => {
               const { error } = await supabase.auth.signOut();
-              !error && dispatch(setAuth({}));
+              if (!error) {
+                dispatch(setAuth({}));
+                setAlertMessage({ message: "logged out", isError: false });
+              }
             }}
           >
             Log out

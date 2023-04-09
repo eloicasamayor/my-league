@@ -33,7 +33,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   useEffect(() => {
-    if (typeof data[0][orderBy.param] === "string") {
+    if (data.length && typeof data[0][orderBy.param] === "string") {
       setOrderedData((old) => [
         ...old.sort((a, b) => {
           return orderBy.direction
@@ -57,7 +57,7 @@ export function Classification({ data, isLoading, isOwner }) {
   if (isLoading) {
     return "loading...";
   }
-  if (!data.length) {
+  if (!data.length && !orderedData.length) {
     return "no teams :(";
   }
 
@@ -94,6 +94,7 @@ export function Classification({ data, isLoading, isOwner }) {
           </Table.HeadCell>
           <SortableHeadCell
             param="name"
+            label={"team "}
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
@@ -104,6 +105,7 @@ export function Classification({ data, isLoading, isOwner }) {
           />
           <SortableHeadCell
             param="played_matches"
+            label="played matches"
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
@@ -127,11 +129,13 @@ export function Classification({ data, isLoading, isOwner }) {
               />
               <SortableHeadCell
                 param="goals_scored"
+                label="scored goals"
                 orderBy={orderBy}
                 clickOrderBy={clickOrderBy}
               />
               <SortableHeadCell
                 param="goals_conceded"
+                label="conceded goals"
                 orderBy={orderBy}
                 clickOrderBy={clickOrderBy}
               />
