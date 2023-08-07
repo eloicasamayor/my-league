@@ -44,9 +44,6 @@ export function TeamPage() {
     (league) => league.id === selectedTeam.league
   ).owner;
 
-  const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
-  const [showEditPlayerModal, setShowEditPlayerModal] = useState(false);
-
   const isOwner = !!(authData.user && authData.user.id === leagueOwner);
 
   return (

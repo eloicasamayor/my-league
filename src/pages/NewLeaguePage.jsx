@@ -6,20 +6,24 @@ import {
   useInsertMatchMutation,
   useInsertPlayerMutation,
 } from "../redux";
-import { PlusIcon } from "../components/icons/PlusIcon";
-import { useRef, useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 
 // Components
-import { StepsNavigation } from "../components";
-import { LeagueDay } from "../components";
-import { WeekDaySelect } from "../components";
-import { ArrowBackIcon } from "../components/icons";
-import { TrashIcon } from "../components/icons";
-import { UpdateIcon } from "../components/icons";
-import { TeamIcon } from "../components/icons";
-import { UserIcon } from "../components/icons";
-import { Alert } from "../components";
-import { UploadIcon } from "../components/icons";
+import {
+  PlusIcon,
+  ArrowBackIcon,
+  TrashIcon,
+  UpdateIcon,
+  TeamIcon,
+  UserIcon,
+  UploadIcon,
+} from "../components/icons";
+import {
+  StepsNavigation,
+  LeagueDay,
+  WeekDaySelect,
+  Alert,
+} from "../components";
 import { TextInput, Button, Card } from "flowbite-react";
 
 // Helpers

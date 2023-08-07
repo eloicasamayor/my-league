@@ -21,37 +21,42 @@ export function PlayersList({
   const [orderedData, setOrderedData] = useState(playersData);
 
   function clickOrderBy(param) {
-    if (param === orderBy.param) {
-      setOrderBy((oldOrderBy) => ({
-        param: oldOrderBy.param,
-        direction: !oldOrderBy.direction,
-      }));
-    } else {
-      setOrderBy({ param: param, direction: true });
-    }
+    setOrderBy((oldOrderBy) => ({
+      param: param === orderBy.param ? oldOrderBy.param : param,
+      direction: param === orderBy.param ? !oldOrderBy.direction : true,
+    }));
   }
 
   useEffect(() => {
-    if (
-      playersData.length &&
-      typeof playersData[0][orderBy.param] === "string"
-    ) {
-      setOrderedData((old) => [
-        ...old.sort((a, b) => {
-          return orderBy.direction
-            ? a[orderBy.param].localeCompare(b[orderBy.param])
-            : b[orderBy.param].localeCompare(a[orderBy.param]);
-        }),
-      ]);
-    } else {
-      setOrderedData((old) => [
-        ...old.sort(function (a, b) {
-          return orderBy.direction
-            ? b[orderBy.param] - a[orderBy.param]
-            : a[orderBy.param] - b[orderBy.param];
-        }),
-      ]);
-    }
+    setOrderedData((old) => {
+      return selectedTeam
+        ? old.filter((player) => player.team === selectedTeam.id)
+        : old;
+    });
+  }, []);
+
+  useEffect(() => {
+    setOrderedData((old) => {
+      dataOrdenada =
+        old.length && typeof old[0][orderBy.param] === "string"
+          ? [
+              ...old.sort((a, b) => {
+                return orderBy.direction
+                  ? a[orderBy.param].localeCompare(b[orderBy.param])
+                  : b[orderBy.param].localeCompare(a[orderBy.param]);
+              }),
+            ]
+          : [
+              ...old.sort(function (a, b) {
+                return orderBy.direction
+                  ? b[orderBy.param] - a[orderBy.param]
+                  : a[orderBy.param] - b[orderBy.param];
+              }),
+            ];
+      return selectedTeam
+        ? dataOrdenada.filter((player) => player.team === selectedTeam.id)
+        : dataOrdenada;
+    });
   }, [orderBy.param, orderBy.direction]);
 
   if (playersIsLoading || teamsIsLoading) {
@@ -60,12 +65,6 @@ export function PlayersList({
 
   if (!playersData.length) {
     return "no players :(";
-  }
-
-  if (selectedTeam) {
-    playersData = playersData.filter(
-      (player) => player.team === selectedTeam.id
-    );
   }
 
   return (

@@ -1,5 +1,5 @@
 // Dependencies
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -7,13 +7,9 @@ import { useSelector } from "react-redux";
 import { useGetLeaguesQuery } from "../redux";
 
 //Components
-import { EditLeagueForm, LeaguesList, NewLeagueForm } from "../components";
-import { PlusIcon } from "../components/icons/PlusIcon";
-import { MoreIcon } from "../components/icons/MoreIcon";
+import { LeaguesList, Modal } from "../components";
+import { PlusIcon } from "../components/icons";
 import { Button } from "flowbite-react";
-{
-}
-import { Modal } from "../components/modal";
 import { LoginPage } from "./LoginPage";
 
 function LeaguesPage() {

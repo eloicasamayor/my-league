@@ -8,7 +8,6 @@ export { LeaguesList } from "./LeaguesList";
 export { NewTeamForm } from "./forms";
 export { NewPlayerForm } from "./forms";
 export { NewMatchForm } from "./forms";
-export { NewLeagueForm } from "./forms";
 
 export { EditTeamForm } from "./forms";
 export { EditLeagueForm } from "./forms";
