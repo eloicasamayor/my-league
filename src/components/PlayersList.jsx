@@ -37,10 +37,10 @@ export function PlayersList({
 
   useEffect(() => {
     setOrderedData((old) => {
-      dataOrdenada =
+      let dataOrdenada =
         old.length && typeof old[0][orderBy.param] === "string"
           ? [
-              ...old.sort((a, b) => {
+              ...old.slice().sort((a, b) => {
                 return orderBy.direction
                   ? a[orderBy.param].localeCompare(b[orderBy.param])
                   : b[orderBy.param].localeCompare(a[orderBy.param]);
@@ -65,6 +65,10 @@ export function PlayersList({
 
   if (!playersData.length) {
     return "no players :(";
+  }
+
+  if (!orderedData.length) {
+    return "no orderedData :(";
   }
 
   return (

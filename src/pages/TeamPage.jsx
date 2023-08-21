@@ -1,6 +1,6 @@
 // Dependencies
 import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   useGetTeamsQuery,
   useGetMatchesQuery,
@@ -28,6 +28,30 @@ export function TeamPage() {
   const { data: leaguesData, isLoading: leaguesIsLoading } =
     useGetLeaguesQuery();
 
+  const [isOwner, setIsOwner] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState();
+  const authData = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    const leagueOwner =
+      leaguesData?.length && selectedTeam?.league
+        ? leaguesData.find((league) => league.id === selectedTeam.league).owner
+        : null;
+    setIsOwner(!!(authData.user && authData.user.id === leagueOwner));
+  }, [JSON.stringify(leaguesData)]);
+
+  useEffect(() => {
+    setSelectedTeam(
+      teamsData?.length
+        ? teamsData.find((team) => team.urlname === teamName)
+        : null
+    );
+  }, [JSON.stringify(teamsData)]);
+
+  if (!teamName) {
+    return "no selected team";
+  }
+
   if (
     teamsIsLoading ||
     matchesIsLoading ||
@@ -36,15 +60,15 @@ export function TeamPage() {
   ) {
     return "loading...";
   }
-  const selectedTeam = teamsData.find((team) => team.urlname === teamName);
 
-  const authData = useSelector((state) => state.auth);
-
-  const leagueOwner = leaguesData.find(
-    (league) => league.id === selectedTeam.league
-  ).owner;
-
-  const isOwner = !!(authData.user && authData.user.id === leagueOwner);
+  if (
+    !teamsData.length ||
+    !playersData.length ||
+    !matchesData.length ||
+    !leaguesData.length
+  ) {
+    return "no data......";
+  }
 
   return (
     <>

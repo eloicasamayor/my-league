@@ -152,22 +152,21 @@ export function MatchesCalendar({
         <Alert onCloseAlert={setAlertMessage}>{alertMessage}</Alert>
       )}
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
-        <>
-          <Table
-            hoverable={true}
-            className="styled-table mb-6 w-full text-sm text-left text-gray-500 dark:text-gray-400"
-          >
-            <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-              <Table.HeadCell colspan="4" className="px-6 py-2">
-                {`Match day ${i + 1}`}
-              </Table.HeadCell>
-            </Table.Head>
+        <Table
+          key={i}
+          hoverable={true}
+          className="styled-table mb-6 w-full text-sm text-left text-gray-500 dark:text-gray-400"
+        >
+          <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <Table.HeadCell colSpan="4" className="px-6 py-2">
+              {`Match day ${i + 1}`}
+            </Table.HeadCell>
+          </Table.Head>
 
-            <Table.Body>
-              {groupMatches.map((match, i) => renderMatch(match, i))}
-            </Table.Body>
-          </Table>
-        </>
+          <Table.Body>
+            {groupMatches.map((match, i) => renderMatch(match, i))}
+          </Table.Body>
+        </Table>
       ))}
 
       {isOwner && !_.isEmpty(matchToEdit) && (
