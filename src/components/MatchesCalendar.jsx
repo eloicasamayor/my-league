@@ -46,19 +46,19 @@ export function MatchesCalendar({
     const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
     const localTeamImg = getTeamImgWithId(match.local_team) ? (
       <img
-        className="w-3.5 sm:w-5 inline"
+        className="w-5 sm:w-8 inline"
         src={getTeamImgWithId(match.local_team)}
       ></img>
     ) : (
-      <TeamIcon svgClassName={"inline w-3.5 sm:w-5"} />
+      <TeamIcon svgClassName={"inline w-5 sm:w-8"} />
     );
     const visitorTeamImg = getTeamImgWithId(match.visitor_team) ? (
       <img
-        className="w-3.5 sm:w-5 inline"
+        className="w-5 sm:w-8 inline"
         src={getTeamImgWithId(match.visitor_team)}
       ></img>
     ) : (
-      <TeamIcon svgClassName={"inline w-3.5 sm:w-5"} />
+      <TeamIcon svgClassName={"inline w-5 sm:w-8"} />
     );
     return (
       <Table.Row

@@ -11,10 +11,12 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
 
   async function submitPhoto(event) {
     event.preventDefault();
-    const file = event.target?.[0]?.files?.[0] ?? event.target.value;
+    const formData = new FormData();
+    formData.append("files[]", event.target.files[0]);
+
     const { data, error } = await supabase.storage
       .from(bucketName)
-      .upload(`${itemToEdit.id + ".jpg"}`, file, {
+      .upload(`${itemToEdit.id + ".jpg"}`, formData, {
         cacheControl: "3600",
         upsert: false,
       });
@@ -37,7 +39,7 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
         <>
           <img
             src={imageUrl}
-            className={"relative object-cover w-72 h-72 rounded-lg"}
+            className={"relative object-cover w-72 rounded-lg"}
           ></img>
           <Button
             onClick={async (e) => {
