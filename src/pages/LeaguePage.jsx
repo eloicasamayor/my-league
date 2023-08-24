@@ -21,10 +21,9 @@ import {
   EditLeagueForm,
   StepsNavigation,
 } from "../components";
-import { PencilIcon } from "../components/icons/PencilIcon";
-import { PlusIcon } from "../components/icons/PlusIcon";
+import { PencilIcon, PlusIcon, PhotoIcon } from "../components/icons";
+import { Alert } from "../components";
 import { Dropdown } from "flowbite-react";
-import { PhotoIcon } from "../components/icons";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
@@ -42,7 +41,10 @@ export function LeaguePage() {
   const [showNewMatchModal, setShowNewMatchModal] = useState(false);
   const [showNewPlayerModal, setShowNewPlayerModal] = useState(false);
   const [selectedTab, setSelectedTab] = useState(0);
-
+  const [alertMessage, setAlertMessage] = useState({
+    isError: false,
+    message: "",
+  });
   if (
     teamsIsLoading ||
     matchesIsLoading ||
@@ -68,6 +70,11 @@ export function LeaguePage() {
 
   return (
     <div>
+      {!!alertMessage.message && (
+        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+          {alertMessage.message}
+        </Alert>
+      )}
       <header className="flex items-end gap-1 md:p-5 md:gap-3">
         <div className="ring-white   bg-violet-100 rounded-xl">
           {currentLeague.img ? (
@@ -189,6 +196,7 @@ export function LeaguePage() {
             teams={teamsData}
             currentLeague={currentLeague}
             closeModal={() => setShowNewMatchModal(false)}
+            setAlertMessage={setAlertMessage}
           />
         </Modal>
       )}

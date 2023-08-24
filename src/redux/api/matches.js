@@ -28,12 +28,12 @@ export const matches = apiSlice.injectEndpoints({
     deleteMatch: builder.mutation({
       queryFn: async (body) =>
         await supabase.from("matches").delete().eq("id", body.id),
-      invalidatesTags: ["matches"],
+      invalidatesTags: ["matches", "teams"],
     }),
     deleteAllLeagueMatches: builder.mutation({
       queryFn: async (body) =>
         await supabase.from("matches").delete().eq("league", body.id),
-      invalidatesTags: ["matches"],
+      invalidatesTags: ["matches", "teams"],
     }),
   }),
 });

@@ -4,11 +4,17 @@ import { useRef } from "react";
 
 import { Button } from "flowbite-react";
 
-export function NewMatchForm({ teams, currentLeague, closeModal }) {
+export function NewMatchForm({
+  teams,
+  currentLeague,
+  closeModal,
+  setAlertMessage,
+}) {
   const [insertMatch, insertMatchReqResult] = useInsertMatchMutation();
   const dateRef = useRef();
   const localTeamRef = useRef();
   const visitorTeamRef = useRef();
+  const matchDayRef = useRef();
   return (
     <>
       <form className="flex flex-col gap-2">
@@ -46,17 +52,36 @@ export function NewMatchForm({ teams, currentLeague, closeModal }) {
             ))}
         </select>
         <br />
+        <label htmlFor={"match day"}>Date:</label>
+        <input
+          type={"number"}
+          id={"match_day"}
+          name={"match_day"}
+          ref={matchDayRef}
+          defaultValue={1}
+          min={1}
+          max={99}
+          required
+        />
+        <br />
         <Button
           type={"button"}
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            insertMatch({
+            const insertMatchReqResult = await insertMatch({
               date: dateRef.current.value,
               local_team: localTeamRef.current.value,
               visitor_team: visitorTeamRef.current.value,
+              match_day: matchDayRef.current.value,
               league: currentLeague.id,
             });
-            closeModal();
+            setAlertMessage({
+              message: insertMatchReqResult.error
+                ? "There was an error creating the new match: " +
+                  insertMatchReqResult.error.message
+                : "Match updated correctly",
+              isError: insertMatchReqResult.error,
+            });
           }}
         >
           submit
