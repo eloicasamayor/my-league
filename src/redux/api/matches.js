@@ -23,7 +23,7 @@ export const matches = apiSlice.injectEndpoints({
             visitor_scorers: patch.visitor_scorers,
           })
           .eq("id", patch.id),
-      invalidatesTags: ["matches"],
+      invalidatesTags: ["matches", "teams"],
     }),
     deleteMatch: builder.mutation({
       queryFn: async (body) =>
