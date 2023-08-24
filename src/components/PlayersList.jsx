@@ -33,29 +33,29 @@ export function PlayersList({
         ? old.filter((player) => player.team === selectedTeam.id)
         : old;
     });
-  }, []);
+  }, [selectedTeam]);
 
   useEffect(() => {
     setOrderedData((old) => {
-      let dataOrdenada =
-        old.length && typeof old[0][orderBy.param] === "string"
-          ? [
-              ...old.slice().sort((a, b) => {
-                return orderBy.direction
-                  ? a[orderBy.param].localeCompare(b[orderBy.param])
-                  : b[orderBy.param].localeCompare(a[orderBy.param]);
-              }),
-            ]
-          : [
-              ...old.sort(function (a, b) {
-                return orderBy.direction
-                  ? b[orderBy.param] - a[orderBy.param]
-                  : a[orderBy.param] - b[orderBy.param];
-              }),
-            ];
-      return selectedTeam
-        ? dataOrdenada.filter((player) => player.team === selectedTeam.id)
-        : dataOrdenada;
+      let dataOrdenada = selectedTeam
+        ? old.filter((player) => player.team === selectedTeam.id)
+        : old;
+      return dataOrdenada.length &&
+        typeof dataOrdenada[0][orderBy.param] === "string"
+        ? [
+            ...dataOrdenada.slice().sort((a, b) => {
+              return orderBy.direction
+                ? a[orderBy.param].localeCompare(b[orderBy.param])
+                : b[orderBy.param].localeCompare(a[orderBy.param]);
+            }),
+          ]
+        : [
+            ...dataOrdenada.sort(function (a, b) {
+              return orderBy.direction
+                ? b[orderBy.param] - a[orderBy.param]
+                : a[orderBy.param] - b[orderBy.param];
+            }),
+          ];
     });
   }, [orderBy.param, orderBy.direction]);
 
@@ -83,7 +83,7 @@ export function PlayersList({
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
-          <Table.HeadCell>{"team"}</Table.HeadCell>
+          {!selectedTeam && <Table.HeadCell>{"team"}</Table.HeadCell>}
           <SortableHeadCell
             param={"scored_goals"}
             label={"scored goals"}
@@ -116,10 +116,12 @@ export function PlayersList({
               >
                 {player.name}
               </Table.HeadCell>
-              <Table.Cell className="text-base">
-                {teamsData.find((team) => team.id === player.team).name ||
-                  player.team}
-              </Table.Cell>
+              {!selectedTeam && (
+                <Table.Cell className="text-base">
+                  {teamsData.find((team) => team.id === player.team).name ||
+                    player.team}
+                </Table.Cell>
+              )}
               <Table.Cell className="text-base">
                 {player.scored_goals}
               </Table.Cell>
