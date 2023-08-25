@@ -3,9 +3,9 @@ import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Api
-import { useUpdateLeagueMutation } from "../../redux";
-import { useDeleteLeagueMutation } from "../../redux";
 import {
+  useUpdateLeagueMutation,
+  useDeleteLeagueMutation,
   useDeleteAllLeagueMatchesMutation,
   useDeleteAllLeaguePlayersMutation,
   useDeleteAllLeagueTeamsMutation,

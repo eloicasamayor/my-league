@@ -1,4 +1,6 @@
+// Components
 import { Select } from "flowbite-react";
+
 export function WeekDaySelect({ options, value, onChange }) {
   return (
     <div id="select">

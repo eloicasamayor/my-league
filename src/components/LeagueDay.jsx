@@ -1,7 +1,9 @@
+// Components
 import { Button } from "flowbite-react";
+
 // Helpers
 import { addDays, format } from "date-fns";
-import { ArrowDownDoble } from "./icons/ArrowDownDoble";
+import { ArrowDownDoble } from "./icons";
 import { Card } from "flowbite-react";
 
 export function LeagueDay({

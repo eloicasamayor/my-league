@@ -1,4 +1,3 @@
-import { ArrowRight } from "./icons/ArrowRight";
 export function StepsNavigation({
   selectedTab,
   setSelectedTab,

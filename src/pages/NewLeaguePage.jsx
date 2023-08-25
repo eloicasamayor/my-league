@@ -35,7 +35,7 @@ import {
   setMessage,
   addDatesToMatchings,
 } from "../helpers";
-import { addDays, format, endOfDay } from "date-fns";
+import { addDays, format } from "date-fns";
 
 // Constants
 import { WEEK_DAYS } from "../components/constants/dates";
@@ -66,11 +66,6 @@ export function NewLeaguePage() {
     message: "",
     isError: false,
   });
-
-  function nowDate() {
-    const now = new Date();
-    return `New league ${format(now, "yyyy-MM-dd hh-mm")}`;
-  }
 
   useEffect(() => {
     setAlertMessage({
@@ -103,6 +98,7 @@ export function NewLeaguePage() {
       })
     );
   }
+
   function resetMatchingsDates() {
     let firstDay = getFirstMatchDay({
       dayOfTheWeek: weekDayValue,
@@ -122,6 +118,8 @@ export function NewLeaguePage() {
     return matchingsWithDates;
   }
 
+  const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
+
   return (
     <div className="pt-2">
       {alertMessage.message && (
@@ -129,7 +127,7 @@ export function NewLeaguePage() {
           {alertMessage.message}
         </Alert>
       )}
-      <div className="mx-2 mb-8 p-1 md:p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div className="mx-2 mb-8 p-1 md:p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
         <form className="flex flex-col sm:flex-row">
           <div className="relative w-full p-1 md:p-2">
             <label htmlFor={"name"}>League name</label>
@@ -164,7 +162,7 @@ export function NewLeaguePage() {
       />
       {/* ---- Teams ---- */}
       {selectedTab === 0 && (
-        <section className=" px-2 py-4">
+        <section className={sectionsClassName}>
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
               return (
@@ -234,7 +232,7 @@ export function NewLeaguePage() {
       )}
       {/* ---- PLAYERS ---- */}
       {selectedTab === 1 && (
-        <section className=" px-2 py-4">
+        <section className={sectionsClassName}>
           {teams.length === 0 && (
             <p className="text-sm text-center">
               {"You have to add teams before adding players"}
@@ -306,7 +304,7 @@ export function NewLeaguePage() {
       )}
       {/* ---- DATES ---- */}
       {selectedTab === 2 && (
-        <section className=" px-2 py-4">
+        <section className={sectionsClassName}>
           <form className="flex flex-col">
             <label className="text-sm" htmlFor="starting-day">
               The league will start
@@ -329,7 +327,7 @@ export function NewLeaguePage() {
       )}
       {/* ---- MATCHINGS ---- */}
       {selectedTab === 3 && (
-        <section className="flex flex-col  px-2 py-4">
+        <section className={sectionsClassName}>
           {matchings.length === 0 ? (
             <p className="text-sm text-center">
               {"You have to add teams so matchings can be generated"}

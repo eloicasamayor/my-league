@@ -1,3 +1,4 @@
+// Components
 import { PlusIcon } from "./icons/PlusIcon";
 
 export function Modal({ title = "", children, onCloseModal }) {

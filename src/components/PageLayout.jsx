@@ -7,7 +7,6 @@ import { supabase } from "../supabase";
 import { ArrowLeft, HomeIcon, UserIcon, Logo } from "./icons";
 
 // Components
-import { Button } from "flowbite-react";
 import { Flowbite, DarkThemeToggle } from "flowbite-react";
 
 export function PageLayout() {

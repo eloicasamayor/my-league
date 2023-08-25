@@ -1,5 +1,5 @@
 // Dependencies
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 // Components
 import { Button } from "flowbite-react";

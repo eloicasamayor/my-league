@@ -1,7 +1,7 @@
-import { PlusIcon } from "./icons/PlusIcon";
+// Components
+import { PlusIcon, CircleCheckIcon } from "./icons";
 import { Toast } from "flowbite-react";
 import { ExclamationCircleIcon } from "./icons/ExclamationCircleIcon";
-import { CircleCheckIcon } from "./icons";
 
 export function Alert({ children, onCloseAlert, isError }) {
   const iconColorsClasses = isError

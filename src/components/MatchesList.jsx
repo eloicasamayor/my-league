@@ -1,9 +1,12 @@
+// Dependencies
 import _ from "lodash";
 import { useState } from "react";
-import { EditMatchForm } from "./forms";
-import { PencilIcon } from "./icons/PencilIcon";
-import { Modal } from "./modal";
 import { format } from "date-fns";
+
+// Components
+import { EditMatchForm } from "./forms";
+import { PencilIcon } from "./icons";
+import { Modal } from "./modal";
 import { Table } from "flowbite-react";
 
 export function MatchesList({
