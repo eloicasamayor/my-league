@@ -1,12 +1,17 @@
+// Dependencies
 import _ from "lodash";
 import { useState } from "react";
-import { EditMatchForm } from "./forms";
-import { PencilIcon } from "./icons/PencilIcon";
-import { Modal } from "./modal";
+import { Button } from "flowbite-react";
 import { format } from "date-fns";
-import { Table, Button } from "flowbite-react";
+
+// Components
+import { EditMatchForm } from "./forms";
+import { Modal } from "./modal";
 import { Alert } from "./Alert";
-import { TeamIcon } from "./icons";
+import { TeamIcon, PencilIcon } from "./icons";
+
+// Helpers
+import { truncateString } from "../helpers";
 
 export function MatchesCalendar({
   teams,
@@ -73,11 +78,14 @@ export function MatchesCalendar({
               "font-bold"
             }`}
           >
-            {getTeamNameWithId(match.local_team)}
+            {truncateString({
+              text: getTeamNameWithId(match.local_team),
+              desiredLenght: 20,
+            })}
           </span>
           {localTeamImg}
         </div>
-        <div className={`w-18 sm:w-32 px-0 text-center ${resultTextClasses}`}>
+        <div className={`px-0 text-center ${resultTextClasses}`}>
           {match.played ? (
             <span className="bg-gray-300 px-2 sm:px-5 py-1 sm:py-2">
               {`${match.local_goals}-${match.visitor_goals}`}
@@ -95,11 +103,14 @@ export function MatchesCalendar({
               "font-bold"
             }`}
           >
-            {getTeamNameWithId(match.visitor_team)}
+            {truncateString({
+              text: getTeamNameWithId(match.visitor_team),
+              desiredLenght: 20,
+            })}
           </span>
         </div>
         {isOwner && (
-          <div className="w-12">
+          <div className="flex justify-center">
             <Button
               id="editingTeam"
               size={"xs"}

@@ -3,9 +3,12 @@ import { useState, useEffect } from "react";
 
 // Components
 import { EditPlayerForm } from "./forms";
-import { PencilIcon } from "./icons/PencilIcon";
+import { PencilIcon } from "./icons";
 import { Modal, SortableHeadCell } from "../components";
 import { Table, Button } from "flowbite-react";
+
+// Helpers
+import { truncateString } from "../helpers";
 
 export function PlayersList({
   teamsData,
@@ -83,7 +86,14 @@ export function PlayersList({
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
           />
-          {!selectedTeam && <Table.HeadCell>{"team"}</Table.HeadCell>}
+          {!selectedTeam && (
+            <SortableHeadCell
+              param={"scored_goals"}
+              label={"scored goals"}
+              orderBy={orderBy}
+              clickOrderBy={clickOrderBy}
+            />
+          )}
           <SortableHeadCell
             param={"scored_goals"}
             label={"scored goals"}
@@ -114,7 +124,7 @@ export function PlayersList({
                 scope="row"
                 className="px-6 py-2 font-medium text-gray-900 whitespace-nowrap dark:text-white"
               >
-                {player.name}
+                {truncateString({ text: player.name, desiredLenght: 20 })}
               </Table.HeadCell>
               {!selectedTeam && (
                 <Table.Cell className="text-base">

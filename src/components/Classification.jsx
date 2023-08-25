@@ -9,6 +9,9 @@ import { PencilIcon, TeamIcon, MoreIcon } from "./icons";
 import { Table, Button } from "flowbite-react";
 import { SortableHeadCell, Alert, Modal } from "../components";
 
+// Helpers
+import { truncateString } from "../helpers";
+
 export function Classification({ data, isLoading, isOwner }) {
   const [alertMessage, setAlertMessage] = useState({
     isError: false,
@@ -166,7 +169,9 @@ export function Classification({ data, isLoading, isOwner }) {
                   />
                 )}
               </Table.Cell>
-              <Table.Cell>{team.name}</Table.Cell>
+              <Table.Cell>
+                {truncateString({ text: team.name, desiredLenght: 20 })}
+              </Table.Cell>
               <Table.Cell>{team.points}</Table.Cell>
               <Table.Cell>{team.played_matches}</Table.Cell>
               {seeAllStats && (
