@@ -100,7 +100,9 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
                 nameRef.current.value = leagueToEdit.name;
                 descriptionRef.current.value = leagueToEdit.description;
               } else {
-                navigate(nameToUrlName("../" + nameRef.current.value));
+                if (nameRef.current.value !== leagueToEdit.name) {
+                  navigate(nameToUrlName("../" + nameRef.current.value));
+                }
               }
             }}
           >

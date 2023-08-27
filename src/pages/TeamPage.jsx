@@ -10,14 +10,7 @@ import {
 import { useSelector } from "react-redux";
 
 // Components
-import {
-  EditPlayerForm,
-  MatchesList,
-  NewPlayerForm,
-  PlayersList,
-  Modal,
-  MatchesCalendar,
-} from "../components";
+import { PlayersList, MatchesCalendar } from "../components";
 
 export function TeamPage() {
   const { teamName } = useParams();

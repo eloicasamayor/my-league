@@ -17,3 +17,5 @@ export { UserIcon } from "./UserIcon";
 export { TeamIcon } from "./TeamIcon";
 export { Logo } from "./Logo";
 export { ArrowUpDown } from "./ArrowUpDown";
+export { GithubIcon } from "./GithubIcon";
+export { EmailIcon } from "./EmailIcon";
