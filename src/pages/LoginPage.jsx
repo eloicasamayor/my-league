@@ -16,6 +16,7 @@ export function LoginPage() {
     message: "",
     isError: false,
   });
+  const [signUpPage, setSignUpPage] = useState(false);
 
   async function signInWithGoogle(e) {
     e.preventDefault();
@@ -31,7 +32,13 @@ export function LoginPage() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     });
-    error ? alert("wrong login data") : dispatch(setAuth(data));
+    setAlertMessage({
+      message: error
+        ? `An error occurred: ${error.message}`
+        : `created account for ${data.user.email}`,
+      isError: !!error,
+    });
+    dispatch(setAuth(data));
   }
 
   async function login(e) {
@@ -40,18 +47,11 @@ export function LoginPage() {
       email: emailRef.current.value,
       password: passwordRef.current.value,
     });
-    if (error) {
-      setAlertMessage({
-        message: `${error.message}`,
-        isError: true,
-      });
-    } else {
-      dispatch(setAuth(data));
-      setAlertMessage({
-        message: `logged in as ${data.user.email}`,
-        isError: false,
-      });
-    }
+    dispatch(setAuth(data));
+    setAlertMessage({
+      message: error ? `${error.message}` : `logged in as ${data.user.email}`,
+      isError: !!error,
+    });
   }
 
   return (
@@ -67,6 +67,12 @@ export function LoginPage() {
             {"Loged in as "}
             <span className="font-semibold">{authData.user.email}</span>{" "}
           </p>
+          {!authData.user.email_confirmed_at && (
+            <p>
+              Confirm your email to start creating a league. An email was sent
+              to <address>{authData.user.email}</address>
+            </p>
+          )}
 
           <Button
             className="w-72 "
@@ -86,6 +92,9 @@ export function LoginPage() {
           {/* <Button onClick={(e) => signInWithGoogle(e)}>
             Log in with Google
           </Button> */}
+          <h1 className="text-center pt-12">
+            {signUpPage ? "Create a myLeague account" : "Log in into myLeague"}
+          </h1>
           <form
             onSubmit={(e) => login(e)}
             className={"flex flex-col py-10 px-5 gap-2"}
@@ -106,18 +115,38 @@ export function LoginPage() {
               minLength={"6"}
               required
             ></TextInput>
-            <div className="flex justify-center gap-2">
-              <Button type={"submit"} value={"login"}>
-                {"Log in"}
-              </Button>
-
-              <Button
-                type={"submit"}
-                onClick={(e) => signup(e)}
-                value={"signup"}
-              >
-                {"Sign up"}
-              </Button>
+            <div className="flex justify-center gap-2 pt-5">
+              {signUpPage ? (
+                <>
+                  <Button
+                    type={"submit"}
+                    onClick={(e) => signup(e)}
+                    value={"signup"}
+                  >
+                    {"Sign up"}
+                  </Button>
+                  <a
+                    className="leading-10 text-sm"
+                    href="#"
+                    onClick={() => setSignUpPage(false)}
+                  >
+                    {"Do you have an ccount? Sign in"}
+                  </a>
+                </>
+              ) : (
+                <>
+                  <Button type={"submit"} value={"login"}>
+                    {"Log in"}
+                  </Button>{" "}
+                  <a
+                    href="#"
+                    className="leading-10 text-sm"
+                    onClick={() => setSignUpPage(true)}
+                  >
+                    {`Don't have an account? Create One`}
+                  </a>
+                </>
+              )}
             </div>
           </form>
         </div>
