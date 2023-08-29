@@ -67,7 +67,11 @@ export function Classification({ data, isLoading, isOwner }) {
   return (
     <section>
       {!!alertMessage.message && (
-        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+        <Alert
+          isError={alertMessage.isError}
+          onCloseAlert={() => setAlertMessage({ message: "" })}
+          secondsToAutoClose={alertMessage?.secondsToAutoClose}
+        >
           {alertMessage.message}
         </Alert>
       )}

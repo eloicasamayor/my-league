@@ -1,9 +1,24 @@
+// Dependencies
+import { useEffect } from "react";
 // Components
 import { PlusIcon, CircleCheckIcon } from "./icons";
 import { Toast } from "flowbite-react";
 import { ExclamationCircleIcon } from "./icons/ExclamationCircleIcon";
 
-export function Alert({ children, onCloseAlert, isError }) {
+export function Alert({
+  children,
+  onCloseAlert,
+  isError,
+  secondsToAutoClose = 2,
+}) {
+  useEffect(() => {
+    if (secondsToAutoClose) {
+      setTimeout(() => {
+        onCloseAlert();
+      }, secondsToAutoClose * 1000);
+    }
+  }, [children]);
+
   const iconColorsClasses = isError
     ? "bg-red-100 text-red-500 dark:bg-red-800 dark:text-red-200"
     : "bg-green-100 text-green-500 dark:bg-green-800 dark:text-green-200";
@@ -21,6 +36,13 @@ export function Alert({ children, onCloseAlert, isError }) {
       >
         <PlusIcon />
       </button>
+      <div className="h-2 w-full absolute right-0 bottom-0 rounded-b-lg overflow-clip">
+        <div
+          className={` h-full ${isError ? "bg-red-100" : "bg-green-100"} ${
+            secondsToAutoClose && "animate-[toast_" + secondsToAutoClose + "s]"
+          }`}
+        ></div>
+      </div>
     </Toast>
   );
 }

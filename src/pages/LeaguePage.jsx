@@ -71,7 +71,10 @@ export function LeaguePage() {
   return (
     <div>
       {!!alertMessage.message && (
-        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+        <Alert
+          isError={alertMessage.isError}
+          onCloseAlert={() => setAlertMessage({ message: "" })}
+        >
           {alertMessage.message}
         </Alert>
       )}
@@ -94,7 +97,7 @@ export function LeaguePage() {
           <h2 className="text-lg md:text-2xl">{currentLeague.description}</h2>
         </div>
         {isOwner && (
-          <Dropdown label="Edit" dismissOnClick={false}>
+          <Dropdown label="Edit" dismissOnClick={true}>
             <Dropdown.Item
               size="sm"
               color={"light"}
@@ -172,7 +175,11 @@ export function LeaguePage() {
           onCloseModal={() => setShowEditLeagueModal(false)}
           title={"Edit League"}
         >
-          <EditLeagueForm leagueToEdit={currentLeague} />
+          <EditLeagueForm
+            leagueToEdit={currentLeague}
+            onCloseModal={() => setShowEditLeagueModal(false)}
+            setAlertMessage={setAlertMessage}
+          />
         </Modal>
       )}
 

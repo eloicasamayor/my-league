@@ -12,7 +12,7 @@ import {
 import { TrashIcon } from "../icons";
 import { Button, TextInput, Select } from "flowbite-react";
 
-export function EditPlayerForm({ player = {}, teamsData }) {
+export function EditPlayerForm({ player = {}, teamsData, setAlertMessage }) {
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
@@ -49,12 +49,18 @@ export function EditPlayerForm({ player = {}, teamsData }) {
             ))}
         </Select>
         <Button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            editPlayer({
+            const editPlayerReq = await editPlayer({
               id: player.id,
               name: nameRef.current.value,
               team: teamRef.current.value,
+            });
+            setAlertMessage({
+              isError: !!editPlayerReq.error,
+              message: editPlayerReq.error
+                ? "There was an error updating the player"
+                : "Player updated correctly",
             });
           }}
         >

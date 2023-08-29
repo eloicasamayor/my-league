@@ -57,7 +57,10 @@ export function LoginPage() {
   return (
     <>
       {alertMessage.message && (
-        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+        <Alert
+          isError={alertMessage.isError}
+          onCloseAlert={() => setAlertMessage({ message: "" })}
+        >
           {alertMessage.message}
         </Alert>
       )}

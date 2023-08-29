@@ -20,7 +20,12 @@ import { EditPhotoForm } from "./EditPhotoForm";
 import { Button, TextInput } from "flowbite-react";
 import { Alert } from "../Alert";
 
-export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
+export function EditLeagueForm({
+  leagueToEdit,
+  setLeagueToEdit,
+  onCloseModal,
+  setAlertMessage,
+}) {
   const [updateLeague, updateLeagueReqResult] = useUpdateLeagueMutation();
   const [deleteLeague, deleteLeagueReqResult] = useDeleteLeagueMutation();
   const [deleteAllLeagueMatches, deleteAllLeagueMatchesReqResult] =
@@ -35,8 +40,6 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   const nameRef = useRef();
   const descriptionRef = useRef();
 
-  const [alertMessage, setAlertMessage] = useState("");
-
   if (!leagueToEdit.id) {
     return "";
   }
@@ -44,14 +47,6 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
   return (
     <>
       <div className="flex flex-col gap-4 lg:flex-row items-center">
-        {alertMessage.message && (
-          <Alert
-            onCloseAlert={() => setAlertMessage("")}
-            isError={alertMessage.isError}
-          >
-            {alertMessage.message}
-          </Alert>
-        )}
         <EditPhotoForm
           itemToEdit={leagueToEdit}
           bucketName={"leagues-img"}
@@ -95,14 +90,19 @@ export function EditLeagueForm({ leagueToEdit, setLeagueToEdit }) {
                 urlname: nameToUrlName(nameRef.current.value),
               };
               const updateLeagueReqRes = await updateLeague(patch);
+              setAlertMessage({
+                message: updateLeagueReqRes.error
+                  ? updateLeagueReqRes.error.message
+                  : "league updated correctly",
+                isError: !!updateLeagueReqRes.error,
+              });
               if (updateLeagueReqRes.error) {
-                setAlertMessage(updateLeagueReqRes.error.message);
                 nameRef.current.value = leagueToEdit.name;
                 descriptionRef.current.value = leagueToEdit.description;
               } else {
-                if (nameRef.current.value !== leagueToEdit.name) {
-                  navigate(nameToUrlName("../" + nameRef.current.value));
-                }
+                nameRef.current.value !== leagueToEdit.name
+                  ? navigate(nameToUrlName("../" + nameRef.current.value))
+                  : onCloseModal();
               }
             }}
           >

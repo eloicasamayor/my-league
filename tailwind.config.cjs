@@ -12,6 +12,12 @@ module.exports = {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
     },
+    keyframes: {
+      toast: {
+        "0%": { width: "100%" },
+        "100%": { width: "0%" },
+      },
+    },
   },
   plugins: [require("flowbite/plugin")],
 };

@@ -40,18 +40,12 @@ export function EditTeamForm({ team = {}, setAlertMessage }) {
                 id: team.id,
                 name: nameRef.current.value,
               });
-              if (editTeamReq.error) {
-                setAlertMessage({
-                  isError: true,
-                  message: "There was an error updating the team",
-                });
-              } else {
-                setAlertMessage({
-                  isError: false,
-                  message: "Team updated correctly",
-                });
-                closeModal();
-              }
+              setAlertMessage({
+                isError: !!editTeamReq.error,
+                message: editTeamReq.error
+                  ? "There was an error updating the team"
+                  : "Team updated correctly",
+              });
             }}
           >
             submit
