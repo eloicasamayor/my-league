@@ -1,6 +1,6 @@
 // Dependencies
 import _ from "lodash";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "flowbite-react";
 import { format } from "date-fns";
 
@@ -24,6 +24,7 @@ export function MatchesCalendar({
 }) {
   const [matchToEdit, setMatchToEdit] = useState({});
   const [alertMessage, setAlertMessage] = useState("");
+  const [seeMatchDetails, setSeeMatchDetails] = useState([]);
 
   if (matchesIsLoading) {
     return "loading...";
@@ -70,7 +71,11 @@ export function MatchesCalendar({
         key={`${i}_${match.id}`}
         className="bg-white hover:bg-gray-50 dark:hover:bg-gray-600 border-b dark:bg-gray-800 dark:border-gray-700 grid grid-cols-[3fr_1fr_3fr_0.5fr] p-2 items-center"
         onClick={() => {
-          // matchRef.current.checked = !matchRef.current.checked;
+          setSeeMatchDetails((old) => {
+            const newArray = [...old];
+            newArray[i] = !old[i];
+            return newArray;
+          });
         }}
       >
         <div className=" text-right text-base">
@@ -135,15 +140,29 @@ export function MatchesCalendar({
             </Button>
           </div>
         )}
-        <input type="checkbox" className="hiddden peer"></input>
-        <div className="hidden peer-checked:inline">
-          {!!match.local_scorers?.length && (
-            <p>local scorers: {match.local_scorers}</p>
-          )}
-          {!!match.visitor_scorers?.length && (
-            <p>visitor scorers:{match.visitor_scorers}</p>
-          )}
-        </div>
+        {!!match.local_scorers?.length ? (
+          <p
+            className={`text-right ${seeMatchDetails[i] ? "inline" : "hidden"}`}
+          >
+            {match.local_scorers}
+          </p>
+        ) : (
+          "-"
+        )}
+        <p
+          className={`text-center ${seeMatchDetails[i] ? "inline" : "hidden"}`}
+        >
+          scorers
+        </p>
+        {!!match.visitor_scorers?.length ? (
+          <p
+            className={`text-left ${seeMatchDetails[i] ? "inline" : "hidden"}`}
+          >
+            {match.visitor_scorers}
+          </p>
+        ) : (
+          "-"
+        )}
       </div>
     );
   }
