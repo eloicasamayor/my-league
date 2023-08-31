@@ -69,6 +69,9 @@ export function MatchesCalendar({
       <div
         key={`${i}_${match.id}`}
         className="bg-white hover:bg-gray-50 dark:hover:bg-gray-600 border-b dark:bg-gray-800 dark:border-gray-700 grid grid-cols-[3fr_1fr_3fr_0.5fr] p-2 items-center"
+        onClick={() => {
+          // matchRef.current.checked = !matchRef.current.checked;
+        }}
       >
         <div className=" text-right text-base">
           <span
@@ -132,6 +135,15 @@ export function MatchesCalendar({
             </Button>
           </div>
         )}
+        <input type="checkbox" className="hiddden peer"></input>
+        <div className="hidden peer-checked:inline">
+          {!!match.local_scorers?.length && (
+            <p>local scorers: {match.local_scorers}</p>
+          )}
+          {!!match.visitor_scorers?.length && (
+            <p>visitor scorers:{match.visitor_scorers}</p>
+          )}
+        </div>
       </div>
     );
   }
