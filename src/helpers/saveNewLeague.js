@@ -12,26 +12,27 @@ export async function saveNewLeague({
   insertTeam,
   insertMatch,
   insertPlayer,
-  setAlertMessage,
 }) {
+  let message = "League created correctly";
+  let isError = false;
   if (!leagueName) {
-    setAlertMessage({ message: "Missing league name", isError: true });
-    return;
+    return {
+      message: "Missing league name",
+      isError: true,
+    };
   }
 
   if (teams.length < 2) {
-    setAlertMessage({
+    return {
       message: "Need more teams to create the league",
       isError: true,
-    });
-    return;
+    };
   }
   if (players.some((team) => team.length < 1)) {
-    setAlertMessage({
+    return {
       message: "There is a team with no players",
       isError: true,
-    });
-    return;
+    };
   }
   const insertLeagueReqRes = await insertLeague({
     name: leagueName,
@@ -41,7 +42,10 @@ export async function saveNewLeague({
   });
 
   if (insertLeagueReqRes.error) {
-    return;
+    return {
+      isError: true,
+      message: insertLeagueReqRes.error.message,
+    };
   }
   const leagueId = insertLeagueReqRes.data[0].id;
   const teamsReq = teams.map((team) => ({
@@ -52,7 +56,10 @@ export async function saveNewLeague({
 
   const insertTeamsReqRes = await insertTeam(teamsReq);
   if (insertTeamsReqRes.error) {
-    return;
+    return {
+      isError: true,
+      message: insertTeamsReqRes.error.message,
+    };
   }
 
   const insertedTeams = insertTeamsReqRes.data;
@@ -71,7 +78,10 @@ export async function saveNewLeague({
   });
   const insertMatchesReqRes = await insertMatch(matchesReq);
   if (insertMatchesReqRes.error) {
-    return;
+    return {
+      isError: true,
+      message: insertMatchesReqRes.error.message,
+    };
   }
 
   // insert players
@@ -90,7 +100,10 @@ export async function saveNewLeague({
 
   const insertPlayersReqRes = await insertPlayer(playersReq);
   if (insertMatchesReqRes.error) {
-    return;
+    return {
+      isError: true,
+      message: insertPlayersReqRes.error.message,
+    };
   }
-  return { success: true, message: "League created correctly" };
+  return { isError, message };
 }

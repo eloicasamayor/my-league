@@ -67,28 +67,6 @@ export function NewLeaguePage() {
     isError: false,
   });
 
-  useEffect(() => {
-    setAlertMessage({
-      message: setMessage({
-        newLeagueReqResult,
-        newTeamReqResult,
-        newMatchReqResult,
-        newPlayerReqResult,
-        leagueName,
-      }),
-      isError:
-        newLeagueReqResult.isError ||
-        newTeamReqResult.isError ||
-        newMatchReqResult.isError ||
-        newPlayerReqResult.isError,
-    });
-  }, [
-    JSON.stringify(newLeagueReqResult),
-    JSON.stringify(newTeamReqResult),
-    JSON.stringify(newMatchReqResult),
-    JSON.stringify(newPlayerReqResult),
-  ]);
-
   function onSelectMatchings() {
     setMatchings(
       addDatesToMatchings({
@@ -123,7 +101,10 @@ export function NewLeaguePage() {
   return (
     <div className="pt-2">
       {alertMessage.message && (
-        <Alert onCloseAlert={setAlertMessage} isError={alertMessage.isError}>
+        <Alert
+          onCloseAlert={() => setAlertMessage({ message: "", isError: false })}
+          isError={alertMessage.isError}
+        >
           {alertMessage.message}
         </Alert>
       )}
@@ -356,8 +337,8 @@ export function NewLeaguePage() {
                 </Button>
                 <div className="grow"></div>
                 <Button
-                  onClick={() => {
-                    saveNewLeague({
+                  onClick={async () => {
+                    const alert = await saveNewLeague({
                       leagueName,
                       leagueDescription,
                       ownerId: authData?.user?.id,
@@ -368,8 +349,8 @@ export function NewLeaguePage() {
                       insertTeam,
                       insertMatch,
                       insertPlayer,
-                      setAlertMessage,
                     });
+                    setAlertMessage(alert);
                   }}
                 >
                   <UploadIcon />
