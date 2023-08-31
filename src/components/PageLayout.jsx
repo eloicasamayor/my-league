@@ -65,12 +65,12 @@ export function PageLayout() {
             <h1 className={"text-white font-light text-xl"}>My League</h1>
           </div>
         )}
-        {location.pathname !== "/login" && (
+        {location.pathname !== "/account" && (
           <button
             className={`w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400 ${
               authData?.user?.email ? "bg-violet-900" : ""
             }`}
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/account")}
           >
             <UserIcon
               pathClassName={authData?.user?.email ? "stroke-slate-50" : ""}

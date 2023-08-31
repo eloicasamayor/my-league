@@ -1,9 +1,11 @@
 // Dependencies
+import { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { setAuth } from "../redux/auth/slice";
 import { useRef, useState } from "react";
 
+// Components
 import { TextInput, Button, Label } from "flowbite-react";
 import { Alert } from "../components";
 
@@ -25,7 +27,10 @@ export function LoginPage() {
     });
     error ? alert("wrong login data") : dispatch(setAuth(data));
   }
-
+  /**
+   * Funció per a crear un compte
+   * @param {SyntheticEvent} e
+   */
   async function signup(e) {
     e.preventDefault();
     const { data, error } = await supabase.auth.signUp({
@@ -41,6 +46,10 @@ export function LoginPage() {
     dispatch(setAuth(data));
   }
 
+  /**
+   * Funció per entrar al compte
+   * @param {SyntheticEvent} e
+   */
   async function login(e) {
     e.preventDefault();
     const { data, error } = await supabase.auth.signInWithPassword({
@@ -51,6 +60,20 @@ export function LoginPage() {
     setAlertMessage({
       message: error ? `${error.message}` : `logged in as ${data.user.email}`,
       isError: !!error,
+    });
+  }
+
+  /**
+   * Funció per restarurar la contrassenya
+   *  @param {String} email
+   */
+  async function resetPassword(email) {
+    const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: "https://my-league.netlify.app/update-password",
+    });
+    setAlertMessage({
+      isError: !!error,
+      message: error ? error.message : `link sended to ${email}`,
     });
   }
 
@@ -89,6 +112,13 @@ export function LoginPage() {
           >
             Log out
           </Button>
+          <a
+            href="#"
+            className="leading-10 text-sm"
+            onClick={() => resetPassword(emailRef.current.value)}
+          >
+            {`Reset Password`}
+          </a>
         </div>
       ) : (
         <div className="w-11/12 mx-auto lg:w-2/4">
@@ -147,6 +177,13 @@ export function LoginPage() {
                     onClick={() => setSignUpPage(true)}
                   >
                     {`Don't have an account? Create One`}
+                  </a>
+                  <a
+                    href="#"
+                    className="leading-10 text-sm"
+                    onClick={() => resetPassword(emailRef.current.value)}
+                  >
+                    {`Reset Password`}
                   </a>
                 </>
               )}
