@@ -12,7 +12,6 @@ import {
   LeaguePage,
   TeamPage,
   LoginPage,
-  HomePage,
   NewLeaguePage,
   UpdatePassword,
 } from "./pages";

@@ -43,7 +43,7 @@ export function EditTeamForm({ team = {}, setAlertMessage }) {
               setAlertMessage({
                 isError: !!editTeamReq.error,
                 message: editTeamReq.error
-                  ? "There was an error updating the team"
+                  ? `There was an error updating the team: ${editTeamReq.error.message}`
                   : "Team updated correctly",
               });
             }}
