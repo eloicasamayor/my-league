@@ -12,7 +12,12 @@ import {
 import { TrashIcon } from "../icons";
 import { Button, TextInput, Select } from "flowbite-react";
 
-export function EditPlayerForm({ player = {}, teamsData, setAlertMessage }) {
+export function EditPlayerForm({
+  player = {},
+  teamsData,
+  setAlertMessage,
+  onCloseModal,
+}) {
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
   const nameRef = useRef();
   const teamRef = useRef();
@@ -62,6 +67,7 @@ export function EditPlayerForm({ player = {}, teamsData, setAlertMessage }) {
                 ? "There was an error updating the player"
                 : "Player updated correctly",
             });
+            !editPlayerReq.error && onCloseModal();
           }}
         >
           submit

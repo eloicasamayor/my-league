@@ -6,7 +6,6 @@ import { EditPlayerForm } from "./forms";
 import { PencilIcon } from "./icons";
 import { Modal, SortableHeadCell } from "../components";
 import { Table, Button } from "flowbite-react";
-import { Alert } from "../components";
 
 // Helpers
 import { truncateString } from "../helpers";
@@ -18,15 +17,12 @@ export function PlayersList({
   playersData,
   playersIsLoading,
   isOwner,
+  setAlertMessage,
 }) {
   const [editingPlayer, setEditingPlayer] = useState();
 
   const [orderBy, setOrderBy] = useState({ param: "name", direction: true });
   const [orderedData, setOrderedData] = useState(playersData);
-  const [alertMessage, setAlertMessage] = useState({
-    isError: false,
-    message: "",
-  });
 
   function clickOrderBy(param) {
     setOrderBy((oldOrderBy) => ({
@@ -34,6 +30,10 @@ export function PlayersList({
       direction: param === orderBy.param ? !oldOrderBy.direction : true,
     }));
   }
+
+  useEffect(() => {
+    setOrderedData([...playersData]);
+  }, [JSON.stringify(playersData)]);
 
   useEffect(() => {
     setOrderedData((old) => {
@@ -81,15 +81,6 @@ export function PlayersList({
 
   return (
     <section>
-      {!!alertMessage.message && (
-        <Alert
-          isError={alertMessage.isError}
-          onCloseAlert={() => setAlertMessage({ message: "" })}
-          secondsToAutoClose={alertMessage?.secondsToAutoClose}
-        >
-          {alertMessage.message}
-        </Alert>
-      )}
       <Table
         hoverable={true}
         className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"
@@ -179,6 +170,7 @@ export function PlayersList({
             player={editingPlayer}
             teamsData={teamsData}
             setAlertMessage={setAlertMessage}
+            onCloseModal={() => setEditingPlayer(null)}
           />
         </Modal>
       )}

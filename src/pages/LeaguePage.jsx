@@ -167,6 +167,7 @@ export function LeaguePage() {
           playersData={playersData}
           playersIsLoading={playersIsLoading}
           isOwner={isOwner}
+          setAlertMessage={setAlertMessage}
         />
       )}
 
