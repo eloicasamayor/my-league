@@ -48,6 +48,14 @@ export function MatchesCalendar({
     }
   }
 
+  function getPlayerNameWithId(id) {
+    if (playersData) {
+      return playersData.find((player) => player.id === id)?.name;
+    } else {
+      return id;
+    }
+  }
+
   function renderMatch(match, i) {
     const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
     const localTeamImg = getTeamImgWithId(match.local_team) ? (
@@ -140,29 +148,21 @@ export function MatchesCalendar({
             </Button>
           </div>
         )}
-        {!!match.local_scorers?.length ? (
-          <p
-            className={`text-right ${seeMatchDetails[i] ? "inline" : "hidden"}`}
-          >
-            {match.local_scorers}
-          </p>
-        ) : (
-          "-"
-        )}
+        <p className={`text-right ${seeMatchDetails[i] ? "inline" : "hidden"}`}>
+          {match.local_scorers?.length
+            ? match.local_scorers.map((id) => getPlayerNameWithId(id))
+            : ""}
+        </p>
         <p
           className={`text-center ${seeMatchDetails[i] ? "inline" : "hidden"}`}
         >
           scorers
         </p>
-        {!!match.visitor_scorers?.length ? (
-          <p
-            className={`text-left ${seeMatchDetails[i] ? "inline" : "hidden"}`}
-          >
-            {match.visitor_scorers}
-          </p>
-        ) : (
-          "-"
-        )}
+        <p className={`text-left ${seeMatchDetails[i] ? "inline" : "hidden"}`}>
+          {match.visitor_scorers?.length
+            ? match.visitor_scorers.map((id) => getPlayerNameWithId(id))
+            : ""}
+        </p>
       </div>
     );
   }
