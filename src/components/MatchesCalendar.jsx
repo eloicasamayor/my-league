@@ -25,6 +25,7 @@ export function MatchesCalendar({
   const [matchToEdit, setMatchToEdit] = useState({});
   const [alertMessage, setAlertMessage] = useState("");
   const [seeMatchDetails, setSeeMatchDetails] = useState([]);
+  let matchIndex = 0;
 
   if (matchesIsLoading) {
     return "loading...";
@@ -57,6 +58,7 @@ export function MatchesCalendar({
   }
 
   function renderMatch(match, i) {
+    matchIndex++;
     const resultTextClasses = match.played ? "text-base font-bold" : "text-xs";
     const localTeamImg = getTeamImgWithId(match.local_team) ? (
       <img
@@ -77,11 +79,15 @@ export function MatchesCalendar({
     return (
       <div
         key={`${i}_${match.id}`}
-        className="bg-white hover:bg-gray-50 dark:hover:bg-gray-600 border-b dark:bg-gray-800 dark:border-gray-700 grid grid-cols-[3fr_1fr_3fr_0.5fr] p-2 items-center"
-        onClick={() => {
+        className={`bg-white hover:bg-gray-50 dark:hover:bg-gray-600 border-b dark:bg-gray-800 dark:border-gray-700 grid ${
+          isOwner ? "grid-cols-[3fr_1fr_3fr_0.5fr]" : "grid-cols-[3fr_1fr_3fr]"
+        } p-2 items-center`}
+        data-matchindex={matchIndex}
+        onClick={(e) => {
+          let index = e.currentTarget.dataset.matchindex;
           setSeeMatchDetails((old) => {
             const newArray = [...old];
-            newArray[i] = !old[i];
+            newArray[index] = !old[index];
             return newArray;
           });
         }}
@@ -148,21 +154,35 @@ export function MatchesCalendar({
             </Button>
           </div>
         )}
-        <p className={`text-right ${seeMatchDetails[i] ? "inline" : "hidden"}`}>
+        <ul
+          className={`text-right pt-2 ${
+            seeMatchDetails[matchIndex] ? "inline" : "hidden"
+          }`}
+        >
           {match.local_scorers?.length
-            ? match.local_scorers.map((id) => getPlayerNameWithId(id))
+            ? match.local_scorers.map((id) => (
+                <li>{getPlayerNameWithId(id)}</li>
+              ))
             : ""}
-        </p>
+        </ul>
         <p
-          className={`text-center ${seeMatchDetails[i] ? "inline" : "hidden"}`}
+          className={`text-center pt-2 ${
+            seeMatchDetails[matchIndex] ? "inline" : "hidden"
+          }`}
         >
           scorers
         </p>
-        <p className={`text-left ${seeMatchDetails[i] ? "inline" : "hidden"}`}>
+        <ul
+          className={`text-left pt-2 ${
+            seeMatchDetails[matchIndex] ? "inline" : "hidden"
+          }`}
+        >
           {match.visitor_scorers?.length
-            ? match.visitor_scorers.map((id) => getPlayerNameWithId(id))
+            ? match.visitor_scorers.map((id) => (
+                <li>{getPlayerNameWithId(id)}</li>
+              ))
             : ""}
-        </p>
+        </ul>
       </div>
     );
   }
