@@ -15,7 +15,7 @@ import { truncateString } from "../helpers";
 
 export function MatchesCalendar({
   teams,
-  selectedTeam,
+  selectedTeam = null,
   matchesData,
   matchesIsLoading,
   playersData,
@@ -23,15 +23,18 @@ export function MatchesCalendar({
   isOwner,
 }) {
   const [matchToEdit, setMatchToEdit] = useState({});
-  const [alertMessage, setAlertMessage] = useState("");
+  const [alertMessage, setAlertMessage] = useState({
+    isError: false,
+    message: "",
+  });
   const [seeMatchDetails, setSeeMatchDetails] = useState([]);
   let matchIndex = 0;
 
   if (matchesIsLoading) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
   if (!matchesData.length) {
-    return "no matches :(";
+    return <p>{"no matches :("}</p>;
   }
   function getTeamNameWithId(id) {
     if (teams) {
@@ -203,24 +206,23 @@ export function MatchesCalendar({
     );
   }
   if (!matchesData.length) {
-    return;
+    return <p>No matches</p>;
   }
   const groupedMatchesData = _.groupBy(matchesData, (match) => match.match_day);
   return (
     <section>
       {alertMessage && (
-        <Alert onCloseAlert={setAlertMessage}>{alertMessage}</Alert>
+        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
+          {alertMessage.message}
+        </Alert>
       )}
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <div
           key={i}
-          hoverable={true}
           className="styled-table mb-6 w-full text-sm text-left text-gray-500 dark:text-gray-400"
         >
           <div className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <div colSpan="4" className="px-6 py-2">
-              {`Match day ${i + 1}`}
-            </div>
+            <div className="px-6 py-2">{`Match day ${i + 1}`}</div>
           </div>
 
           <div>{groupMatches.map((match, i) => renderMatch(match, i))}</div>

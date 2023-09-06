@@ -30,7 +30,7 @@ export function LeaguePage() {
   const { data: leaguesData, isLoading: leaguesIsLoading } =
     useGetLeaguesQuery();
 
-  let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
+  let { data: teamsData = [], isLoading: teamsIsLoading } = useGetTeamsQuery();
   let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
   let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
 
@@ -73,7 +73,7 @@ export function LeaguePage() {
       {!!alertMessage.message && (
         <Alert
           isError={alertMessage.isError}
-          onCloseAlert={() => setAlertMessage({ message: "" })}
+          onCloseAlert={() => setAlertMessage({ isError: false, message: "" })}
         >
           {alertMessage.message}
         </Alert>
@@ -97,39 +97,31 @@ export function LeaguePage() {
           <h2 className="text-lg md:text-2xl">{currentLeague.description}</h2>
         </div>
         {isOwner && (
-          <Dropdown label="Edit" dismissOnClick={true}>
+          <Dropdown label="Edit" dismissOnClick={true} size={"sm"}>
             <Dropdown.Item
-              size="sm"
               color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
-              name={"Edit league info"}
             >
               <PencilIcon svgClassName={"w-6 h-6"} />
               {"Edit info"}
             </Dropdown.Item>
             <Dropdown.Item
-              size="sm"
               color={"light"}
               onClick={() => setShowNewTeamModal(true)}
-              name={"Add new team"}
             >
               <PlusIcon />
               {"New Team"}
             </Dropdown.Item>
             <Dropdown.Item
-              size="sm"
               color={"light"}
               onClick={() => setShowNewMatchModal(true)}
-              name={"Add new match"}
             >
               <PlusIcon />
               {"New Match"}
             </Dropdown.Item>
             <Dropdown.Item
-              size="sm"
               color={"light"}
               onClick={() => setShowNewPlayerModal(true)}
-              name={"Add new Player"}
             >
               <PlusIcon />
               {"New Player"}

@@ -18,11 +18,9 @@ import { nameToUrlName } from "../../helpers";
 import { TrashIcon } from "../icons";
 import { EditPhotoForm } from "./EditPhotoForm";
 import { Button, TextInput } from "flowbite-react";
-import { Alert } from "../Alert";
 
 export function EditLeagueForm({
   leagueToEdit,
-  setLeagueToEdit,
   onCloseModal,
   setAlertMessage,
 }) {
@@ -41,7 +39,7 @@ export function EditLeagueForm({
   const descriptionRef = useRef();
 
   if (!leagueToEdit.id) {
-    return "";
+    return <p>somethng went wrong :/</p>;
   }
 
   return (

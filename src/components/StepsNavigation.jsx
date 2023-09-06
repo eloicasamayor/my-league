@@ -1,9 +1,4 @@
-export function StepsNavigation({
-  selectedTab,
-  setSelectedTab,
-  onSelectMatchings,
-  steps,
-}) {
+export function StepsNavigation({ selectedTab, setSelectedTab, steps }) {
   return (
     <ol
       className="h-10 flex my-2
@@ -20,7 +15,6 @@ export function StepsNavigation({
           `}
           onClick={() => {
             setSelectedTab(index);
-            index === 3 && onSelectMatchings && onSelectMatchings();
           }}
         >
           {step}

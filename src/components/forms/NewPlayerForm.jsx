@@ -15,7 +15,7 @@ export function NewPlayerForm({ teamsData, teamsIsLoading, closeModal }) {
   });
 
   if (teamsIsLoading) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
   return (
     <>

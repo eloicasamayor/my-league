@@ -197,12 +197,17 @@ export function EditMatchForm({
               ),
             });
             if (updateMatchReqRes.error) {
-              setAlertMessage(
-                "There was an error updating the match: " +
-                  updateMatchReqRes.error.message
-              );
+              setAlertMessage({
+                message:
+                  "There was an error updating the match: " +
+                  updateMatchReqRes.error.message,
+                isError: true,
+              });
             } else {
-              setAlertMessage("Match updated correctly");
+              setAlertMessage({
+                message: "Match updated correctly",
+                isError: false,
+              });
               closeModal();
             }
           }}

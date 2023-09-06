@@ -13,7 +13,7 @@ import { truncateString } from "../helpers";
 export function PlayersList({
   teamsData,
   teamsIsLoading,
-  selectedTeam,
+  selectedTeam = null,
   playersData,
   playersIsLoading,
   isOwner,
@@ -68,15 +68,15 @@ export function PlayersList({
   }, [orderBy.param, orderBy.direction]);
 
   if (playersIsLoading || teamsIsLoading) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
 
   if (!playersData.length) {
-    return "no players :(";
+    return <p>{"no players :("}</p>;
   }
 
   if (!orderedData.length) {
-    return "no orderedData :(";
+    return <p>{"no orderedData :("}</p>;
   }
 
   return (

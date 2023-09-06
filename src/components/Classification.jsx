@@ -62,10 +62,10 @@ export function Classification({ data, isLoading, isOwner }) {
   const navigate = useNavigate();
 
   if (isLoading) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
   if (!data.length && !orderedData.length) {
-    return "no teams :(";
+    return <p>{"no teams :("}</p>;
   }
 
   return (
