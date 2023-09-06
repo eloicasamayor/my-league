@@ -36,6 +36,10 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   useEffect(() => {
+    setOrderedData(data);
+  }, [JSON.stringify(data)]);
+
+  useEffect(() => {
     if (data.length && typeof data[0][orderBy.param] === "string") {
       setOrderedData((old) => [
         ...old.sort((a, b) => {

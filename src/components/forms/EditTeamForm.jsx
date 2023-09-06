@@ -8,8 +8,9 @@ import { Button } from "flowbite-react";
 import { useUpdateTeamMutation, useDeleteTeamMutation } from "../../redux";
 import { EditPhotoForm } from "./EditPhotoForm";
 import { TrashIcon } from "../icons";
+import { nameToUrlName } from "../../helpers";
 
-export function EditTeamForm({ team = {}, setAlertMessage }) {
+export function EditTeamForm({ team = {}, setAlertMessage, closeModal }) {
   const [editTeam, requestResult] = useUpdateTeamMutation();
   const [deleteTeam] = useDeleteTeamMutation();
 
@@ -39,6 +40,7 @@ export function EditTeamForm({ team = {}, setAlertMessage }) {
               const editTeamReq = await editTeam({
                 id: team.id,
                 name: nameRef.current.value,
+                urlname: nameToUrlName(nameRef.current.value),
               });
               setAlertMessage({
                 isError: !!editTeamReq.error,
@@ -46,6 +48,7 @@ export function EditTeamForm({ team = {}, setAlertMessage }) {
                   ? `There was an error updating the team: ${editTeamReq.error.message}`
                   : "Team updated correctly",
               });
+              !editTeamReq.error && closeModal();
             }}
           >
             submit
