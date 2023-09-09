@@ -150,6 +150,7 @@ export function LeaguePage() {
           playersData={playersData}
           teamsData={teamsData}
           isOwner={isOwner}
+          setAlertMessage={setAlertMessage}
         />
       )}
       {selectedTab === 2 && (

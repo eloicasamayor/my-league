@@ -93,8 +93,8 @@ export function PlayersList({
           />
           {!selectedTeam && (
             <SortableHeadCell
-              param={"scored_goals"}
-              label={"scored goals"}
+              param={"team"}
+              label={"team"}
               orderBy={orderBy}
               clickOrderBy={clickOrderBy}
             />

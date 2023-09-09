@@ -1,5 +1,4 @@
 // Dependencies
-import { SyntheticEvent } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { supabase } from "../supabase";
 import { setAuth } from "../redux/auth/slice";
@@ -29,7 +28,6 @@ export function LoginPage() {
   }
   /**
    * Funció per a crear un compte
-   * @param {SyntheticEvent} e
    */
   async function signup(e) {
     e.preventDefault();

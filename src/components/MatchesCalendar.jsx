@@ -21,12 +21,9 @@ export function MatchesCalendar({
   playersData,
   teamsData,
   isOwner,
+  setAlertMessage,
 }) {
   const [matchToEdit, setMatchToEdit] = useState({});
-  const [alertMessage, setAlertMessage] = useState({
-    isError: false,
-    message: "",
-  });
   const [seeMatchDetails, setSeeMatchDetails] = useState([]);
   let matchIndex = 0;
 
@@ -211,11 +208,6 @@ export function MatchesCalendar({
   const groupedMatchesData = _.groupBy(matchesData, (match) => match.match_day);
   return (
     <section>
-      {alertMessage && (
-        <Alert isError={alertMessage.isError} onCloseAlert={setAlertMessage}>
-          {alertMessage.message}
-        </Alert>
-      )}
       {Object.values(groupedMatchesData).map((groupMatches, i) => (
         <div
           key={i}
