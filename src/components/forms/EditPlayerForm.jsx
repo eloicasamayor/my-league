@@ -25,7 +25,7 @@ export function EditPlayerForm({
   const [deletePlayer] = useDeletePlayerMutation();
 
   if (teams.isLoading) {
-    return "loading...";
+    return <p>"loading..."</p>;
   }
   return (
     <>

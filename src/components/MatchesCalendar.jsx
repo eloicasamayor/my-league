@@ -7,7 +7,6 @@ import { format } from "date-fns";
 // Components
 import { EditMatchForm } from "./forms";
 import { Modal } from "./modal";
-import { Alert } from "./Alert";
 import { TeamIcon, PencilIcon } from "./icons";
 
 // Helpers

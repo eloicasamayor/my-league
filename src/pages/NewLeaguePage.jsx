@@ -24,7 +24,7 @@ import {
   WeekDaySelect,
   Alert,
 } from "../components";
-import { TextInput, Button, Card } from "flowbite-react";
+import { TextInput, Button } from "flowbite-react";
 
 // Helpers
 import {
@@ -32,7 +32,6 @@ import {
   getFirstMatchDay,
   shuffle,
   getMatchings,
-  setMessage,
   addDatesToMatchings,
 } from "../helpers";
 import { addDays, format } from "date-fns";
@@ -66,6 +65,12 @@ export function NewLeaguePage() {
     message: "",
     isError: false,
   });
+
+  useEffect(() => {
+    if (selectedTab === 3) {
+      onSelectMatchings();
+    }
+  }, [selectedTab]);
 
   function onSelectMatchings() {
     setMatchings(

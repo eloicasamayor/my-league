@@ -1,4 +1,4 @@
-export function ArrowUpDown({ isUp, svgClassName, pathClassName }) {
+export function ArrowUpDown({ isUp, svgClassName = "", pathClassName = "" }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
