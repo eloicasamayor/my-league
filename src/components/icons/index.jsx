@@ -19,3 +19,4 @@ export { Logo } from "./Logo";
 export { ArrowUpDown } from "./ArrowUpDown";
 export { GithubIcon } from "./GithubIcon";
 export { EmailIcon } from "./EmailIcon";
+export { DragDropIcon } from "./DragDropIcon";

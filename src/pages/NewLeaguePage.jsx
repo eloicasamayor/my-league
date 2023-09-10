@@ -1,4 +1,5 @@
 // Dependencies
+import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { useSelector } from "react-redux";
 import {
   useInsertLeagueMutation,
@@ -99,6 +100,22 @@ export function NewLeaguePage() {
       };
     });
     return matchingsWithDates;
+  }
+
+  function reordenarPartidos(result) {
+    const { destination, source, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+    // TODO: replantear un poco el drag-n-drop:
+    // en realitat el que vull no és reordenar la llista, sino canviar els partits d'una jornada a una altra.
+    // jo crec que la lògica hauria de ser aquí, però no sé si s'hauria de crear un id de cada jornada...
   }
 
   const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
@@ -364,20 +381,33 @@ export function NewLeaguePage() {
               </div>
 
               <div>
-                <ul className="flex flex-col gap-2">
-                  {matchings.map((jornada, indexJornada) => {
-                    return (
-                      <LeagueDay
-                        key={indexJornada}
-                        indexJornada={indexJornada}
-                        teams={teams}
-                        jornada={jornada}
-                        matchings={matchings}
-                        setMatchings={setMatchings}
-                      />
-                    );
-                  })}
-                </ul>
+                <DragDropContext onDragEnd={() => reordenarPartidos}>
+                  <Droppable droppableId={`matchings-${leagueName}`}>
+                    {(provided) => {
+                      return (
+                        <ul
+                          {...provided.droppableProps}
+                          ref={provided.innerRef}
+                          className="flex flex-col gap-2"
+                        >
+                          {provided.placeholder}
+                          {matchings.map((jornada, indexJornada) => {
+                            return (
+                              <LeagueDay
+                                key={indexJornada}
+                                indexJornada={indexJornada}
+                                teams={teams}
+                                jornada={jornada}
+                                matchings={matchings}
+                                setMatchings={setMatchings}
+                              />
+                            );
+                          })}
+                        </ul>
+                      );
+                    }}
+                  </Droppable>
+                </DragDropContext>
               </div>
             </>
           )}
