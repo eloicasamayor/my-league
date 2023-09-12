@@ -37,13 +37,12 @@ export function LeagueDay({
     return placeholder;
   }
   return (
-    <div className="w-full rounded-md  block p-1 border-2 bg-white	g">
-      <div className="flex justify-between">
-        <p>{format(jornada.date, "EEEE dd MMM yyyy")}</p>
-        <Button color="light" onClick={() => skipThisWeek(indexJornada)}>
-          <ArrowDownDoble />
+    <div className="w-full rounded-md  flex p-1 border-2 bg-white justify-between">
+      <div className="min-w-[70px]">
+        <p>{format(jornada.date, "dd MMM")}</p>
+        <a className="text-sm" onClick={() => skipThisWeek(indexJornada)}>
           skip week
-        </Button>
+        </a>
       </div>
       <Draggable draggableId={jornada.date.toString()} index={indexJornada}>
         {(provided) => {
@@ -51,7 +50,7 @@ export function LeagueDay({
             <div
               {...provided.draggableProps}
               ref={provided.innerRef}
-              className="bg-slate-700"
+              className="bg-slate-700 p-2"
             >
               <div {...provided.dragHandleProps}>
                 <DragDropIcon svgClassName=" stroke-0 fill-slate-300" />
