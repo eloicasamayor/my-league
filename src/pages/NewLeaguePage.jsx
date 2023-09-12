@@ -6,6 +6,7 @@ import {
   useInsertTeamMutation,
   useInsertMatchMutation,
   useInsertPlayerMutation,
+  matches,
 } from "../redux";
 import { useState, useEffect } from "react";
 
@@ -113,6 +114,14 @@ export function NewLeaguePage() {
     ) {
       return;
     }
+    console.log({ result });
+    const matchesSource = matchings[source.index].matches;
+    const matchesDestination = matchings[destination.index].matches;
+    const newMatchings = [...matchings];
+    newMatchings[source.index].matches = matchesDestination;
+    newMatchings[destination.index].matches = matchesSource;
+
+    setMatchings([...newMatchings]);
     // TODO: replantear un poco el drag-n-drop:
     // en realitat el que vull no és reordenar la llista, sino canviar els partits d'una jornada a una altra.
     // jo crec que la lògica hauria de ser aquí, però no sé si s'hauria de crear un id de cada jornada...
@@ -381,7 +390,7 @@ export function NewLeaguePage() {
               </div>
 
               <div>
-                <DragDropContext onDragEnd={() => reordenarPartidos}>
+                <DragDropContext onDragEnd={reordenarPartidos}>
                   <Droppable droppableId={`matchings-${leagueName}`}>
                     {(provided) => {
                       return (
@@ -390,7 +399,6 @@ export function NewLeaguePage() {
                           ref={provided.innerRef}
                           className="flex flex-col gap-2"
                         >
-                          {provided.placeholder}
                           {matchings.map((jornada, indexJornada) => {
                             return (
                               <LeagueDay
@@ -400,6 +408,7 @@ export function NewLeaguePage() {
                                 jornada={jornada}
                                 matchings={matchings}
                                 setMatchings={setMatchings}
+                                placeholder={provided.placeholder}
                               />
                             );
                           })}
