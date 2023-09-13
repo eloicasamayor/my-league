@@ -392,7 +392,7 @@ export function NewLeaguePage() {
               <div>
                 <DragDropContext onDragEnd={reordenarPartidos}>
                   <Droppable droppableId={`matchings-${leagueName}`}>
-                    {(provided) => {
+                    {(provided, snapshot) => {
                       return (
                         <ul
                           {...provided.droppableProps}
@@ -408,7 +408,10 @@ export function NewLeaguePage() {
                                 jornada={jornada}
                                 matchings={matchings}
                                 setMatchings={setMatchings}
-                                placeholder={provided.placeholder}
+                                empty={
+                                  snapshot.draggingFromThisWith ===
+                                  jornada.date.toString()
+                                }
                               />
                             );
                           })}

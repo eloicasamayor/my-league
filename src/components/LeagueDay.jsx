@@ -15,7 +15,7 @@ export function LeagueDay({
   indexJornada,
   matchings,
   setMatchings,
-  placeholder,
+  empty,
 }) {
   function skipThisWeek(indexJornada) {
     let matchingsCopy = [];
@@ -33,9 +33,6 @@ export function LeagueDay({
   const equiposQueDescansan = teams.filter(
     (t) => !equiposQueJuegan.find((e) => e === t)
   );
-  if (placeholder.on) {
-    return placeholder;
-  }
   return (
     <div className="w-full rounded-md  flex p-1 border-2 bg-white justify-between">
       <div className="min-w-[70px]">
@@ -44,6 +41,7 @@ export function LeagueDay({
           skip week
         </a>
       </div>
+      {empty && <div className="h-16">{"empty"}</div>}
       <Draggable draggableId={jornada.date.toString()} index={indexJornada}>
         {(provided) => {
           return (
