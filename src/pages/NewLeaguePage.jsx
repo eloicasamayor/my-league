@@ -127,6 +127,18 @@ export function NewLeaguePage() {
     // jo crec que la lògica hauria de ser aquí, però no sé si s'hauria de crear un id de cada jornada...
   }
 
+  function skipThisWeek(indexJornada) {
+    let matchingsCopy = [];
+    matchingsCopy = matchings.map((m, i) => {
+      if (i < indexJornada) {
+        return m;
+      }
+      return { ...m, date: addDays(m.date, 7) };
+    });
+
+    setMatchings(matchingsCopy);
+  }
+
   const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
 
   return (
@@ -389,7 +401,24 @@ export function NewLeaguePage() {
                 </Button>
               </div>
 
-              <div>
+              <div className="flex">
+                <div className="flex flex-col">
+                  {matchings.map((jornada, indexJornada) => {
+                    return (
+                      <div className="w-full rounded-md  flex border-2 bg-white justify-between h-28">
+                        <div className="min-w-[70px]">
+                          <p>{format(jornada.date, "dd MMM")}</p>
+                          <a
+                            className="text-sm"
+                            onClick={() => skipThisWeek(indexJornada)}
+                          >
+                            skip week
+                          </a>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
                 <DragDropContext onDragEnd={reordenarPartidos}>
                   <Droppable droppableId={`matchings-${leagueName}`}>
                     {(provided, snapshot) => {
