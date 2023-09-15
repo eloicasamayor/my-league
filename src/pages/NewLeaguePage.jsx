@@ -131,13 +131,19 @@ export function NewLeaguePage() {
   }
 
   function skipThisWeek(indexJornada) {
-    let matchingsCopy = [];
-    matchingsCopy = matchings.map((m, i) => {
-      if (i < indexJornada) {
+    const restDay = {
+      matches: [],
+      date: matchings[indexJornada].date,
+    };
+    let matchingsCopy = [...matchings];
+    matchingsCopy.splice(indexJornada, 0, restDay);
+    matchingsCopy = matchingsCopy.map((m, i) => {
+      if (i <= indexJornada) {
         return m;
       }
       return { ...m, date: addDays(m.date, 7) };
     });
+    // matchingsCopy.splice(indexJornada, 0, {});
 
     setMatchings(matchingsCopy);
   }
@@ -419,17 +425,17 @@ export function NewLeaguePage() {
                         }}
                       >
                         <div
-                          className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-red-400 absolute justify-between h-full`}
+                          className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-slate-300 absolute rounded-xl justify-between h-full pt-2 pl-2`}
                           style={{
                             height: `${heightJornada}px`,
                           }}
                         >
                           <p>{format(jornada.date, "dd MMM")}</p>
                           <a
-                            className="text-sm"
+                            className="text-sm block"
                             onClick={() => skipThisWeek(indexJornada)}
                           >
-                            skip week
+                            skip
                           </a>
                         </div>
                       </div>
@@ -443,7 +449,7 @@ export function NewLeaguePage() {
                         <ul
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          className="flex flex-col gap-2 w-full my-[2px]"
+                          className="flex flex-col gap-2 w-full my-[2px] pr-2"
                         >
                           {matchings.map((jornada, indexJornada) => {
                             return (
