@@ -17,7 +17,7 @@ export function LeagueDay({ teams, jornada, indexJornada }) {
           <div
             {...provided.draggableProps}
             ref={provided.innerRef}
-            className="bg-slate-700 p-1 relative pr-10 w-full grid gap-1"
+            className="bg-slate-700 p-1 relative pr-10 w-full grid gap-1 md:grid-cols-2"
           >
             <div
               className="absolute bottom-2 right-2"

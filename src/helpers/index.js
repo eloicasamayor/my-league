@@ -6,3 +6,4 @@ export { shuffle } from "./shuffle";
 export * from "./truncateString";
 export * from "./addDatesToMatchings";
 export * from "./setMessage";
+export { useWindowDimensions } from "./useWindowDimensions";

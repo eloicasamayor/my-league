@@ -35,6 +35,7 @@ import {
   shuffle,
   getMatchings,
   addDatesToMatchings,
+  useWindowDimensions,
 } from "../helpers";
 import { addDays, format } from "date-fns";
 
@@ -67,6 +68,8 @@ export function NewLeaguePage() {
     message: "",
     isError: false,
   });
+
+  const { height, width } = useWindowDimensions();
 
   useEffect(() => {
     if (selectedTab === 3) {
@@ -406,24 +409,29 @@ export function NewLeaguePage() {
                   {matchings.map((jornada, indexJornada) => {
                     return (
                       <div
-                        className={``}
                         style={{
                           height: `${
-                            (Math.floor(teams.length / 2) +
-                              (teams.length % 2)) *
-                              28.78 +
-                            20
+                            (Math.floor(teams.length / (width < 768 ? 2 : 4)) +
+                              (width < 768
+                                ? teams.length % 2
+                                : teams.length % 4)) *
+                              32.78 +
+                            10
                           }px`,
                         }}
                       >
                         <div
-                          className={`w-[calc(100%-1rem)] bg-red-400 absolute justify-between h-full`}
+                          className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-red-400 absolute justify-between h-full`}
                           style={{
                             height: `${
-                              (Math.floor(teams.length / 2) +
-                                (teams.length % 2)) *
-                                28.78 +
-                              20
+                              (Math.floor(
+                                teams.length / (width < 768 ? 2 : 4)
+                              ) +
+                                (width < 768
+                                  ? teams.length % 2
+                                  : teams.length % 4)) *
+                                32.78 +
+                              10
                             }px`,
                           }}
                         >
