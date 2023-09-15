@@ -2,32 +2,9 @@
 import { Draggable } from "@hello-pangea/dnd";
 
 // Components
-import { Button } from "flowbite-react";
 import { DragDropIcon } from "./icons";
 
-// Helpers
-import { addDays, format } from "date-fns";
-import { ArrowDownDoble } from "./icons";
-
-export function LeagueDay({
-  teams,
-  jornada,
-  indexJornada,
-  matchings,
-  setMatchings,
-  empty,
-}) {
-  function skipThisWeek(indexJornada) {
-    let matchingsCopy = [];
-    matchingsCopy = matchings.map((m, i) => {
-      if (i < indexJornada) {
-        return m;
-      }
-      return { ...m, date: addDays(m.date, 7) };
-    });
-
-    setMatchings(matchingsCopy);
-  }
+export function LeagueDay({ teams, jornada, indexJornada }) {
   const equiposQueJuegan = [];
   jornada.matches.forEach((e) => equiposQueJuegan.push(...e));
   const equiposQueDescansan = teams.filter(
@@ -40,7 +17,7 @@ export function LeagueDay({
           <div
             {...provided.draggableProps}
             ref={provided.innerRef}
-            className="bg-slate-700 p-2 relative pr-6"
+            className="bg-slate-700 p-1 relative pr-10 w-full grid gap-1"
           >
             <div
               className="absolute bottom-2 right-2"
@@ -50,12 +27,12 @@ export function LeagueDay({
             </div>
             {jornada.matches.map((match) => (
               <div
-                className="inline-block rounded-full bg-zinc-300 py-1 px-2 mr-2"
+                className="rounded-full bg-zinc-300 py-[0.15rem] px-2"
                 key={`${match[0]}vs${match[1]}`}
               >{`${match[0]} - ${match[1]}`}</div>
             ))}
             {!!equiposQueDescansan.length && (
-              <div className="inline-block rounded-full bg-zinc-300 py-1 px-2 mr-2">
+              <div className="inline-block rounded-full bg-zinc-300 py-[0.15rem] px-2">
                 {`${equiposQueDescansan} rests`}
               </div>
             )}

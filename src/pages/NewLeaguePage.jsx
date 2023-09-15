@@ -402,11 +402,31 @@ export function NewLeaguePage() {
               </div>
 
               <div className="flex">
-                <div className="flex flex-col">
+                <div className="w-[80px] flex flex-col gap-1">
                   {matchings.map((jornada, indexJornada) => {
                     return (
-                      <div className="w-full rounded-md  flex border-2 bg-white justify-between h-28">
-                        <div className="min-w-[70px]">
+                      <div
+                        className={``}
+                        style={{
+                          height: `${
+                            (Math.floor(teams.length / 2) +
+                              (teams.length % 2)) *
+                              28.78 +
+                            20
+                          }px`,
+                        }}
+                      >
+                        <div
+                          className={`w-[calc(100%-1rem)] bg-red-400 absolute justify-between h-full`}
+                          style={{
+                            height: `${
+                              (Math.floor(teams.length / 2) +
+                                (teams.length % 2)) *
+                                28.78 +
+                              20
+                            }px`,
+                          }}
+                        >
                           <p>{format(jornada.date, "dd MMM")}</p>
                           <a
                             className="text-sm"
@@ -426,7 +446,7 @@ export function NewLeaguePage() {
                         <ul
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          className="flex flex-col gap-2"
+                          className="flex flex-col gap-2 w-full m-1"
                         >
                           {matchings.map((jornada, indexJornada) => {
                             return (
@@ -435,12 +455,6 @@ export function NewLeaguePage() {
                                 indexJornada={indexJornada}
                                 teams={teams}
                                 jornada={jornada}
-                                matchings={matchings}
-                                setMatchings={setMatchings}
-                                empty={
-                                  snapshot.draggingFromThisWith ===
-                                  jornada.date.toString()
-                                }
                               />
                             );
                           })}
