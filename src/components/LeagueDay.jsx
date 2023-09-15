@@ -27,12 +27,12 @@ export function LeagueDay({ teams, jornada, indexJornada }) {
             </div>
             {jornada.matches.map((match) => (
               <div
-                className="rounded-full bg-zinc-300 py-[0.15rem] px-2"
+                className="rounded-full bg-zinc-300 py-[0.15rem] px-2 h-[1.75rem]"
                 key={`${match[0]}vs${match[1]}`}
               >{`${match[0]} - ${match[1]}`}</div>
             ))}
             {!!equiposQueDescansan.length && (
-              <div className="inline-block rounded-full bg-zinc-300 py-[0.15rem] px-2">
+              <div className="inline-block rounded-full bg-zinc-300 py-[0.15rem] px-2 h-[1.75rem]">
                 {`${equiposQueDescansan} rests`}
               </div>
             )}

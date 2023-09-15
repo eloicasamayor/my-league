@@ -144,6 +144,11 @@ export function NewLeaguePage() {
 
   const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
 
+  const totalDivs = Math.ceil(teams.length / 2);
+  const numColumnas = width < 768 ? 1 : 2;
+  const totalFilas = Math.ceil(totalDivs / numColumnas);
+  const heightJornada = totalFilas * 32 + 8;
+
   return (
     <div className="pt-2">
       {alertMessage.message && (
@@ -410,29 +415,13 @@ export function NewLeaguePage() {
                     return (
                       <div
                         style={{
-                          height: `${
-                            (Math.floor(teams.length / (width < 768 ? 2 : 4)) +
-                              (width < 768
-                                ? teams.length % 2
-                                : teams.length % 4)) *
-                              32.78 +
-                            10
-                          }px`,
+                          height: `${heightJornada}px`,
                         }}
                       >
                         <div
                           className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-red-400 absolute justify-between h-full`}
                           style={{
-                            height: `${
-                              (Math.floor(
-                                teams.length / (width < 768 ? 2 : 4)
-                              ) +
-                                (width < 768
-                                  ? teams.length % 2
-                                  : teams.length % 4)) *
-                                32.78 +
-                              10
-                            }px`,
+                            height: `${heightJornada}px`,
                           }}
                         >
                           <p>{format(jornada.date, "dd MMM")}</p>
@@ -454,7 +443,7 @@ export function NewLeaguePage() {
                         <ul
                           {...provided.droppableProps}
                           ref={provided.innerRef}
-                          className="flex flex-col gap-2 w-full m-1"
+                          className="flex flex-col gap-2 w-full my-[2px]"
                         >
                           {matchings.map((jornada, indexJornada) => {
                             return (
