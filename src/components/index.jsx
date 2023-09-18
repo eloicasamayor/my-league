@@ -18,7 +18,9 @@ export { PageLayout } from "./PageLayout";
 export { Modal } from "./modal";
 export { StepsNavigation } from "./StepsNavigation";
 export { Alert } from "./Alert";
-export { LeagueDay } from "./LeagueDay";
+export { LeagueDayMatchings } from "./LeagueDayMatchings";
+export { LeagueDayDate } from "./LeagueDayDate";
+
 export { WeekDaySelect } from "./WeekDaySelect";
 
 export { SortableHeadCell } from "./SortableHeadCell";

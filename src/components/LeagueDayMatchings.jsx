@@ -5,7 +5,7 @@ import { Draggable } from "@hello-pangea/dnd";
 import { DragDropIcon } from "./icons";
 import { useWindowDimensions } from "../helpers";
 
-export function LeagueDay({ teams, jornada, indexJornada }) {
+export function LeagueDayMatchings({ teams, jornada, indexJornada }) {
   const { height, width } = useWindowDimensions();
   const equiposQueJuegan = [];
   jornada.matches.forEach((e) => equiposQueJuegan.push(...e));

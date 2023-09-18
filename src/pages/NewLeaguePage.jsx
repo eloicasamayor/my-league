@@ -22,7 +22,8 @@ import {
 } from "../components/icons";
 import {
   StepsNavigation,
-  LeagueDay,
+  LeagueDayMatchings,
+  LeagueDayDate,
   WeekDaySelect,
   Alert,
 } from "../components";
@@ -145,6 +146,12 @@ export function NewLeaguePage() {
     });
     // matchingsCopy.splice(indexJornada, 0, {});
 
+    setMatchings(matchingsCopy);
+  }
+
+  function playThisWeek(indexJornada) {
+    let matchingsCopy = [...matchings];
+    matchingsCopy.splice(indexJornada, 1);
     setMatchings(matchingsCopy);
   }
 
@@ -419,26 +426,14 @@ export function NewLeaguePage() {
                 <div className="w-[80px] flex flex-col gap-1">
                   {matchings.map((jornada, indexJornada) => {
                     return (
-                      <div
-                        style={{
-                          height: `${heightJornada}px`,
-                        }}
-                      >
-                        <div
-                          className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-slate-300 absolute rounded-xl justify-between h-full pt-2 pl-2`}
-                          style={{
-                            height: `${heightJornada}px`,
-                          }}
-                        >
-                          <p>{format(jornada.date, "dd MMM")}</p>
-                          <a
-                            className="text-sm block"
-                            onClick={() => skipThisWeek(indexJornada)}
-                          >
-                            skip
-                          </a>
-                        </div>
-                      </div>
+                      <LeagueDayDate
+                        jornada={jornada}
+                        indexJornada={indexJornada}
+                        skipThisWeek={skipThisWeek}
+                        heightJornada={heightJornada}
+                        playThisWeek={playThisWeek}
+                        teams={teams}
+                      />
                     );
                   })}
                 </div>
@@ -453,7 +448,7 @@ export function NewLeaguePage() {
                         >
                           {matchings.map((jornada, indexJornada) => {
                             return (
-                              <LeagueDay
+                              <LeagueDayMatchings
                                 key={indexJornada}
                                 indexJornada={indexJornada}
                                 teams={teams}
