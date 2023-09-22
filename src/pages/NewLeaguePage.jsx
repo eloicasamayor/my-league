@@ -220,6 +220,7 @@ export function NewLeaguePage() {
             <input
               type="text"
               required
+              minLength={3}
               className="w-full rounded-lg border-none focus:border-cyan-500"
               id={"name"}
               name={"name"}
