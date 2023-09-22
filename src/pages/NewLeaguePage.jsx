@@ -37,6 +37,7 @@ import {
   getMatchings,
   addDatesToMatchings,
   useWindowDimensions,
+  shuffleMatchings,
 } from "../helpers";
 import { addDays, format } from "date-fns";
 
@@ -118,14 +119,35 @@ export function NewLeaguePage() {
     ) {
       return;
     }
-    console.log({ result });
-    const matchesSource = matchings[source.index].matches;
+
+    let index1, index2, sum;
+    if (destination.index < source.index) {
+      index1 = destination.index;
+      index2 = source.index;
+      sum = -1;
+    } else {
+      index1 = source.index;
+      index2 = destination.index;
+      sum = 1;
+    }
+
+    const matchDaysCopy = matchings.map((matchDay, i) => {
+      if (i < index1 || i > index2) {
+        return matchDay;
+      }
+      if (i === destination.index) {
+        return { ...matchings[i], matches: matchings[source.index].matches };
+      }
+      return { ...matchings[i], matches: matchings[i + sum].matches };
+    });
+
+    /* const matchesSource = matchings[source.index].matches;
     const matchesDestination = matchings[destination.index].matches;
     const newMatchings = [...matchings];
     newMatchings[source.index].matches = matchesDestination;
-    newMatchings[destination.index].matches = matchesSource;
+    newMatchings[destination.index].matches = matchesSource; */
 
-    setMatchings([...newMatchings]);
+    setMatchings([...matchDaysCopy]);
     // TODO: replantear un poco el drag-n-drop:
     // en realitat el que vull no és reordenar la llista, sino canviar els partits d'una jornada a una altra.
     // jo crec que la lògica hauria de ser aquí, però no sé si s'hauria de crear un id de cada jornada...
@@ -152,7 +174,7 @@ export function NewLeaguePage() {
   function playThisWeek(indexJornada) {
     let matchingsCopy = [...matchings];
     matchingsCopy.splice(indexJornada, 1);
-    setMatchings(matchingsCopy);
+    setMatchings(() => matchingsCopy);
   }
 
   const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
@@ -161,6 +183,23 @@ export function NewLeaguePage() {
   const numColumnas = width < 768 ? 1 : 2;
   const totalFilas = Math.ceil(totalDivs / numColumnas);
   const heightJornada = totalFilas * 32 + 8;
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const alert = await saveNewLeague({
+      leagueName,
+      leagueDescription,
+      ownerId: authData?.user?.id,
+      teams,
+      matchings,
+      players,
+      insertLeague,
+      insertTeam,
+      insertMatch,
+      insertPlayer,
+    });
+    setAlertMessage(alert);
+  };
 
   return (
     <div className="pt-2">
@@ -172,11 +211,16 @@ export function NewLeaguePage() {
           {alertMessage.message}
         </Alert>
       )}
-      <div className="mx-2 mb-8 p-1 md:p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
-        <form className="flex flex-col sm:flex-row">
+      <div className="mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
+        <form
+          className="flex flex-col sm:flex-row"
+          onSubmit={(e) => handleSubmit(e)}
+        >
           <div className="relative w-full p-1 md:p-2">
-            <label htmlFor={"name"}>League name</label>
-            <TextInput
+            <input
+              type="text"
+              required
+              className="w-full rounded-lg border-none focus:border-cyan-500"
               id={"name"}
               name={"name"}
               placeholder={"League Name"}
@@ -184,17 +228,26 @@ export function NewLeaguePage() {
               onChange={(e) => setLeagueName(e.target.value)}
             />
           </div>
-          <div className="relative w-full p-1 md:p-2">
-            <label htmlFor={"description"}>Description</label>
-            <TextInput
-              className="text-lg special-input leading-9"
-              type={"text"}
+          <div className="relative w-full p-1 md:p-2 flex gap-2">
+            <input
+              type="text"
+              required
+              className="w-full rounded-lg border-none focus:border-cyan-500"
               id={"description"}
               placeholder={"League Description"}
               name={"description"}
               value={leagueDescription}
               onChange={(e) => setLeagueDescription(e.target.value)}
             />
+            <button
+              type="submit"
+              className="group flex h-min items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"
+            >
+              <span className="flex items-stretch transition-all duration-200 rounded-md text-sm px-2 py-1 align-middle">
+                <UploadIcon />
+                Save
+              </span>
+            </button>
           </div>
         </form>
       </div>
@@ -393,12 +446,6 @@ export function NewLeaguePage() {
                   <UpdateIcon />
                   Shulffle
                 </Button>
-                <Button
-                  onClick={() => setMatchings(resetMatchingsDates(matchings))}
-                >
-                  <ArrowBackIcon />
-                  Reset dates
-                </Button>
                 <div className="grow"></div>
                 <Button
                   onClick={async () => {
@@ -449,13 +496,14 @@ export function NewLeaguePage() {
                           {matchings.map((jornada, indexJornada) => {
                             return (
                               <LeagueDayMatchings
-                                key={indexJornada}
+                                key={jornada.date.toString()}
                                 indexJornada={indexJornada}
                                 teams={teams}
                                 jornada={jornada}
                               />
                             );
                           })}
+                          {provided.placeholder}
                         </ul>
                       );
                     }}

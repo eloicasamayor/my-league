@@ -26,6 +26,6 @@ export function addDatesToMatchings({
   });
   return matchingsWithDates;
 }
-function shuffleMatchings(matchings, teamsCopy) {
+export function shuffleMatchings(matchings, teamsCopy) {
   return matchings.map((m, i) => ({ ...m, matches: teamsCopy[i] }));
 }

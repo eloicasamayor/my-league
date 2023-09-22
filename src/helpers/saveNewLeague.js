@@ -30,10 +30,17 @@ export async function saveNewLeague({
   }
   if (players.some((team) => team.length < 1)) {
     return {
-      message: "There is a team with no players",
+      message: "There is at least a team with no players",
       isError: true,
     };
   }
+  if (!matchings.length) {
+    return {
+      message: "Access the matchings tab to generate them",
+      isError: true,
+    };
+  }
+
   const insertLeagueReqRes = await insertLeague({
     name: leagueName,
     urlname: nameToUrlName(leagueName),
