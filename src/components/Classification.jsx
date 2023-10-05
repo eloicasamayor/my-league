@@ -69,7 +69,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   return (
-    <section>
+    <section className="w-screen overflow-x-scroll">
       {!!alertMessage.message && (
         <Alert
           isError={alertMessage.isError}
@@ -95,7 +95,7 @@ export function Classification({ data, isLoading, isOwner }) {
               className={`cursor-pointer`}
             >
               <MoreIcon
-                ClassName={
+                className={
                   seeAllStats
                     ? "sTable.Headoke-white"
                     : "sTable.Headoke-violet-600"

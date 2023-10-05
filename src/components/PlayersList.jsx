@@ -80,7 +80,7 @@ export function PlayersList({
   }
 
   return (
-    <section>
+    <section className="w-screen overflow-x-scroll">
       <Table
         hoverable={true}
         className="styled-table w-full text-sm text-left text-gray-500 dark:text-gray-400"

@@ -97,7 +97,7 @@ export function LeaguePage() {
           <h2 className="text-lg md:text-2xl">{currentLeague.description}</h2>
         </div>
         {isOwner && (
-          <Dropdown label="Edit" dismissOnClick={true} size={"sm"}>
+          <Dropdown label="..." dismissOnClick={true} size={"sm"}>
             <Dropdown.Item
               color={"light"}
               onClick={() => setShowEditLeagueModal(true)}
