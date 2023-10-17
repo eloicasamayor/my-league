@@ -7,8 +7,9 @@ import {
   useInsertMatchMutation,
   useInsertPlayerMutation,
   matches,
+  useUpdateLeagueMutation,
 } from "../redux";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Components
 import {
@@ -46,6 +47,7 @@ import { WEEK_DAYS } from "../components/constants/dates";
 
 export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
+  const [updateLeague, updateLeagueReqResult] = useUpdateLeagueMutation();
   const [insertTeam, newTeamReqResult] = useInsertTeamMutation();
   const [insertMatch, newMatchReqResult] = useInsertMatchMutation();
   const [insertPlayer, newPlayerReqResult] = useInsertPlayerMutation();
@@ -54,6 +56,7 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
+  const imgRef = useRef();
 
   const [selectedTab, setSelectedTab] = useState(0);
   const [startingDateValue, setStartingDateValue] = useState(
@@ -189,11 +192,13 @@ export function NewLeaguePage() {
     const alert = await saveNewLeague({
       leagueName,
       leagueDescription,
+      image: imgRef,
       ownerId: authData?.user?.id,
       teams,
       matchings,
       players,
       insertLeague,
+      updateLeague,
       insertTeam,
       insertMatch,
       insertPlayer,
@@ -240,6 +245,7 @@ export function NewLeaguePage() {
               value={leagueDescription}
               onChange={(e) => setLeagueDescription(e.target.value)}
             />
+            <input type="file" ref={imgRef} />
             <button
               type="submit"
               className="group flex h-min items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"

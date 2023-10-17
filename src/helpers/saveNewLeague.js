@@ -1,14 +1,17 @@
 // Helper
 import { nameToUrlName } from "./nameToUrlName";
+import { supabase } from "../supabase";
 
 export async function saveNewLeague({
   leagueName,
   leagueDescription,
+  image,
   ownerId,
   teams,
   matchings,
   players,
   insertLeague,
+  updateLeague,
   insertTeam,
   insertMatch,
   insertPlayer,
@@ -55,6 +58,29 @@ export async function saveNewLeague({
     };
   }
   const leagueId = insertLeagueReqRes.data[0].id;
+
+  if (image.current.files.length) {
+    const formData = new FormData();
+    formData.append("files[]", image.current.files[0]);
+
+    const { data, error } = await supabase.storage
+      .from("leagues-img")
+      .upload(`${leagueId + ".jpg"}`, formData, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+
+    if (data) {
+      const { data: response } = await supabase.storage
+        .from("leagues-img")
+        .getPublicUrl(`${leagueId + ".jpg"}`);
+      updateLeague({
+        id: leagueId,
+        img: response.publicUrl,
+      });
+    }
+  }
+
   const teamsReq = teams.map((team) => ({
     name: team,
     urlname: nameToUrlName(team),
