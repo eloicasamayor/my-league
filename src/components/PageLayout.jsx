@@ -47,14 +47,18 @@ export function PageLayout() {
             >
               <ArrowLeft />
             </button>
-            <button
-              className={
-                "w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400"
-              }
-              onClick={() => navigate("/")}
-            >
-              <HomeIcon />
-            </button>
+            {location.pathname === "/new-league" ? (
+              <h1 className="text-lg">{"Creating new league"}</h1>
+            ) : (
+              <button
+                className={
+                  "w-10 h-10 rounded-full bg-transparent flex justify-center items-center hover:bg-violet-400"
+                }
+                onClick={() => navigate("/")}
+              >
+                <HomeIcon />
+              </button>
+            )}
           </div>
         ) : (
           <div className="flex items-center gap-4 ml-2">
