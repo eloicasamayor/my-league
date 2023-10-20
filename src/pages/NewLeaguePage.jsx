@@ -206,6 +206,30 @@ export function NewLeaguePage() {
     setAlertMessage(alert);
   };
 
+  function reverseTeamsInMatch({ indexJornada, matchIndex }) {
+    // Obtén el partido actual
+    const data = [...matchings];
+    const currentMatch = data[indexJornada].matches[matchIndex];
+    const [teamA, teamB] = currentMatch;
+
+    // Invierte el orden de los equipos en el partido actual
+    const reversedMatch = [teamB, teamA];
+    data[indexJornada].matches[matchIndex] = reversedMatch;
+
+    // Busca y actualiza los otros partidos que involucran a los mismos equipos
+    data.forEach((matchDay, dayIndex) => {
+      if (dayIndex !== indexJornada) {
+        matchDay.matches.forEach((match, matchIndex) => {
+          if (match.includes(teamA) && match.includes(teamB)) {
+            match.push(match.shift());
+          }
+        });
+      }
+    });
+
+    setMatchings(data);
+  }
+
   return (
     <div className="pt-2">
       {alertMessage.message && (
@@ -453,27 +477,6 @@ export function NewLeaguePage() {
                   <UpdateIcon />
                   Shulffle
                 </Button>
-                <div className="grow"></div>
-                <Button
-                  onClick={async () => {
-                    const alert = await saveNewLeague({
-                      leagueName,
-                      leagueDescription,
-                      ownerId: authData?.user?.id,
-                      teams,
-                      matchings,
-                      players,
-                      insertLeague,
-                      insertTeam,
-                      insertMatch,
-                      insertPlayer,
-                    });
-                    setAlertMessage(alert);
-                  }}
-                >
-                  <UploadIcon />
-                  Save
-                </Button>
               </div>
 
               <div className="flex">
@@ -507,6 +510,7 @@ export function NewLeaguePage() {
                                 indexJornada={indexJornada}
                                 teams={teams}
                                 jornada={jornada}
+                                reverseTeamsInMatch={reverseTeamsInMatch}
                               />
                             );
                           })}

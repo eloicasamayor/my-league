@@ -2,10 +2,15 @@
 import { Draggable } from "@hello-pangea/dnd";
 
 // Components
-import { DragDropIcon } from "./icons";
+import { DragDropIcon, UpdateIcon } from "./icons";
 import { useWindowDimensions } from "../helpers";
 
-export function LeagueDayMatchings({ teams, jornada, indexJornada }) {
+export function LeagueDayMatchings({
+  teams,
+  jornada,
+  indexJornada,
+  reverseTeamsInMatch,
+}) {
   const { height, width } = useWindowDimensions();
   const equiposQueJuegan = [];
   jornada.matches.forEach((e) => equiposQueJuegan.push(...e));
@@ -27,11 +32,21 @@ export function LeagueDayMatchings({ teams, jornada, indexJornada }) {
             >
               <DragDropIcon svgClassName=" stroke-0 fill-slate-300" />
             </div>
-            {jornada.matches.map((match) => (
+            {jornada.matches.map((match, matchIndex) => (
               <div
                 className="rounded-full bg-zinc-300 py-[0.15rem] px-2 h-[1.75rem]"
                 key={`${match[0]}vs${match[1]}`}
-              >{`${match[0]} - ${match[1]}`}</div>
+              >
+                {`${match[0]} - ${match[1]}`}
+                <button
+                  className="ml-2 p-1"
+                  onClick={() =>
+                    reverseTeamsInMatch({ indexJornada, matchIndex })
+                  }
+                >
+                  {<UpdateIcon w="4" h="4" />}
+                </button>
+              </div>
             ))}
             {equiposQueDescansan.length === 1 && (
               <div className="inline-block rounded-full bg-amber-200 py-[0.15rem] px-2 h-[1.75rem]">
