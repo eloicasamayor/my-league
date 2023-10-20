@@ -240,57 +240,63 @@ export function NewLeaguePage() {
           {alertMessage.message}
         </Alert>
       )}
-      <div className="mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
-        <form
-          className="flex flex-col sm:flex-row"
-          onSubmit={(e) => handleSubmit(e)}
-        >
-          <div className="relative w-full p-1 md:p-2">
-            <input
-              type="text"
-              required
-              minLength={3}
-              className="w-full rounded-lg border-none focus:border-cyan-500"
-              id={"name"}
-              name={"name"}
-              placeholder={"League Name"}
-              value={leagueName}
-              onChange={(e) => setLeagueName(e.target.value)}
-            />
-          </div>
-          <div className="relative w-full p-1 md:p-2 flex gap-2">
-            <input
-              type="text"
-              required
-              className="w-full rounded-lg border-none focus:border-cyan-500"
-              id={"description"}
-              placeholder={"League Description"}
-              name={"description"}
-              value={leagueDescription}
-              onChange={(e) => setLeagueDescription(e.target.value)}
-            />
-            <input type="file" ref={imgRef} />
-            <button
-              type="submit"
-              className="group flex h-min items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"
-            >
-              <span className="flex items-stretch transition-all duration-200 rounded-md text-sm px-2 py-1 align-middle">
-                <UploadIcon />
-                Save
-              </span>
-            </button>
-          </div>
-        </form>
-      </div>
 
       <StepsNavigation
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
         onSelectMatchings={onSelectMatchings}
-        steps={["Teams", "Players", "Dates", "Matchings"]}
+        steps={["Info", "Teams", "Players", "Dates", "Matchings"]}
       />
       {/* ---- Teams ---- */}
       {selectedTab === 0 && (
+        <div className="mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
+          <form
+            className="flex flex-col sm:flex-row"
+            onSubmit={(e) => handleSubmit(e)}
+          >
+            <div className="relative w-full p-1 md:p-2">
+              <input
+                type="text"
+                required
+                minLength={3}
+                className="w-full rounded-lg border-none focus:border-cyan-500"
+                id={"name"}
+                name={"name"}
+                placeholder={"League Name"}
+                value={leagueName}
+                onChange={(e) => setLeagueName(e.target.value)}
+              />
+            </div>
+            <div className="relative w-full p-1 md:p-2 flex gap-2">
+              <input
+                type="text"
+                required
+                className="w-full rounded-lg border-none focus:border-cyan-500"
+                id={"description"}
+                placeholder={"League Description"}
+                name={"description"}
+                value={leagueDescription}
+                onChange={(e) => setLeagueDescription(e.target.value)}
+              />
+            </div>
+            <div className="relative w-full p-1 md:p-2 flex gap-2">
+              <input type="file" ref={imgRef} />
+            </div>
+            <div className="relative w-full p-1 md:p-2 flex gap-2">
+              <button
+                type="submit"
+                className="group flex h-min items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"
+              >
+                <span className="flex items-stretch transition-all duration-200 rounded-md text-sm px-2 py-1 align-middle">
+                  <UploadIcon />
+                  Save
+                </span>
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+      {selectedTab === 1 && (
         <section className={sectionsClassName}>
           <form className="flex flex-col gap-2">
             {teams.map((team, i) => {
@@ -360,7 +366,7 @@ export function NewLeaguePage() {
         </section>
       )}
       {/* ---- PLAYERS ---- */}
-      {selectedTab === 1 && (
+      {selectedTab === 2 && (
         <section className={sectionsClassName}>
           {teams.length === 0 && (
             <p className="text-sm text-center">
@@ -432,7 +438,7 @@ export function NewLeaguePage() {
         </section>
       )}
       {/* ---- DATES ---- */}
-      {selectedTab === 2 && (
+      {selectedTab === 3 && (
         <section className={sectionsClassName}>
           <form className="flex flex-col">
             <label className="text-sm" htmlFor="starting-day">
@@ -455,7 +461,7 @@ export function NewLeaguePage() {
         </section>
       )}
       {/* ---- MATCHINGS ---- */}
-      {selectedTab === 3 && (
+      {selectedTab === 4 && (
         <section className={sectionsClassName}>
           {matchings.length === 0 ? (
             <p className="text-sm text-center">

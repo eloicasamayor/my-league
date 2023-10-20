@@ -7,7 +7,7 @@ export function StepsNavigation({ selectedTab, setSelectedTab, steps }) {
       {steps.map((step, index) => (
         <li
           key={`${index}_${step}`}
-          className={`flex p-0 text-2xl cursor-pointer " + ${
+          className={`flex p-0 px-1 text-md cursor-pointer sm:text-2xl " + ${
             selectedTab === index
               ? "text-violet-500 border-b-2 border-violet-500"
               : "text-zinc-500"
