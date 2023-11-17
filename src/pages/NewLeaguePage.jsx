@@ -180,7 +180,8 @@ export function NewLeaguePage() {
     setMatchings(() => matchingsCopy);
   }
 
-  const sectionsClassName = " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96";
+  const sectionsClassName =
+    " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96 grow";
 
   const totalDivs = Math.ceil(teams.length / 2);
   const numColumnas = width < 768 ? 1 : 2;
@@ -231,7 +232,7 @@ export function NewLeaguePage() {
   }
 
   return (
-    <div className="pt-2">
+    <div className="pt-2 bg-yellow-500 grow flex flex-col">
       {alertMessage.message && (
         <Alert
           onCloseAlert={() => setAlertMessage({ message: "", isError: false })}
@@ -249,7 +250,7 @@ export function NewLeaguePage() {
       />
       {/* ---- Teams ---- */}
       {selectedTab === 0 && (
-        <div className="mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
+        <div className="grow mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
           <form
             className="flex flex-col sm:flex-row"
             onSubmit={(e) => handleSubmit(e)}
@@ -531,6 +532,28 @@ export function NewLeaguePage() {
           )}
         </section>
       )}
+      <div className="flex flex-row content-evenly align-middle">
+        <Button
+          disabled={selectedTab === 0}
+          onClick={() => {
+            setSelectedTab(selectedTab - 1);
+          }}
+        >
+          Previous
+        </Button>
+        {selectedTab !== 4 ? (
+          <Button
+            disabled={selectedTab === 4}
+            onClick={() => {
+              setSelectedTab(selectedTab + 1);
+            }}
+          >
+            Next
+          </Button>
+        ) : (
+          <Button>Save</Button>
+        )}
+      </div>
     </div>
   );
 }
