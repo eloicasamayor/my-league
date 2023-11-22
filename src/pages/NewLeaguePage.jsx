@@ -231,8 +231,29 @@ export function NewLeaguePage() {
     setMatchings(data);
   }
 
+  function hayEquipoSinJugadores() {
+    return players.some((jugadoresEquipo) => jugadoresEquipo.length === 0);
+  }
+
+  function isNextDisabled() {
+    if (
+      selectedTab === 0 &&
+      (leagueName.length < 3 || !leagueDescription.length)
+    ) {
+      return true;
+    }
+    if (selectedTab === 1 && teams.length < 2) {
+      return true;
+    }
+    if (selectedTab === 2 && hayEquipoSinJugadores()) {
+      return true;
+    }
+
+    return false;
+  }
+
   return (
-    <div className="pt-2 bg-yellow-500 grow flex flex-col">
+    <div className="pt-2 bg-slate-200 grow flex flex-col">
       {alertMessage.message && (
         <Alert
           onCloseAlert={() => setAlertMessage({ message: "", isError: false })}
@@ -532,7 +553,7 @@ export function NewLeaguePage() {
           )}
         </section>
       )}
-      <div className="flex flex-row content-evenly align-middle">
+      <div className="flex flex-row content-around">
         <Button
           disabled={selectedTab === 0}
           onClick={() => {
@@ -543,7 +564,7 @@ export function NewLeaguePage() {
         </Button>
         {selectedTab !== 4 ? (
           <Button
-            disabled={selectedTab === 4}
+            disabled={isNextDisabled()}
             onClick={() => {
               setSelectedTab(selectedTab + 1);
             }}
