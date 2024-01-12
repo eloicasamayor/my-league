@@ -59,7 +59,7 @@ export async function saveNewLeague({
   }
   const leagueId = insertLeagueReqRes.data[0].id;
 
-  if (image.current.files.length) {
+  if (image.current?.files?.length) {
     const formData = new FormData();
     formData.append("files[]", image.current.files[0]);
 

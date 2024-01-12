@@ -20,6 +20,7 @@ import {
   TeamIcon,
   UserIcon,
   UploadIcon,
+  PhotoIcon,
 } from "../components/icons";
 import {
   StepsNavigation,
@@ -56,6 +57,7 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
+  const [previewImage, setPreviewImage] = useState(null);
   const imgRef = useRef();
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -188,8 +190,7 @@ export function NewLeaguePage() {
   const totalFilas = Math.ceil(totalDivs / numColumnas);
   const heightJornada = totalFilas * 32 + 8;
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async () => {
     const alert = await saveNewLeague({
       leagueName,
       leagueDescription,
@@ -252,6 +253,16 @@ export function NewLeaguePage() {
     return false;
   }
 
+  function handleFileChange(event) {
+    const file = event.target.files[0];
+
+    if (file) {
+      // Crear una URL de objeto para la previsualización de la imagen
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewImage(objectUrl);
+    }
+  }
+
   return (
     <div className="pt-2 bg-slate-200 grow flex flex-col">
       {alertMessage.message && (
@@ -272,10 +283,7 @@ export function NewLeaguePage() {
       {/* ---- Teams ---- */}
       {selectedTab === 0 && (
         <div className="grow mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
-          <form
-            className="flex flex-col sm:flex-row"
-            onSubmit={(e) => handleSubmit(e)}
-          >
+          <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
             <div className="relative w-full p-1 md:p-2">
               <input
                 type="text"
@@ -302,18 +310,25 @@ export function NewLeaguePage() {
               />
             </div>
             <div className="relative w-full p-1 md:p-2 flex gap-2">
-              <input type="file" ref={imgRef} />
-            </div>
-            <div className="relative w-full p-1 md:p-2 flex gap-2">
-              <button
-                type="submit"
-                className="group flex h-min items-center justify-center p-0.5 text-center font-medium relative focus:z-10 focus:outline-none text-white bg-cyan-700 border border-transparent enabled:hover:bg-cyan-800 focus:ring-cyan-300 dark:bg-cyan-600 dark:enabled:hover:bg-cyan-700 dark:focus:ring-cyan-800 rounded-lg focus:ring-2"
-              >
-                <span className="flex items-stretch transition-all duration-200 rounded-md text-sm px-2 py-1 align-middle">
-                  <UploadIcon />
-                  Save
-                </span>
-              </button>
+              <div className="h-20 w-20 rounded-xl ring-2 ring-white bg-violet-100 p-1">
+                {previewImage ? (
+                  <img
+                    src={previewImage}
+                    alt="Preview"
+                    style={{ maxWidth: "100%" }}
+                  />
+                ) : (
+                  <PhotoIcon pathClassName={"stroke-violet-600"} />
+                )}
+              </div>
+
+              <input
+                type="file"
+                title="choose file"
+                ref={imgRef}
+                onChange={handleFileChange}
+                className="text-transparent	overflow-hidden"
+              />
             </div>
           </form>
         </div>
@@ -572,7 +587,7 @@ export function NewLeaguePage() {
             Next
           </Button>
         ) : (
-          <Button>Save</Button>
+          <Button onClick={() => handleSubmit()}>Save</Button>
         )}
       </div>
     </div>
