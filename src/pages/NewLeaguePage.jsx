@@ -29,7 +29,7 @@ import {
   WeekDaySelect,
   Alert,
 } from "../components";
-import { TextInput, Button } from "flowbite-react";
+import { FileInput, Label, Button } from "flowbite-react";
 
 // Helpers
 import {
@@ -57,7 +57,7 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const [previewImage, setPreviewImage] = useState(null);
+  const [previewImage, setPreviewImage] = useState("");
   const imgRef = useRef();
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -254,13 +254,13 @@ export function NewLeaguePage() {
   }
 
   function handleFileChange(event) {
-    const file = event.target.files[0];
-
+    const file = event?.target?.files?.[0];
+    let objectUrl = "";
     if (file) {
       // Crear una URL de objeto para la previsualización de la imagen
-      const objectUrl = URL.createObjectURL(file);
-      setPreviewImage(objectUrl);
+      objectUrl = URL.createObjectURL(file);
     }
+    setPreviewImage(objectUrl);
   }
 
   return (
@@ -309,26 +309,39 @@ export function NewLeaguePage() {
                 onChange={(e) => setLeagueDescription(e.target.value)}
               />
             </div>
-            <div className="relative w-full p-1 md:p-2 flex gap-2">
-              <div className="h-20 w-20 rounded-xl ring-2 ring-white bg-violet-100 p-1">
-                {previewImage ? (
+
+            <div className="max-w-xs w-50 h-50 border-2 bg-slate-300 border-zinc-50 border-dashed p-1 rounded-xl flex flex-col justify-center items-center aspect-square">
+              {previewImage ? (
+                <>
                   <img
                     src={previewImage}
-                    alt="Preview"
-                    style={{ maxWidth: "100%" }}
+                    className={"relative object-cover w-72 max-h-72 rounded-lg"}
+                  ></img>
+                  <Button
+                    onClick={() => handleFileChange()}
+                    className={"absolute"}
+                  >
+                    Remove photo
+                  </Button>
+                </>
+              ) : (
+                <form className="w-full p-2">
+                  <label for="select-file" class="cursor-pointer">
+                    <PhotoIcon
+                      svgClassName={"-mt-16"}
+                      pathClassName={"stroke-violet-300"}
+                    />
+                  </label>
+                  <input
+                    className="hidden"
+                    type="file"
+                    id="select-file"
+                    ref={imgRef}
+                    onChange={(e) => handleFileChange(e)}
                   />
-                ) : (
-                  <PhotoIcon pathClassName={"stroke-violet-600"} />
-                )}
-              </div>
-
-              <input
-                type="file"
-                title="choose file"
-                ref={imgRef}
-                onChange={handleFileChange}
-                className="text-transparent	overflow-hidden"
-              />
+                  <p className="text-center">Select image</p>
+                </form>
+              )}
             </div>
           </form>
         </div>
