@@ -58,6 +58,8 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
+  /** @type {'LEAGUE' | ELIMINATION'} */
+  const [tournamentType, setTournamentType] = useState("LEAGUE");
   const imgRef = useRef();
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -278,6 +280,8 @@ export function NewLeaguePage() {
           setLeagueName={setLeagueName}
           leagueDescription={leagueDescription}
           setLeagueDescription={setLeagueDescription}
+          tournamentType={tournamentType}
+          setTournamentType={setTournamentType}
         />
       )}
       {/* ---- Teams ---- */}

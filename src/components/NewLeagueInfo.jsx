@@ -8,6 +8,8 @@ export function NewLeagueInfo({
   setLeagueName,
   leagueDescription,
   setLeagueDescription,
+  tournamentType,
+  setTournamentType,
 }) {
   const imgRef = useRef();
   const [previewImage, setPreviewImage] = useState("");
@@ -26,6 +28,7 @@ export function NewLeagueInfo({
     <div className="grow mx-2 mb-4 p-0.5 md:p-1 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96">
       <form className="flex flex-col" onSubmit={(e) => handleSubmit(e)}>
         <div className="relative w-full p-1 md:p-2">
+          <label>League name</label>
           <input
             type="text"
             required
@@ -33,23 +36,42 @@ export function NewLeagueInfo({
             className="w-full rounded-lg border-none focus:border-cyan-500"
             id={"name"}
             name={"name"}
-            placeholder={"League Name"}
+            placeholder={""}
             value={leagueName}
             onChange={(e) => setLeagueName(e.target.value)}
           />
         </div>
-        <div className="relative w-full p-1 md:p-2 flex gap-2">
+        <div className="relative w-full p-1 md:p-2">
+          <label>League description</label>
           <input
             type="text"
             required
             className="w-full rounded-lg border-none focus:border-cyan-500"
             id={"description"}
-            placeholder={"League Description"}
+            placeholder={""}
             name={"description"}
             value={leagueDescription}
             onChange={(e) => setLeagueDescription(e.target.value)}
           />
         </div>
+        <div className="relative w-full p-1 md:p-2">
+          <p>Tourmanent type</p>
+          <Button.Group>
+            <Button onClick={() => setTournamentType("LEAGUE")}>League</Button>
+            <Button onClick={() => setTournamentType("ELIMINATION")}>
+              Elimination rounds
+            </Button>
+          </Button.Group>
+        </div>
+        {tournamentType === "LEAGUE" && (
+          <div className="relative w-full p-1 md:p-2">
+            <p>Ranking base</p>
+            <Button.Group>
+              <Button>Victory 1p | tie 0.5p | losse 0p</Button>
+              <Button>Victory 3p | tie 1p | losse 0p</Button>
+            </Button.Group>
+          </div>
+        )}
 
         <div className="max-w-xs w-50 h-50 border-2 bg-slate-300 border-zinc-50 border-dashed p-1 rounded-xl flex flex-col justify-center items-center aspect-square">
           {previewImage ? (
@@ -77,7 +99,7 @@ export function NewLeagueInfo({
                 ref={imgRef}
                 onChange={(e) => handleFileChange(e)}
               />
-              <p className="text-center">Select image</p>
+              <p className="text-center">Select league image</p>
             </form>
           )}
         </div>
