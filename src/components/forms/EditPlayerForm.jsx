@@ -45,6 +45,7 @@ export function EditPlayerForm({
           ref={teamRef}
           value={player.team}
           required
+          disabled
         >
           {teamsData &&
             teamsData.map((teamData) => (
@@ -73,7 +74,11 @@ export function EditPlayerForm({
           submit
         </Button>
       </form>
-      <Button color="failure" onClick={() => deletePlayer({ id: player.id })}>
+      <Button
+        color="failure"
+        onClick={() => deletePlayer({ id: player.id })}
+        disabled
+      >
         <TrashIcon />
         Delete player
       </Button>
