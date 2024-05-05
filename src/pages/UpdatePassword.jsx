@@ -64,7 +64,7 @@ export function UpdatePassword() {
 
   /**
    * Funció per restarurar la contrassenya
-   *  @param {String} email
+   *  @param {String} password
    */
   async function resetPassword(password) {
     const { data, error } = await supabase.auth.updateUser({ password });

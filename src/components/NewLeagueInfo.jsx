@@ -58,7 +58,7 @@ export function NewLeagueInfo({
           <p>Tourmanent type</p>
           <Button.Group>
             <Button onClick={() => setTournamentType("LEAGUE")}>League</Button>
-            <Button onClick={() => setTournamentType("ELIMINATION")}>
+            <Button disabled onClick={() => setTournamentType("ELIMINATION")}>
               Elimination rounds
             </Button>
           </Button.Group>
@@ -67,8 +67,8 @@ export function NewLeagueInfo({
           <div className="relative w-full p-1 md:p-2">
             <p>Ranking base</p>
             <Button.Group>
-              <Button>Victory 1p | tie 0.5p | losse 0p</Button>
               <Button>Victory 3p | tie 1p | losse 0p</Button>
+              <Button disabled>Victory 1p | tie 0.5p | losse 0p</Button>
             </Button.Group>
           </div>
         )}

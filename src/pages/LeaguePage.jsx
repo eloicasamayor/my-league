@@ -51,7 +51,7 @@ export function LeaguePage() {
     playersIsLoading ||
     leaguesIsLoading
   ) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
   const currentLeague = leaguesData.find(
     (league) => league.urlname === leagueUrlName

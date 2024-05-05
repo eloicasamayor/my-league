@@ -55,9 +55,13 @@ export function TeamPage() {
   }
 
   if (
+    !teamsData ||
     !teamsData.length ||
+    !playersData ||
     !playersData.length ||
+    !matchesData ||
     !matchesData.length ||
+    !leaguesData ||
     !leaguesData.length
   ) {
     return "no data......";

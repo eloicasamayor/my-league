@@ -6,7 +6,7 @@ import { format } from "date-fns";
 // Components
 import { EditMatchForm } from "./forms";
 import { PencilIcon } from "./icons";
-import { Modal } from "./modal";
+import { Modal } from "./Modal";
 import { Table } from "flowbite-react";
 
 export function MatchesList({

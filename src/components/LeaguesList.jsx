@@ -22,13 +22,10 @@ export function LeaguesList({ authData, leaguesData, leaguesIsLoading }) {
   }, [isMyLeagues, JSON.stringify(authData), JSON.stringify(leaguesData)]);
 
   if (leaguesIsLoading) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
-  if (!leaguesData) {
-    return "no data :/";
-  }
-  if (!filteredLeaguesData?.length) {
-    return "no data";
+  if (!leaguesData || !filteredLeaguesData?.length) {
+    return <p>{"no data"}</p>;
   }
 
   return (

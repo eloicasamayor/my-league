@@ -143,7 +143,7 @@ export function LoginPage() {
               ref={passwordRef}
               id={"password"}
               type={"password"}
-              minLength={"6"}
+              minLength={6}
               required
             ></TextInput>
             <div className="flex justify-center gap-2 pt-5">
