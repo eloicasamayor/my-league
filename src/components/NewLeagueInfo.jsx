@@ -1,6 +1,6 @@
 import { Button } from "flowbite-react";
 import { PhotoIcon } from "./icons";
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 export function NewLeagueInfo({
   handleSubmit,
@@ -10,9 +10,9 @@ export function NewLeagueInfo({
   setLeagueDescription,
   tournamentType,
   setTournamentType,
+  imgRef,
 }) {
-  const imgRef = useRef();
-  const [previewImage, setPreviewImage] = useState("");
+  const [previewImage, setPreviewImage] = useState(imgRef?.current?.url);
 
   function handleFileChange(event) {
     const file = event?.target?.files?.[0];
@@ -21,6 +21,9 @@ export function NewLeagueInfo({
       // Crear una URL de objeto para la previsualización de la imagen
       objectUrl = URL.createObjectURL(file);
     }
+    imgRef.current = {};
+    imgRef.current.url = objectUrl;
+    imgRef.current.file = file;
     setPreviewImage(objectUrl);
   }
 
@@ -96,7 +99,7 @@ export function NewLeagueInfo({
                 className="hidden"
                 type="file"
                 id="select-file"
-                ref={imgRef}
+                /* ref={imgRef} */
                 onChange={(e) => handleFileChange(e)}
               />
               <p className="text-center">Select league image</p>

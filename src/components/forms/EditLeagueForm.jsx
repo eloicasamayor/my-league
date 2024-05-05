@@ -120,10 +120,10 @@ export function EditLeagueForm({
                 const deletePlayersReqRes = await deleteAllLeaguePlayers(
                   leagueToEdit
                 );
-                const deleteTeamsReqRes = await deleteAllLeagueTeams(
+                const deleteMatchesReqRes = await deleteAllLeagueMatches(
                   leagueToEdit
                 );
-                const deleteMatchesReqRes = await deleteAllLeagueMatches(
+                const deleteTeamsReqRes = await deleteAllLeagueTeams(
                   leagueToEdit
                 );
                 const deleteLeagueReqRes = await deleteLeague(leagueToEdit);

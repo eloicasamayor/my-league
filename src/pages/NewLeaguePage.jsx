@@ -196,7 +196,7 @@ export function NewLeaguePage() {
     const alert = await saveNewLeague({
       leagueName,
       leagueDescription,
-      image: imgRef,
+      image: imgRef?.current?.file,
       ownerId: authData?.user?.id,
       teams,
       matchings,
@@ -282,6 +282,7 @@ export function NewLeaguePage() {
           setLeagueDescription={setLeagueDescription}
           tournamentType={tournamentType}
           setTournamentType={setTournamentType}
+          imgRef={imgRef}
         />
       )}
       {/* ---- Teams ---- */}
