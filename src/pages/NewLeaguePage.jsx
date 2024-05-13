@@ -81,19 +81,21 @@ export function NewLeaguePage() {
   const { height, width } = useWindowDimensions();
 
   useEffect(() => {
-    if (selectedTab === 3) {
+    if (selectedTab === 4) {
       onSelectMatchings();
     }
   }, [selectedTab]);
 
   function onSelectMatchings() {
-    setMatchings(
-      addDatesToMatchings({
-        matchings: getMatchings(teams),
-        weekDayValue,
-        startingDateValue,
-      })
-    );
+    setMatchings((oldMatchings) => {
+      return oldMatchings && oldMatchings.length
+        ? oldMatchings
+        : addDatesToMatchings({
+            matchings: getMatchings(teams),
+            weekDayValue,
+            startingDateValue,
+          });
+    });
   }
 
   function resetMatchingsDates() {
@@ -269,7 +271,6 @@ export function NewLeaguePage() {
       <StepsNavigation
         selectedTab={selectedTab}
         setSelectedTab={setSelectedTab}
-        onSelectMatchings={onSelectMatchings}
         steps={["Info", "Teams", "Players", "Dates", "Matchings"]}
       />
       {/* ---- Info ---- */}
@@ -326,6 +327,7 @@ export function NewLeaguePage() {
                         const playersCopy = [...players];
                         playersCopy.splice(i, 1);
                         setPlayers(playersCopy);
+                        setMatchings([]);
                       }}
                     >
                       <TrashIcon />
@@ -445,7 +447,10 @@ export function NewLeaguePage() {
             <WeekDaySelect
               value={weekDayValue}
               options={WEEK_DAYS.map((day, i) => ({ value: i, label: day }))}
-              onChange={(e) => setWeekDayValue(e)}
+              onChange={(e) => {
+                setWeekDayValue(e);
+                setMatchings([]);
+              }}
             />
           </form>
         </section>
