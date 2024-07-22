@@ -1,7 +1,7 @@
 export function StepsNavigation({ selectedTab, setSelectedTab, steps }) {
   return (
     <ol
-      className="h-10 flex my-2
+      className="h-10 flex mt-2
  gap-1 justify-center sm:gap-6 lg:gap-20 border-b"
     >
       {steps.map((step, index) => (

@@ -51,6 +51,7 @@ export function LeaguesList({ authData, leaguesData, leaguesIsLoading }) {
             </Button.Group>
           )}
         </Table.HeadCell>
+        <Table.HeadCell className="text-base">Description</Table.HeadCell>
       </Table.Head>
       <Table.Body>
         {filteredLeaguesData?.map((league) => (
@@ -78,6 +79,9 @@ export function LeaguesList({ authData, leaguesData, leaguesIsLoading }) {
             </Table.Cell>
             <Table.Cell className="px-1 md:px-6 py-2 md:py-4 text-base">
               {league.name}
+            </Table.Cell>
+            <Table.Cell className="px-1 md:px-6 py-2 md:py-4 text-base">
+              {league.description}
             </Table.Cell>
           </Table.Row>
         ))}

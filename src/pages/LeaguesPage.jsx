@@ -22,28 +22,30 @@ function LeaguesPage() {
   const authData = useSelector((state) => state.auth);
   const [showModal, setShowModal] = useState(false);
   return (
-    <div>
-      <header className="flex justify-between align-middle py-2">
-        <h1>Leagues</h1>
-        <Button
-          pill={true}
-          className="rounded-full"
-          onClick={() =>
-            authData?.user?.id && authData?.session
-              ? navigate("/new-league")
-              : setShowModal(true)
-          }
-        >
-          <PlusIcon />
-          Create league
-        </Button>
-      </header>
+    <>
+      <div className="px-2 md:px-10 lg:px-20 xl:px-44">
+        <header className="flex justify-between align-middle py-2">
+          <h1>Leagues</h1>
+          <Button
+            pill={true}
+            className="rounded-full"
+            onClick={() =>
+              authData?.user?.id && authData?.session
+                ? navigate("/new-league")
+                : setShowModal(true)
+            }
+          >
+            <PlusIcon />
+            Create league
+          </Button>
+        </header>
 
-      <LeaguesList
-        authData={authData}
-        leaguesData={leaguesData}
-        leaguesIsLoading={leaguesIsLoading}
-      />
+        <LeaguesList
+          authData={authData}
+          leaguesData={leaguesData}
+          leaguesIsLoading={leaguesIsLoading}
+        />
+      </div>
       {showModal && (
         <Modal onCloseModal={setShowModal} title={"Login to create a league"}>
           {/* <p className="text-center	">
@@ -52,7 +54,7 @@ function LeaguesPage() {
           <LoginPage />
         </Modal>
       )}
-    </div>
+    </>
   );
 }
 

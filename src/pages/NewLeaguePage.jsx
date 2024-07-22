@@ -187,7 +187,7 @@ export function NewLeaguePage() {
   }
 
   const sectionsClassName =
-    " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96 grow";
+    " px-2 py-4 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96 grow bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700";
 
   const totalDivs = Math.ceil(teams.length / 2);
   const numColumnas = width < 768 ? 1 : 2;
@@ -526,7 +526,7 @@ export function NewLeaguePage() {
           )}
         </section>
       )}
-      <div className="flex flex-row content-around">
+      <div className=" p-2 md:mx-8 lg:mx-10 xl:mx-44 2xl:mx-96 flex flex-row justify-between">
         <Button
           disabled={selectedTab === 0}
           onClick={() => {

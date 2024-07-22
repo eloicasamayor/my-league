@@ -57,7 +57,7 @@ export function NewLeagueInfo({
             onChange={(e) => setLeagueDescription(e.target.value)}
           />
         </div>
-        <div className="relative w-full p-1 md:p-2">
+        {/* <div className="relative w-full p-1 md:p-2">
           <p>Tourmanent type</p>
           <Button.Group>
             <Button onClick={() => setTournamentType("LEAGUE")}>League</Button>
@@ -74,7 +74,7 @@ export function NewLeagueInfo({
               <Button disabled>Victory 1p | tie 0.5p | losse 0p</Button>
             </Button.Group>
           </div>
-        )}
+        )} */}
 
         <div className="max-w-xs w-50 h-50 border-2 bg-slate-300 border-zinc-50 border-dashed p-1 rounded-xl flex flex-col justify-center items-center aspect-square">
           {previewImage ? (
