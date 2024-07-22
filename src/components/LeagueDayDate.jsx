@@ -20,7 +20,7 @@ export function LeagueDayDate({
       }}
     >
       <div
-        className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-slate-300 absolute rounded-xl justify-between h-full pt-2 pl-2`}
+        className={`w-[calc(100%-1rem)] md:w-[calc(100%-5rem)] lg:w-[calc(100%-6rem)]  xl:w-[calc(100%-23rem)] bg-slate-400 absolute rounded-xl justify-between h-full pt-2 pl-2`}
         style={{
           height: `${heightJornada}px`,
         }}
