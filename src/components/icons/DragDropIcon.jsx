@@ -1,3 +1,7 @@
+/**
+ * @param {{svgClassName?: string, pathClassName?: string}} param0
+ * @returns {JSX.Element}
+ */
 export function DragDropIcon({ svgClassName = "", pathClassName = "" }) {
   return (
     <svg

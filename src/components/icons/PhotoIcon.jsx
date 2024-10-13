@@ -1,3 +1,7 @@
+/**
+ * @param {{svgClassName?: string, pathClassName?: string}} param0
+ * @returns {JSX.Element}
+ */
 export function PhotoIcon({ svgClassName, pathClassName }) {
   return (
     <svg

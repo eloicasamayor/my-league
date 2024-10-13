@@ -9,5 +9,9 @@ export default defineConfig(({ mode }) => {
     server: { https: true },
     plugins: [react(), mkcert()],
     base: "/",
+    test: {
+      globals: true,
+      environment: "jsdom",
+    },
   };
 });

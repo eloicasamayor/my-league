@@ -1,3 +1,7 @@
+/**
+ * @param {{svgClassName?: string, pathClassName?: string, h?: string, w?: string}} param0
+ * @returns {JSX.Element}
+ */
 export function UpdateIcon({
   svgClassName = "",
   pathClassName = "",

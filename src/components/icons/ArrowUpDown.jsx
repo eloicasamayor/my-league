@@ -1,3 +1,7 @@
+/**
+ * @param {{svgClassName?: string, pathClassName?: string, isUp: boolean}} param0
+ * @returns {JSX.Element}
+ */
 export function ArrowUpDown({ isUp, svgClassName = "", pathClassName = "" }) {
   return (
     <svg

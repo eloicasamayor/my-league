@@ -5,6 +5,11 @@ import { PlusIcon, CircleCheckIcon } from "./icons";
 import { Toast } from "flowbite-react";
 import { ExclamationCircleIcon } from "./icons/ExclamationCircleIcon";
 
+/**
+ *
+ * @param {{children: React.ReactNode, onCloseAlert: function, isError?: boolean, secondsToAutoClose?: number}} param0
+ * @returns {React.ReactElement}
+ */
 export function Alert({
   children,
   onCloseAlert,
@@ -31,7 +36,7 @@ export function Alert({
       </div>
       <div className="ml-3 text-sm font-normal w-full">{children}</div>
       <button
-        onClick={() => onCloseAlert("")}
+        onClick={() => onCloseAlert()}
         className="absolute top-1 right-1 rotate-45 "
       >
         <PlusIcon />

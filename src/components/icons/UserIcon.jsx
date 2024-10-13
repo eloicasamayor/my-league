@@ -1,3 +1,7 @@
+/**
+ * @param {{svgClassName?: string, pathClassName?: string}} param0
+ * @returns {JSX.Element}
+ */
 export function UserIcon({ svgClassName, pathClassName }) {
   return (
     <svg

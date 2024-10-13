@@ -1,3 +1,6 @@
+/**
+ * @returns {JSX.Element}
+ */
 export function ArrowBackIcon() {
   return (
     <svg
