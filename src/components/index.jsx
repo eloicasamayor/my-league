@@ -17,7 +17,7 @@ export { EditPlayerForm } from "./forms";
 export { PageLayout } from "./PageLayout";
 export { Modal } from "./Modal";
 export { StepsNavigation } from "./StepsNavigation";
-export { Alert } from "./Alert";
+export { Header as Alert } from "./Alert";
 export { LeagueDayMatchings } from "./LeagueDayMatchings";
 export { LeagueDayDate } from "./LeagueDayDate";
 
