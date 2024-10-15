@@ -1,3 +1,8 @@
+/**
+ * Rep un array i el retorna barrejat
+ * @param {any[]} array
+ * @returns {any[]}
+ */
 export function shuffle(array) {
   let currentIndex = array.length,
     randomIndex;

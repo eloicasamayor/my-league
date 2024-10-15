@@ -1,7 +1,6 @@
 /**
  *
- * @param {String} text
- * @param {number} desiredLenght
+ * @param {{text: string, desiredLenght: number}} param
  * @returns
  */
 export function truncateString({ text, desiredLenght = 20 }) {

@@ -12,6 +12,9 @@ import { useSelector } from "react-redux";
 // Components
 import { PlayersList, MatchesCalendar } from "../components";
 
+/**
+ * @returns {JSX.Element}
+ */
 export function TeamPage() {
   const { teamName } = useParams();
 

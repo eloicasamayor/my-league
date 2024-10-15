@@ -1,3 +1,8 @@
+/**
+ * Rep un string i el retorna treient els caràcters prohibits en una url
+ * @param {string} name
+ * @returns string
+ */
 export function nameToUrlName(name) {
   return name
     .normalize("NFD")

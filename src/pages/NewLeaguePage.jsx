@@ -6,7 +6,6 @@ import {
   useInsertTeamMutation,
   useInsertMatchMutation,
   useInsertPlayerMutation,
-  matches,
   useUpdateLeagueMutation,
 } from "../redux";
 import { useState, useEffect, useRef } from "react";
@@ -14,13 +13,10 @@ import { useState, useEffect, useRef } from "react";
 // Components
 import {
   PlusIcon,
-  ArrowBackIcon,
   TrashIcon,
   UpdateIcon,
   TeamIcon,
   UserIcon,
-  UploadIcon,
-  PhotoIcon,
 } from "../components/icons";
 import {
   StepsNavigation,
@@ -40,6 +36,7 @@ import {
   addDatesToMatchings,
   useWindowDimensions,
   shuffleMatchings,
+  validateNewLeague,
 } from "../helpers";
 import { addDays, format } from "date-fns";
 
@@ -58,8 +55,6 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  /** @type {'LEAGUE' | ELIMINATION'} */
-  const [tournamentType, setTournamentType] = useState("LEAGUE");
   const imgRef = useRef();
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -195,6 +190,18 @@ export function NewLeaguePage() {
   const heightJornada = totalFilas * 32 + 8;
 
   const handleSubmit = async () => {
+    const { isError, message } = validateNewLeague({
+      leagueName,
+      teams,
+      matchings,
+      players,
+    });
+
+    if (isError) {
+      setAlertMessage({ isError, message });
+      return;
+    }
+
     const alert = await saveNewLeague({
       leagueName,
       leagueDescription,
@@ -281,8 +288,6 @@ export function NewLeaguePage() {
           setLeagueName={setLeagueName}
           leagueDescription={leagueDescription}
           setLeagueDescription={setLeagueDescription}
-          tournamentType={tournamentType}
-          setTournamentType={setTournamentType}
           imgRef={imgRef}
         />
       )}

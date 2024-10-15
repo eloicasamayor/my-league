@@ -14,7 +14,6 @@ import {
   LoginPage,
   NewLeaguePage,
   UpdatePassword,
-  NewTournamentPage,
 } from "./pages";
 import { PageLayout } from "./components/PageLayout";
 
@@ -28,10 +27,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Route path="/account" element={<LoginPage />}></Route>
             <Route path="/update-password" element={<UpdatePassword />}></Route>
             <Route path="/new-league" element={<NewLeaguePage />}></Route>
-            <Route
-              path="/new-tournament"
-              element={<NewTournamentPage />}
-            ></Route>
             <Route path=":leagueUrlName">
               <Route index element={<LeaguePage />} />
               <Route path=":teamName" element={<TeamPage />} />

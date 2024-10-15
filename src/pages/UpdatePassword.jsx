@@ -9,6 +9,10 @@ import { useRef, useState } from "react";
 import { TextInput, Button, Label } from "flowbite-react";
 import { Alert } from "../components";
 
+/**
+ *
+ * @returns {JSX.Element}
+ */
 export function UpdatePassword() {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);

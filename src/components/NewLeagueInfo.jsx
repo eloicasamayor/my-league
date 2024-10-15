@@ -8,8 +8,6 @@ export function NewLeagueInfo({
   setLeagueName,
   leagueDescription,
   setLeagueDescription,
-  tournamentType,
-  setTournamentType,
   imgRef,
 }) {
   const [previewImage, setPreviewImage] = useState(imgRef?.current?.url);
@@ -57,25 +55,6 @@ export function NewLeagueInfo({
             onChange={(e) => setLeagueDescription(e.target.value)}
           />
         </div>
-        {/* <div className="relative w-full p-1 md:p-2">
-          <p>Tourmanent type</p>
-          <Button.Group>
-            <Button onClick={() => setTournamentType("LEAGUE")}>League</Button>
-            <Button disabled onClick={() => setTournamentType("ELIMINATION")}>
-              Elimination rounds
-            </Button>
-          </Button.Group>
-        </div>
-        {tournamentType === "LEAGUE" && (
-          <div className="relative w-full p-1 md:p-2">
-            <p>Ranking base</p>
-            <Button.Group>
-              <Button>Victory 3p | tie 1p | losse 0p</Button>
-              <Button disabled>Victory 1p | tie 0.5p | losse 0p</Button>
-            </Button.Group>
-          </div>
-        )} */}
-
         <div className="max-w-xs w-50 h-50 border-2 bg-slate-300 border-zinc-50 border-dashed p-1 rounded-xl flex flex-col justify-center items-center aspect-square">
           {previewImage ? (
             <>
