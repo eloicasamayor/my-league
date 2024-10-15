@@ -4,6 +4,9 @@ import { addDays } from "date-fns";
 // helpers
 import { getFirstMatchDay } from "./getFirstMatchDay";
 
+/**
+ * @param {{matchings: string[][][], weekDayValue: number, startingDateValue: string}} param
+ */
 export function addDatesToMatchings({
   matchings,
   weekDayValue,

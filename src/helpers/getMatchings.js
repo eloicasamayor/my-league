@@ -1,3 +1,8 @@
+/**
+ *
+ * @param {string[]} teams
+ * @returns {string[][][]}
+ */
 export function getMatchings(teams) {
   let schedule = [];
   let league = teams.slice();

@@ -61,7 +61,7 @@ export function NewLeaguePage() {
   const [startingDateValue, setStartingDateValue] = useState(
     format(new Date(), "yyyy-MM-dd")
   );
-  const [weekDayValue, setWeekDayValue] = useState("6");
+  const [weekDayValue, setWeekDayValue] = useState(6);
   const [teams, setTeams] = useState([]);
   const [players, setPlayers] = useState([]);
 
@@ -453,7 +453,7 @@ export function NewLeaguePage() {
               value={weekDayValue}
               options={WEEK_DAYS.map((day, i) => ({ value: i, label: day }))}
               onChange={(e) => {
-                setWeekDayValue(e);
+                setWeekDayValue(e.parseInt());
                 setMatchings([]);
               }}
             />
