@@ -4,27 +4,43 @@
  * @returns {string[][][]}
  */
 export function getMatchings(teams) {
-  let schedule = [];
-  let league = teams.slice();
-
-  if (league.length % 2) {
-    league.push("None");
+  /**
+   * @type {string[][][]}
+   */
+  if (!teams.length) {
+    return [];
   }
 
-  let rounds = league.length;
+  let schedule = [];
+  // .slice per fer una còpia del array teams.
+  // Si fes let league = teams, qualsevol canvi a teams afectaria també a league.
+  let teamsList = teams.slice();
 
-  for (let j = 0; j < (rounds - 1) * 2; j++) {
+  // Si el num d'equips és senar afegim l'equip "None", així tenim un número parell.
+  if (teamsList.length % 2) {
+    teamsList.push("None");
+  }
+
+  let numTeams = teamsList.length;
+
+  // el número de jornades serà (teamsList.length - 1) * 2
+  for (let j = 0; j < (numTeams - 1) * 2; j++) {
     schedule[j] = [];
-    for (let i = 0; i < rounds / 2; i++) {
-      if (league[i] !== "None" && league[rounds - 1 - i] !== "None") {
-        if (j % 2 == 1) {
-          schedule[j].push([league[i], league[rounds - 1 - i]]);
-        } else {
-          schedule[j].push([league[rounds - 1 - i], league[i]]);
-        }
+    for (let i = 0; i < numTeams / 2; i++) {
+      // De la llista teamsList, s'emparella el primer amb l'últim, el segon amb el penúltim, etc.
+      const teamA = teamsList[i];
+      const teamB = teamsList[numTeams - 1 - i];
+      // Si un dels dos equips que s'haurien d'emparellar es "None", no s'afegeixen al calendari.
+      if (teamA !== "None" && teamB !== "None") {
+        // girem l'emparellament depenent de la ronda
+        schedule[j].push(j % 2 === 1 ? [teamA, teamB] : [teamB, teamA]);
       }
     }
-    league.splice(1, 0, league.pop());
+
+    // Posem l'últim equip a la segona posició. Així cada ronda de partits serà diferent de l'anterior.
+    const lastTeam = teamsList.pop();
+    teamsList.splice(1, 0, lastTeam);
   }
+
   return schedule;
 }
