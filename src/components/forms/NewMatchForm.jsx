@@ -17,7 +17,26 @@ export function NewMatchForm({
   const matchDayRef = useRef();
   return (
     <>
-      <form className="flex flex-col gap-2">
+      <form
+        className="flex flex-col gap-2"
+        onSubmit={async (e) => {
+          e.preventDefault();
+          const insertMatchReqResult = await insertMatch({
+            date: dateRef.current.value,
+            local_team: localTeamRef.current.value,
+            visitor_team: visitorTeamRef.current.value,
+            match_day: matchDayRef.current.value,
+            league: currentLeague.id,
+          });
+          setAlertMessage({
+            message: insertMatchReqResult.error
+              ? "There was an error creating the new match: " +
+                insertMatchReqResult.error.message
+              : "Match updated correctly",
+            isError: insertMatchReqResult.error,
+          });
+        }}
+      >
         <label htmlFor={"date"}>Date:</label>
         <input
           type={"datetime-local"}
@@ -64,28 +83,7 @@ export function NewMatchForm({
           required
         />
         <br />
-        <Button
-          type={"button"}
-          onClick={async (e) => {
-            e.preventDefault();
-            const insertMatchReqResult = await insertMatch({
-              date: dateRef.current.value,
-              local_team: localTeamRef.current.value,
-              visitor_team: visitorTeamRef.current.value,
-              match_day: matchDayRef.current.value,
-              league: currentLeague.id,
-            });
-            setAlertMessage({
-              message: insertMatchReqResult.error
-                ? "There was an error creating the new match: " +
-                  insertMatchReqResult.error.message
-                : "Match updated correctly",
-              isError: insertMatchReqResult.error,
-            });
-          }}
-        >
-          submit
-        </Button>
+        <Button type={"submit"}>submit</Button>
         <span>{NewMatchForm.error?.data?.message || ""}</span>
       </form>
     </>

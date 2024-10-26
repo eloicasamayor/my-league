@@ -10,7 +10,7 @@ import { EditPhotoForm } from "./EditPhotoForm";
 import { TrashIcon } from "../icons";
 import { nameToUrlName } from "../../helpers";
 
-export function EditTeamForm({ team = {}, setAlertMessage, closeModal }) {
+export function EditTeamForm({ team, setAlertMessage, closeModal }) {
   const [editTeam, requestResult] = useUpdateTeamMutation();
   const [deleteTeam] = useDeleteTeamMutation();
 
@@ -24,7 +24,32 @@ export function EditTeamForm({ team = {}, setAlertMessage, closeModal }) {
           bucketName={"teams-img"}
           updateItem={editTeam}
         />
-        <form className="flex flex-col gap-2 w-full">
+        <form
+          className="flex flex-col gap-2 w-full"
+          onSubmit={async (e) => {
+            if (!nameRef.current) {
+              setAlertMessage({
+                isError: true,
+                message: `There was an error with the form. please try again`,
+              });
+              return;
+            }
+            e.preventDefault();
+            const editTeamReq = await editTeam({
+              id: team.id,
+              name: nameRef.current.value,
+              urlname: nameToUrlName(nameRef.current.value),
+            });
+            setAlertMessage({
+              isError: "error" in editTeamReq,
+              message:
+                "error" in editTeamReq
+                  ? `There was an error updating the team: ${editTeamReq.error.message}`
+                  : "Team updated correctly",
+            });
+            !("error" in editTeamReq) && closeModal();
+          }}
+        >
           <label htmlFor={"name"}>Name:</label>
           <input
             type={"text"}
@@ -34,25 +59,7 @@ export function EditTeamForm({ team = {}, setAlertMessage, closeModal }) {
             defaultValue={team.name}
             required
           />
-          <Button
-            onClick={async (e) => {
-              e.preventDefault();
-              const editTeamReq = await editTeam({
-                id: team.id,
-                name: nameRef.current.value,
-                urlname: nameToUrlName(nameRef.current.value),
-              });
-              setAlertMessage({
-                isError: !!editTeamReq.error,
-                message: editTeamReq.error
-                  ? `There was an error updating the team: ${editTeamReq.error.message}`
-                  : "Team updated correctly",
-              });
-              !editTeamReq.error && closeModal();
-            }}
-          >
-            submit
-          </Button>
+          <Button type="submit">submit</Button>
         </form>
       </div>
 

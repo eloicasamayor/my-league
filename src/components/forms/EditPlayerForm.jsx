@@ -18,7 +18,7 @@ import { Button, TextInput, Select } from "flowbite-react";
  * @returns
  */
 export function EditPlayerForm({
-  player = {},
+  player,
   teamsData,
   setAlertMessage,
   onCloseModal,
@@ -29,9 +29,9 @@ export function EditPlayerForm({
    */
   const nameRef = useRef(null);
   /**
-   * @type {React.MutableRefObject<HTMLSelectElement | undefined>}
+   * @type {React.MutableRefObject<HTMLSelectElement | null>}
    */
-  const teamRef = useRef();
+  const teamRef = useRef(null);
   const teams = useGetTeamsQuery({});
   const [deletePlayer] = useDeletePlayerMutation();
 
@@ -40,7 +40,32 @@ export function EditPlayerForm({
   }
   return (
     <>
-      <form className="flex flex-col gap-2">
+      <form
+        className="flex flex-col gap-2"
+        onSubmit={async (e) => {
+          if (!nameRef.current || !teamRef.current) {
+            setAlertMessage({
+              isError: true,
+              message: "There was an error updating the player",
+            });
+            return;
+          }
+          e.preventDefault();
+          const editPlayerReq = await editPlayer({
+            id: player.id,
+            name: nameRef.current.value,
+            team: teamRef.current.value,
+          });
+          setAlertMessage({
+            isError: "error" in editPlayerReq,
+            message:
+              "error" in editPlayerReq
+                ? "There was an error updating the player"
+                : "Player updated correctly",
+          });
+          !("error" in editPlayerReq) && onCloseModal();
+        }}
+      >
         <label htmlFor={"name"}>Name:</label>
         <TextInput
           id={"name"}
@@ -65,25 +90,7 @@ export function EditPlayerForm({
               </option>
             ))}
         </Select>
-        <Button
-          onClick={async (e) => {
-            e.preventDefault();
-            const editPlayerReq = await editPlayer({
-              id: player.id,
-              name: nameRef.current.value,
-              team: teamRef.current.value,
-            });
-            setAlertMessage({
-              isError: !!editPlayerReq.error,
-              message: editPlayerReq.error
-                ? "There was an error updating the player"
-                : "Player updated correctly",
-            });
-            !editPlayerReq.error && onCloseModal();
-          }}
-        >
-          submit
-        </Button>
+        <Button type="submit">submit</Button>
       </form>
       <Button
         color="failure"
