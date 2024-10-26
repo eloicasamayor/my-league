@@ -166,15 +166,12 @@ export function Classification({ data, isLoading, isOwner }) {
               }}
             >
               <Table.Cell>
-                {!team.img ? (
+                {team.img ? (
+                  <img src={team.img} className="inline-block h-9 w-9 " />
+                ) : (
                   <div className="flex items-center justify-center h-9 w-9 rounded-xl ring-2 ring-white bg-violet-100 p-1">
                     <TeamIcon pathClassName={"stroke-violet-400"} />
                   </div>
-                ) : (
-                  <img
-                    src={team.img}
-                    className="flex items-center justify-center h-9 w-9 rounded-xl ring-2 ring-white"
-                  />
                 )}
               </Table.Cell>
               <Table.Cell>

@@ -1,10 +1,10 @@
 // Components
-import { Logo, GithubIcon, EmailIcon } from "./icons";
+import { Logo, GithubIcon, UserIcon } from "./icons";
 import { Flowbite, DarkThemeToggle } from "flowbite-react";
 
 export function Footer() {
   return (
-    <footer className="flex justify-between p h-14 w-full px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
+    <footer className="flex flex-col md:flex-row justify-between p md:h-14 w-full px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
       <span style={{ display: "flex", textDecoration: "none", gap: "5px" }}>
         <Logo svgClassName="fill-black" />
         {"MyLeague (beta)"}
@@ -19,15 +19,15 @@ export function Footer() {
       </a>
       <a
         style={{ display: "flex", textDecoration: "none", gap: "5px" }}
-        href="mailto:eloi.casamayor@gmail.com"
+        href="https://eloicasamayor.github.io/new-portfolio/"
         target="_blank"
       >
-        <EmailIcon className={"fill-black	"} />
-        Contact me
+        <UserIcon className={"fill-black	"} />
+        About the author
       </a>
 
       <Flowbite>
-        <DarkThemeToggle />
+        <DarkThemeToggle className="text-black" />
       </Flowbite>
     </footer>
   );
