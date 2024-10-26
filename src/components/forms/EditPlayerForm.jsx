@@ -12,6 +12,11 @@ import {
 import { TrashIcon } from "../icons";
 import { Button, TextInput, Select } from "flowbite-react";
 
+/**
+ *
+ * @param {{player: {name, team, id}, teamsData, setAlertMessage, onCloseModal}} param0
+ * @returns
+ */
 export function EditPlayerForm({
   player = {},
   teamsData,
@@ -19,9 +24,15 @@ export function EditPlayerForm({
   onCloseModal,
 }) {
   const [editPlayer, requestResult] = useUpdatePlayerMutation();
-  const nameRef = useRef();
+  /**
+   * @type {React.MutableRefObject<HTMLInputElement | null>}
+   */
+  const nameRef = useRef(null);
+  /**
+   * @type {React.MutableRefObject<HTMLSelectElement | undefined>}
+   */
   const teamRef = useRef();
-  const teams = useGetTeamsQuery();
+  const teams = useGetTeamsQuery({});
   const [deletePlayer] = useDeletePlayerMutation();
 
   if (teams.isLoading) {

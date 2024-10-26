@@ -31,8 +31,10 @@ export function EditPhotoForm({ itemToEdit, bucketName, updateItem }) {
       setImageUrl(response.publicUrl);
     }
   }
-
-  const fileRef = useRef();
+  /**
+   * @type {React.MutableRefObject<HTMLInputElement | null>}
+   */
+  const fileRef = useRef(null);
   return (
     <div className="max-w-xs w-50 h-50 border-2 bg-slate-300 border-zinc-50 border-dashed p-1 rounded-xl flex flex-col justify-center items-center aspect-square">
       {imageUrl ? (
