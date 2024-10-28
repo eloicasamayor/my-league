@@ -35,7 +35,9 @@ export function EditLeagueForm({
 
   const navigate = useNavigate();
 
-  const nameRef = useRef();
+  /** @type {import("react").MutableRefObject | null} */
+  const nameRef = useRef(null);
+  /** @type {import("react").MutableRefObject | null} */
   const descriptionRef = useRef();
 
   if (!leagueToEdit.id) {
@@ -89,12 +91,13 @@ export function EditLeagueForm({
               };
               const updateLeagueReqRes = await updateLeague(patch);
               setAlertMessage({
-                message: updateLeagueReqRes.error
-                  ? updateLeagueReqRes.error.message
-                  : "league updated correctly",
-                isError: !!updateLeagueReqRes.error,
+                message:
+                  "error" in updateLeagueReqRes
+                    ? updateLeagueReqRes.error.message
+                    : "league updated correctly",
+                isError: !!("error" in updateLeagueReqRes),
               });
-              if (updateLeagueReqRes.error) {
+              if ("error" in updateLeagueReqRes) {
                 nameRef.current.value = leagueToEdit.name;
                 descriptionRef.current.value = leagueToEdit.description;
               } else {
@@ -129,10 +132,10 @@ export function EditLeagueForm({
                 const deleteLeagueReqRes = await deleteLeague(leagueToEdit);
 
                 if (
-                  !deleteMatchesReqRes.error &&
-                  !deleteTeamsReqRes.error &&
-                  !deletePlayersReqRes.error &&
-                  !deleteLeagueReqRes.error
+                  !("error" in deleteMatchesReqRes) &&
+                  !("error" in deleteTeamsReqRes) &&
+                  !("error" in deletePlayersReqRes) &&
+                  !("error" in deleteLeagueReqRes)
                 ) {
                   console.log({
                     isError: false,

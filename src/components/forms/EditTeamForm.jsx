@@ -68,7 +68,7 @@ export function EditTeamForm({ team, setAlertMessage, closeModal }) {
         onClick={async () => {
           if (window.confirm("Are you shure to delete the team?")) {
             const deleteTeamRes = await deleteTeam({ id: team.id });
-            if (deleteTeamRes.error) {
+            if ("error" in deleteTeamRes) {
               setAlertMessage({
                 isError: true,
                 message:

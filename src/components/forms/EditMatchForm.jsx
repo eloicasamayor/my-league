@@ -28,8 +28,11 @@ export function EditMatchForm({
   const [updateMatch, requestResult] = useUpdateMatchMutation();
   const [deleteMatch] = useDeleteMatchMutation();
 
+  /** @type {[boolean | undefined, Function]} */
   const [playedValue, setPlayedValue] = useState();
+  /** @type {[number | undefined, Function]} */
   const [localGoalsValue, setLocalGoalsValue] = useState();
+  /** @type {[number | undefined, Function]} */
   const [visitorGoalsValue, setVisitorGoalsValue] = useState();
 
   useEffect(() => {
@@ -38,6 +41,7 @@ export function EditMatchForm({
     setPlayedValue(played);
   }, [id]);
 
+  /** @type {import("react").MutableRefObject} */
   const idRef = useRef();
   const localScorersRef = useRef([]);
   const visitorScorersRef = useRef([]);
@@ -196,7 +200,7 @@ export function EditMatchForm({
                 (ref) => ref?.value
               ),
             });
-            if (updateMatchReqRes.error) {
+            if ("error" in updateMatchReqRes) {
               setAlertMessage({
                 message:
                   "There was an error updating the match: " +

@@ -11,9 +11,13 @@ export function NewMatchForm({
   setAlertMessage,
 }) {
   const [insertMatch, insertMatchReqResult] = useInsertMatchMutation();
+  /** @type {import("react").MutableRefObject} */
   const dateRef = useRef();
+  /** @type {import("react").MutableRefObject} */
   const localTeamRef = useRef();
+  /** @type {import("react").MutableRefObject} */
   const visitorTeamRef = useRef();
+  /** @type {import("react").MutableRefObject} */
   const matchDayRef = useRef();
   return (
     <>
@@ -29,10 +33,11 @@ export function NewMatchForm({
             league: currentLeague.id,
           });
           setAlertMessage({
-            message: insertMatchReqResult.error
-              ? "There was an error creating the new match: " +
-                insertMatchReqResult.error.message
-              : "Match updated correctly",
+            message:
+              "error" in insertMatchReqResult
+                ? "There was an error creating the new match: " +
+                  insertMatchReqResult.error.message
+                : "Match updated correctly",
             isError: insertMatchReqResult.error,
           });
         }}
