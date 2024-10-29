@@ -10,6 +10,7 @@ import { nameToUrlName } from "../../helpers";
 
 export function NewTeamForm({ currentLeague, closeModal }) {
   const [insertTeam, requestResult] = useInsertTeamMutation();
+  /** @type {import("react").MutableRefObject} */
   const nameRef = useRef();
   const { id } = currentLeague;
 

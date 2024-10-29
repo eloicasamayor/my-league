@@ -14,6 +14,7 @@ export function EditTeamForm({ team, setAlertMessage, closeModal }) {
   const [editTeam, requestResult] = useUpdateTeamMutation();
   const [deleteTeam] = useDeleteTeamMutation();
 
+  /** @type {import("react").MutableRefObject} */
   const nameRef = useRef();
 
   return (

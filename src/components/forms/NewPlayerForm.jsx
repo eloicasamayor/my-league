@@ -4,10 +4,13 @@ import { useRef, useState } from "react";
 
 // Components
 import { Button } from "flowbite-react";
+import { Alert } from "../Alert";
 
 export function NewPlayerForm({ teamsData, teamsIsLoading, closeModal }) {
   const [insertPlayer, requestResult] = useInsertPlayerMutation();
+  /** @type {import("react").MutableRefObject} */
   const nameRef = useRef();
+  /** @type {import("react").MutableRefObject} */
   const teamRef = useRef();
   const [alertMessage, setAlertMessage] = useState({
     message: "",
@@ -26,7 +29,7 @@ export function NewPlayerForm({ teamsData, teamsIsLoading, closeModal }) {
       league: teamsData[0].league,
     });
 
-    if (insertPlayerReqRes.error) {
+    if ("error" in insertPlayerReqRes) {
       setAlertMessage({
         message:
           "There was an error creating the player: " +
@@ -40,7 +43,13 @@ export function NewPlayerForm({ teamsData, teamsIsLoading, closeModal }) {
 
   return (
     <>
-      {alertMessage.message && <Alert>{alertMessage.message}</Alert>}
+      {alertMessage.message && (
+        <Alert
+          onCloseAlert={() => setAlertMessage({ message: "", isError: false })}
+        >
+          {alertMessage.message}
+        </Alert>
+      )}
       <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
         <label htmlFor={"name"}>Name:</label>
         <input type={"text"} id={"name"} name={"name"} ref={nameRef} required />

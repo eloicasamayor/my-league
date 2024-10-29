@@ -12,6 +12,18 @@ import { TeamIcon, PencilIcon } from "./icons";
 // Helpers
 import { truncateString } from "../helpers";
 
+/**
+ * @param {object} params
+ * @param {{id: number, name: string, img: string}[]} params.teams
+ * @param {{id: number} | null} params.selectedTeam
+ * @param {{local_team: object, visitor_team: object}[]} params.matchesData
+ * @param {boolean} params.matchesIsLoading
+ * @param {object} params.playersData
+ * @param {object} params.teamsData
+ * @param {boolean} params.isOwner
+ * @param {function} params.setAlertMessage
+ * @returns
+ */
 export function MatchesCalendar({
   teams,
   selectedTeam = null,
@@ -33,24 +45,27 @@ export function MatchesCalendar({
     return <p>{"no matches :("}</p>;
   }
   function getTeamNameWithId(id) {
-    if (teams) {
-      return teams.find((team) => team.id === id).name;
+    const teamFound = teams.find((team) => team.id === id);
+    if (teamFound) {
+      teamFound.name;
     } else {
       return id;
     }
   }
 
   function getTeamImgWithId(id) {
-    if (teams) {
-      return teams.find((team) => team.id === id).img;
+    const teamFound = teams.find((team) => team.id === id);
+    if (teamFound) {
+      return teamFound.img;
     } else {
       return id;
     }
   }
 
   function getPlayerNameWithId(id) {
-    if (playersData) {
-      return playersData.find((player) => player.id === id)?.name;
+    const playerFound = playersData.find((player) => player.id === id);
+    if (playerFound) {
+      return playerFound.name;
     } else {
       return id;
     }

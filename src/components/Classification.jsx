@@ -73,8 +73,7 @@ export function Classification({ data, isLoading, isOwner }) {
       {!!alertMessage.message && (
         <Alert
           isError={alertMessage.isError}
-          onCloseAlert={() => setAlertMessage({ message: "" })}
-          secondsToAutoClose={alertMessage?.secondsToAutoClose}
+          onCloseAlert={() => setAlertMessage({ message: "", isError: false })}
         >
           {alertMessage.message}
         </Alert>
@@ -110,6 +109,7 @@ export function Classification({ data, isLoading, isOwner }) {
             clickOrderBy={clickOrderBy}
           />
           <SortableHeadCell
+            label="points"
             param="points"
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
@@ -124,16 +124,19 @@ export function Classification({ data, isLoading, isOwner }) {
           {seeAllStats && (
             <>
               <SortableHeadCell
+                label="wins"
                 param="wins"
                 orderBy={orderBy}
                 clickOrderBy={clickOrderBy}
               />
               <SortableHeadCell
+                label={"draws"}
                 param="draws"
                 orderBy={orderBy}
                 clickOrderBy={clickOrderBy}
               />
               <SortableHeadCell
+                label={"defeats"}
                 param="defeats"
                 orderBy={orderBy}
                 clickOrderBy={clickOrderBy}
