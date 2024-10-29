@@ -10,6 +10,18 @@ import { Table, Button } from "flowbite-react";
 // Helpers
 import { truncateString } from "../helpers";
 
+/**
+ *
+ * @param {object} params
+ * @param {object[]} params.teamsData
+ * @param {boolean} params.teamsIsLoading
+ * @param {{id: number, name: string} | null} params.selectedTeam
+ * @param {object[]} params.playersData
+ * @param {boolean} params.playersIsLoading
+ * @param {boolean} params.isOwner
+ * @param {function} params.setAlertMessage
+ * @returns
+ */
 export function PlayersList({
   teamsData,
   teamsIsLoading,
@@ -87,6 +99,7 @@ export function PlayersList({
       >
         <Table.Head className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <SortableHeadCell
+            label={"name"}
             param={"name"}
             orderBy={orderBy}
             clickOrderBy={clickOrderBy}
