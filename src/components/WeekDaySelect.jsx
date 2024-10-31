@@ -1,7 +1,8 @@
 // Components
 import { Select } from "flowbite-react";
+import { WEEK_DAYS } from "./constants/dates";
 
-export function WeekDaySelect({ options, value, onChange }) {
+export function WeekDaySelect({ value, onChange }) {
   return (
     <div id="select">
       <div className="mb-2 block">
@@ -17,9 +18,9 @@ export function WeekDaySelect({ options, value, onChange }) {
           onChange(e.target.value);
         }}
       >
-        {options.map((option, i) => (
-          <option key={i} value={option.value}>
-            {option.label}
+        {WEEK_DAYS.map((weekday, i) => (
+          <option key={i} value={i}>
+            {weekday}
           </option>
         ))}
       </Select>

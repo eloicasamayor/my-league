@@ -41,7 +41,6 @@ import {
 import { addDays, format } from "date-fns";
 
 // Constants
-import { WEEK_DAYS } from "../components/constants/dates";
 import { NewLeagueInfo } from "../components/NewLeagueInfo";
 
 export function NewLeaguePage() {
@@ -451,9 +450,8 @@ export function NewLeaguePage() {
 
             <WeekDaySelect
               value={weekDayValue}
-              options={WEEK_DAYS.map((day, i) => ({ value: i, label: day }))}
               onChange={(e) => {
-                setWeekDayValue(e.parseInt());
+                setWeekDayValue(parseInt(e));
                 setMatchings([]);
               }}
             />

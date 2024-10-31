@@ -46,8 +46,8 @@ export function MatchesCalendar({
   }
   function getTeamNameWithId(id) {
     const teamFound = teams.find((team) => team.id === id);
-    if (teamFound) {
-      teamFound.name;
+    if (teamFound && teamFound.name) {
+      return teamFound.name;
     } else {
       return id;
     }
@@ -55,7 +55,7 @@ export function MatchesCalendar({
 
   function getTeamImgWithId(id) {
     const teamFound = teams.find((team) => team.id === id);
-    if (teamFound) {
+    if (teamFound && teamFound.img) {
       return teamFound.img;
     } else {
       return id;
@@ -64,7 +64,7 @@ export function MatchesCalendar({
 
   function getPlayerNameWithId(id) {
     const playerFound = playersData.find((player) => player.id === id);
-    if (playerFound) {
+    if (playerFound && playerFound.name) {
       return playerFound.name;
     } else {
       return id;
