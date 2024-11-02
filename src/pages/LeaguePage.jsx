@@ -27,12 +27,19 @@ import { Dropdown } from "flowbite-react";
 
 export function LeaguePage() {
   const { leagueUrlName } = useParams();
-  const { data: leaguesData, isLoading: leaguesIsLoading } =
-    useGetLeaguesQuery();
+  const { data: leaguesData, isLoading: leaguesIsLoading } = useGetLeaguesQuery(
+    {}
+  );
 
-  let { data: teamsData = [], isLoading: teamsIsLoading } = useGetTeamsQuery();
-  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
-  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
+  let { data: teamsData = [], isLoading: teamsIsLoading } = useGetTeamsQuery(
+    {}
+  );
+  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery(
+    {}
+  );
+  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery(
+    {}
+  );
 
   const authData = useSelector((state) => state.auth);
 
@@ -45,6 +52,7 @@ export function LeaguePage() {
     isError: false,
     message: "",
   });
+
   if (
     teamsIsLoading ||
     matchesIsLoading ||
@@ -53,19 +61,23 @@ export function LeaguePage() {
   ) {
     return <p>{"loading..."}</p>;
   }
-  const currentLeague = leaguesData.find(
-    (league) => league.urlname === leagueUrlName
-  );
+
+  const currentLeague =
+    leaguesData &&
+    leaguesData.find((league) => league.urlname === leagueUrlName);
   if (!currentLeague) {
     return <h2>Not found league "{leagueUrlName}"</h2>;
   }
+
   teamsData = teamsData.filter((team) => team.league === currentLeague.id);
-  matchesData = matchesData.filter(
-    (match) => match.league === currentLeague.id
-  );
-  playersData = playersData.filter((player) =>
-    teamsData.find((team) => team.id === player.team)
-  );
+  matchesData =
+    matchesData &&
+    matchesData.filter((match) => match.league === currentLeague.id);
+  playersData =
+    playersData &&
+    playersData.filter((player) =>
+      teamsData.find((team) => team.id === player.team)
+    );
   const isOwner = authData?.user?.id === currentLeague.owner;
 
   return (

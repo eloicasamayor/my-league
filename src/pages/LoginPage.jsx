@@ -11,7 +11,9 @@ import { Alert } from "../components";
 export function LoginPage() {
   const dispatch = useDispatch();
   const authData = useSelector((state) => state.auth);
+  /** @type {import("react").MutableRefObject} */
   const emailRef = useRef();
+  /** @type {import("react").MutableRefObject} */
   const passwordRef = useRef();
   const [alertMessage, setAlertMessage] = useState({
     message: "",

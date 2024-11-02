@@ -18,14 +18,19 @@ import { PlayersList, MatchesCalendar } from "../components";
 export function TeamPage() {
   const { teamName } = useParams();
 
-  let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery();
-  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery();
-  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery();
-  const { data: leaguesData, isLoading: leaguesIsLoading } =
-    useGetLeaguesQuery();
+  let { data: teamsData, isLoading: teamsIsLoading } = useGetTeamsQuery({});
+  let { data: playersData, isLoading: playersIsLoading } = useGetPlayersQuery(
+    {}
+  );
+  let { data: matchesData, isLoading: matchesIsLoading } = useGetMatchesQuery(
+    {}
+  );
+  const { data: leaguesData, isLoading: leaguesIsLoading } = useGetLeaguesQuery(
+    {}
+  );
 
   const [isOwner, setIsOwner] = useState(false);
-  const [selectedTeam, setSelectedTeam] = useState();
+  const [selectedTeam, setSelectedTeam] = useState(null);
   const authData = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -45,7 +50,7 @@ export function TeamPage() {
   }, [JSON.stringify(teamsData)]);
 
   if (!teamName) {
-    return "no selected team";
+    return <p>{"no selected team"}</p>;
   }
 
   if (
@@ -54,7 +59,7 @@ export function TeamPage() {
     playersIsLoading ||
     leaguesIsLoading
   ) {
-    return "loading...";
+    return <p>{"loading..."}</p>;
   }
 
   if (
@@ -67,7 +72,7 @@ export function TeamPage() {
     !leaguesData ||
     !leaguesData.length
   ) {
-    return "no data......";
+    return <p>"no data......"</p>;
   }
 
   return (
