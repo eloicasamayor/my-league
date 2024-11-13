@@ -39,6 +39,7 @@ export function getMatchings(teams) {
 
     // Posem l'últim equip a la segona posició. Així cada ronda de partits serà diferent de l'anterior.
     const lastTeam = teamsList.pop();
+    // @ts-ignore
     teamsList.splice(1, 0, lastTeam);
   }
 

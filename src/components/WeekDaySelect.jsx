@@ -2,6 +2,11 @@
 import { Select } from "flowbite-react";
 import { WEEK_DAYS } from "./constants/dates";
 
+/**
+ *
+ * @param {{value: number, onChange: function}} param0
+ * @returns {JSX.Element}
+ */
 export function WeekDaySelect({ value, onChange }) {
   return (
     <div id="select">

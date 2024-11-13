@@ -31,12 +31,12 @@ import { Button } from "flowbite-react";
 import {
   saveNewLeague,
   getFirstMatchDay,
-  shuffle,
+  getShuffled,
   getMatchings,
   addDatesToMatchings,
   useWindowDimensions,
-  shuffleMatchings,
   validateNewLeague,
+  addEmptyPairingsOnEveryRestDay,
 } from "../helpers";
 import { addDays, format } from "date-fns";
 
@@ -470,11 +470,14 @@ export function NewLeaguePage() {
               <div className="flex gap-2 pb-2">
                 <Button
                   onClick={() => {
-                    const teamsCopy = [...teams];
-                    shuffle(teamsCopy);
-                    setMatchings(
-                      shuffleMatchings(matchings, getMatchings(teamsCopy))
-                    );
+                    const shuffledTeamsList = getShuffled([...teams]);
+                    const shuffledPairings = getMatchings(shuffledTeamsList);
+                    const shuffledPairingPreservingRestDays =
+                      addEmptyPairingsOnEveryRestDay(
+                        matchings,
+                        shuffledPairings
+                      );
+                    setMatchings(shuffledPairingPreservingRestDays);
                   }}
                   className={"flex items-center justify-center"}
                 >

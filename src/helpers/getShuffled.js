@@ -1,9 +1,10 @@
 /**
  * Rep un array i el retorna barrejat
- * @param {any[]} array
+ * @param {any[]} arrayOriginal
  * @returns {any[]}
  */
-export function shuffle(array) {
+export function getShuffled(arrayOriginal) {
+  const array = [...arrayOriginal];
   let currentIndex = array.length,
     randomIndex;
 
