@@ -1,4 +1,3 @@
-export { MatchesList } from "./MatchesList";
 export { MatchesCalendar } from "./MatchesCalendar";
 
 export { Classification } from "./Classification";
