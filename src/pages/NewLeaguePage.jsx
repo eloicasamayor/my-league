@@ -43,6 +43,9 @@ import { addDays, format } from "date-fns";
 // Constants
 import { NewLeagueInfo } from "../components/NewLeagueInfo";
 
+// Types
+import "../types";
+
 export function NewLeaguePage() {
   const [insertLeague, newLeagueReqResult] = useInsertLeagueMutation();
   const [updateLeague, updateLeagueReqResult] = useUpdateLeagueMutation();
@@ -54,17 +57,31 @@ export function NewLeaguePage() {
 
   const [leagueName, setLeagueName] = useState("");
   const [leagueDescription, setLeagueDescription] = useState("");
-  const imgRef = useRef();
+  /**
+   * @type {React.RefObject<ImageRef>}
+   */
+  const imgRef = useRef(null);
 
+  /** @type {[number, React.Dispatch<React.SetStateAction<number>>]} */
   const [selectedTab, setSelectedTab] = useState(0);
+
+  /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [startingDateValue, setStartingDateValue] = useState(
     format(new Date(), "yyyy-MM-dd")
   );
-  const [weekDayValue, setWeekDayValue] = useState(6);
-  const [teams, setTeams] = useState([]);
-  const [players, setPlayers] = useState([]);
 
-  // objecte jornadas [{date: <>, matches: [<>, <>]}]
+  const [weekDayValue, setWeekDayValue] = useState(6);
+
+  /** @type {[TeamsListT, React.Dispatch<React.SetStateAction<TeamsListT>>]} */
+  const [teams, setTeams] = useState(/** @type {TeamsListT} */ ([]));
+
+  /** @type {[PlayersListsT, React.Dispatch<React.SetStateAction<PlayersListsT>>]} */
+  const [players, setPlayers] = useState(/** @type {PlayersListsT} */ ([]));
+
+  /**
+   * objecte jornadas [{date: <>, matches: [<>, <>]}]
+   * @type {LeagueDatesAndPairingsT}
+   */
   const [matchings, setMatchings] = useState([]);
 
   const [alertMessage, setAlertMessage] = useState({
@@ -263,6 +280,17 @@ export function NewLeaguePage() {
     return false;
   }
 
+  function handleTeamDelete({ event, teamIndex }) {
+    event.preventDefault();
+    const teamsCopy = [...teams];
+    teamsCopy.splice(teamIndex, 1);
+    setTeams(teamsCopy);
+    const playersCopy = [...players];
+    playersCopy.splice(teamIndex, 1);
+    setPlayers(playersCopy);
+    setMatchings([]);
+  }
+
   return (
     <div className="pt-2 bg-slate-200 grow flex flex-col">
       {alertMessage.message && (
@@ -314,25 +342,14 @@ export function NewLeaguePage() {
                       onFocus={(event) => event.target.select()}
                     />
                     <div className="absolute left-0.5 top-0.5 flex items-center justify-center h-10 w-10 rounded-lg ring-0 ring-white bg-violet-100 p-1">
-                      {team.img ? (
-                        <img src={team.img} className={"w-4"} />
-                      ) : (
-                        <TeamIcon pathClassName={"stroke-violet-400"} />
-                      )}
+                      <TeamIcon pathClassName={"stroke-violet-400"} />
                     </div>
                     <Button
                       size="sm"
                       className="absolute right-0.5 top-0.5"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        const teamsCopy = [...teams];
-                        teamsCopy.splice(i, 1);
-                        setTeams(teamsCopy);
-                        const playersCopy = [...players];
-                        playersCopy.splice(i, 1);
-                        setPlayers(playersCopy);
-                        setMatchings([]);
-                      }}
+                      onClick={(e) =>
+                        handleTeamDelete({ event: e, teamIndex: i })
+                      }
                     >
                       <TrashIcon />
                     </Button>
@@ -392,11 +409,7 @@ export function NewLeaguePage() {
                     onFocus={(event) => event.target.select()}
                   ></input>
                   <div className="absolute left-0.5 top-0.5 flex items-center justify-center h-10 w-10 rounded-lg ring-0 ring-white bg-violet-100 p-1">
-                    {team.img ? (
-                      <img src={team.img} className={"w-4"} />
-                    ) : (
-                      <UserIcon pathClassName={"stroke-violet-400"} />
-                    )}
+                    <UserIcon pathClassName={"stroke-violet-400"} />
                   </div>
                   <Button
                     size={"sm"}

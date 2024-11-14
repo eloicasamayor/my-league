@@ -17,6 +17,11 @@ import {
   isSunday,
 } from "date-fns";
 
+/**
+ *
+ * @param {*} param0
+ * @returns
+ */
 export function getFirstMatchDay({ dayOfTheWeek, startingDay }) {
   const startingDayDate = parseISO(startingDay);
 
