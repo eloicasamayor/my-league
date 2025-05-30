@@ -9,8 +9,9 @@ import { useGetLeaguesQuery } from "../redux";
 //Components
 import { LeaguesList, Modal } from "../components";
 import { PlusIcon } from "../components/icons";
-import { Button } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 import { LoginPage } from "./LoginPage";
+import IntroAnimation from "../components/IntroAnimation";
 
 function LeaguesPage() {
   const navigate = useNavigate();
@@ -24,7 +25,7 @@ function LeaguesPage() {
 
   return (
     <>
-      <div className="px-2 md:px-10 lg:px-20 xl:px-44">
+      <div className="px-2 md:px-10 lg:px-20 xl:px-72 2xl:px-96">
         <header className="flex justify-between align-middle py-2">
           <h1>Leagues</h1>
           <Button
@@ -40,12 +41,19 @@ function LeaguesPage() {
             Create league
           </Button>
         </header>
+        <div className="flex flex-col lg:flex-row lg:gap-10 lg:items-end">
+          <div className="2xl:min-h-[50%] grow">
+            <LeaguesList
+              authData={authData}
+              leaguesData={leaguesData}
+              leaguesIsLoading={leaguesIsLoading}
+            />
+          </div>
 
-        <LeaguesList
-          authData={authData}
-          leaguesData={leaguesData}
-          leaguesIsLoading={leaguesIsLoading}
-        />
+          <div className="lg:w-1/3">
+            <IntroAnimation />
+          </div>
+        </div>
       </div>
       {showModal && (
         <Modal onCloseModal={setShowModal} title={"Login to create a league"}>

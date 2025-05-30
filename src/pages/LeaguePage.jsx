@@ -90,7 +90,7 @@ export function LeaguePage() {
           {alertMessage.message}
         </Alert>
       )}
-      <header className="flex items-end gap-1 md:p-5 md:gap-3">
+      <header className="flex items-end gap-1 md:p-5 md:gap-3 px-2 md:px-10 lg:px-20 xl:px-72 2xl:px-96">
         <div className="ring-white   bg-violet-100 rounded-xl">
           {currentLeague.img ? (
             <img
@@ -141,40 +141,41 @@ export function LeaguePage() {
           </Dropdown>
         )}
       </header>
-
-      <StepsNavigation
-        selectedTab={selectedTab}
-        setSelectedTab={setSelectedTab}
-        steps={["Classification", "Matches", "Players"]}
-      />
-      {selectedTab === 0 && (
-        <Classification
-          data={teamsData}
-          isLoading={teamsIsLoading}
-          isOwner={isOwner}
+      <div className=" gap-2 px-2 md:px-10 lg:px-20 xl:px-72 2xl:px-96">
+        <StepsNavigation
+          selectedTab={selectedTab}
+          setSelectedTab={setSelectedTab}
+          steps={["Classification", "Matches", "Players"]}
         />
-      )}
-      {selectedTab === 1 && (
-        <MatchesCalendar
-          teams={teamsData}
-          matchesData={matchesData}
-          matchesIsLoading={matchesIsLoading}
-          playersData={playersData}
-          teamsData={teamsData}
-          isOwner={isOwner}
-          setAlertMessage={setAlertMessage}
-        />
-      )}
-      {selectedTab === 2 && (
-        <PlayersList
-          teamsData={teamsData}
-          teamsIsLoading={teamsIsLoading}
-          playersData={playersData}
-          playersIsLoading={playersIsLoading}
-          isOwner={isOwner}
-          setAlertMessage={setAlertMessage}
-        />
-      )}
+        {selectedTab === 0 && (
+          <Classification
+            data={teamsData}
+            isLoading={teamsIsLoading}
+            isOwner={isOwner}
+          />
+        )}
+        {selectedTab === 1 && (
+          <MatchesCalendar
+            teams={teamsData}
+            matchesData={matchesData}
+            matchesIsLoading={matchesIsLoading}
+            playersData={playersData}
+            teamsData={teamsData}
+            isOwner={isOwner}
+            setAlertMessage={setAlertMessage}
+          />
+        )}
+        {selectedTab === 2 && (
+          <PlayersList
+            teamsData={teamsData}
+            teamsIsLoading={teamsIsLoading}
+            playersData={playersData}
+            playersIsLoading={playersIsLoading}
+            isOwner={isOwner}
+            setAlertMessage={setAlertMessage}
+          />
+        )}
+      </div>
 
       {showEditLeagueModal && (
         <Modal

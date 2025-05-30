@@ -7,7 +7,7 @@ import { HomeIcon, ArrowLeft, Logo, UserIcon } from "./icons";
  */
 export function Header({ location, authData, navigate }) {
   return (
-    <header className="h-14 w-full flex justify-between items-center px-4 py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2">
+    <header className="h-14 w-full flex justify-between items-center py-2 border-b border-violet-300 bg-gradient-to-r from-violet-600 to bg-violet-400 gap-2 px-2 md:px-10 lg:px-20 xl:px-72 2xl:px-96">
       {location.pathname !== "/" ? (
         <div className="flex">
           <button

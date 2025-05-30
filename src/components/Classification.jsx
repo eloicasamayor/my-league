@@ -69,7 +69,7 @@ export function Classification({ data, isLoading, isOwner }) {
   }
 
   return (
-    <section className="w-screen overflow-x-scroll">
+    <section className="w-full overflow-x-scroll">
       {!!alertMessage.message && (
         <Alert
           isError={alertMessage.isError}
